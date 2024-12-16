@@ -1,5 +1,5 @@
 {
-  "name": "avalgard2",
+  "name": "avalgard",
   "private": true,
   "scripts": {
     "start": "meteor run",
