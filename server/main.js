@@ -27,5 +27,10 @@ Meteor.startup(async () => {
       title: 'Discussions',
       url: 'https://forums.meteor.com',
     })
+
+    await insertLink({
+      title: 'Test link',
+      url: 'https://smash-map.com',
+    })
   }
 })
