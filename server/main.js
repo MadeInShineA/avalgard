@@ -32,5 +32,10 @@ Meteor.startup(async () => {
       title: 'Test link',
       url: 'https://smash-map.com',
     })
+
+    await insertLink({
+      title: 'Test link 2',
+      url: 'https://google.com',
+    })
   }
 })
