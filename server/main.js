@@ -27,12 +27,14 @@ Meteor.startup(async () => {
       PlantsCollection.insertAsync({ 
         name: 'Tomato',
         growthDuration: 10,
-        harvestPeriod: 3
+        harvestPeriod: 3,
+        watterRequirement: 3,
       }),
       PlantsCollection.insertAsync({ 
         name: 'Basil',
         growthDuration: 10,
-        harvestPeriod: 3
+        harvestPeriod: 3,
+        watterRequirement: 3,
       })
     ]);
   }
@@ -50,6 +52,7 @@ Meteor.startup(async () => {
             tasks: [
               {
                 _id: Random.id(),
+                name: "task name",
                 description: "task",
                 deadLine: new Date(),
                 completed: false,
@@ -60,6 +63,8 @@ Meteor.startup(async () => {
                 _id: Random.id(),
                 plantId: 'id',
                 position: { x: 2, y: 2 },
+                lastHarvestDate: new Date(),
+                lastWatteringDate: new Date(),
               }
             ]
           }
@@ -76,6 +81,7 @@ Meteor.startup(async () => {
             tasks: [
               {
                 _id: Random.id(),
+                name: "task name",
                 description: "task",
                 deadLine: new Date(),
                 completed: false,
@@ -86,6 +92,8 @@ Meteor.startup(async () => {
                 _id: Random.id(),
                 plantId: 'id',
                 position: { x: 2, y: 2 },
+                lastHarvestDate: new Date(),
+                lastWatteringDate: new Date(),
               }
             ]
           }
