@@ -10,13 +10,13 @@ Meteor.startup(async () => {
   if ((await ClimatesCollection.find().countAsync()) === 0) {
     await Promise.all([
       ClimatesCollection.insertAsync({ 
-        name: 'Tempéré', 
-        description: 'Climat modéré avec quatre saisons distinctes',
+        name: 'Temperate', 
+        description: 'Moderate climate with four distinct seasons',
         temperatureRange: { min: 5, max: 25 }
       }),
       ClimatesCollection.insertAsync({ 
-        name: 'Méditerranéen', 
-        description: 'Climat chaud et sec en été, doux en hiver',
+        name: 'Mediterranean', 
+        description: 'Hot and dry in summer, mild in winter',
         temperatureRange: { min: 10, max: 35 }
       })
     ]);
@@ -25,12 +25,12 @@ Meteor.startup(async () => {
   if ((await PlantsCollection.find().countAsync()) === 0) {
     await Promise.all([
       PlantsCollection.insertAsync({ 
-        name: 'Tomate',
+        name: 'Tomato',
         growthDuration: 10,
         harvestPeriod: 3
       }),
       PlantsCollection.insertAsync({ 
-        name: 'Basilic',
+        name: 'Basil',
         growthDuration: 10,
         harvestPeriod: 3
       })
@@ -45,7 +45,7 @@ Meteor.startup(async () => {
         gardens: [
           {
             _id: Random.id(),
-            name: 'Jardin Principal',
+            name: 'Main garden',
             climateId: 'id',
             tasks: [
               {
@@ -71,7 +71,7 @@ Meteor.startup(async () => {
         gardens: [
           {
             _id: Random.id(),
-            name: 'Jardin Urbain',
+            name: 'Urban Garden',
             climateId: 'id',
             tasks: [
               {
