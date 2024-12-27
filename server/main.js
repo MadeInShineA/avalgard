@@ -3,7 +3,6 @@ import { Random } from "meteor/random";
 import { PlantsCollection } from '/imports/api/plants';
 import { UsersCollection } from '/imports/api/users';
 import { ClimatesCollection } from '/imports/api/climates';
-import { SensorsCollection } from '/imports/api/sensors';
 
 //Reset dbs: db.getCollectionNames().forEach(function(collectionName){if (!collectionName.startsWith("system.")) {db[collectionName].drop();}});
 
@@ -27,33 +26,13 @@ Meteor.startup(async () => {
     await Promise.all([
       PlantsCollection.insertAsync({ 
         name: 'Tomate',
-        maintenances: [
-          {
-            _id: Random.id(),
-            name: "Arrosage",
-            frequency: 5,
-          },
-          {
-            _id: Random.id(),
-            name: "Sulfatage",
-            frequency: 150,
-          }
-        ]
+        growthDuration: 10,
+        harvestPeriod: 3
       }),
       PlantsCollection.insertAsync({ 
         name: 'Basilic',
-        maintenances: [
-          {
-            _id: Random.id(),
-            name: "Arrosage",
-            frequency: 5,
-          },
-          {
-            _id: Random.id(),
-            name: "Anti-limaces",
-            frequency: 30,
-          }
-        ]
+        growthDuration: 10,
+        harvestPeriod: 3
       })
     ]);
   }
@@ -68,25 +47,19 @@ Meteor.startup(async () => {
             _id: Random.id(),
             name: 'Jardin Principal',
             climateId: 'id',
+            tasks: [
+              {
+                _id: Random.id(),
+                description: "task",
+                deadLine: new Date(),
+                completed: false,
+              }
+            ],
             plants: [
               {
                 _id: Random.id(),
                 plantId: 'id',
                 position: { x: 2, y: 2 },
-                sensors: [
-                  {
-                    _id: Random.id(),
-                    sensorId: 'id',
-                    datasUrl: "url"
-                  }
-                ],
-                maintenancesDone: [
-                  {
-                    _id: Random.id(),
-                    maintenanceId: "id",
-                    date: new Date()
-                  }
-                ]
               }
             ]
           }
@@ -100,40 +73,23 @@ Meteor.startup(async () => {
             _id: Random.id(),
             name: 'Jardin Urbain',
             climateId: 'id',
+            tasks: [
+              {
+                _id: Random.id(),
+                description: "task",
+                deadLine: new Date(),
+                completed: false,
+              }
+            ],
             plants: [
               {
                 _id: Random.id(),
                 plantId: 'id',
                 position: { x: 2, y: 2 },
-                sensors: [
-                  {
-                    _id: Random.id(),
-                    sensorId: 'id',
-                    datasUrl: "url"
-                  }
-                ],
-                maintenancesDone: [
-                  {
-                    _id: Random.id(),
-                    maintenanceId: "id",
-                    date: new Date()
-                  }
-                ]
               }
             ]
           }
         ]
-      })
-    ]);
-  }
-
-  if ((await SensorsCollection.find().countAsync()) === 0) {
-    await Promise.all([
-      SensorsCollection.insertAsync({
-        name: 'Capteur de Température',
-      }),
-      SensorsCollection.insertAsync({
-        name: 'Capteur Humidité',
       })
     ]);
   }
