@@ -17,13 +17,6 @@ Meteor.startup(async () => {
       ClimatesCollection.insertAsync({ 
         name: 'Mediterranean', 
         description: 'Hot and dry in summer, mild in winter',
-        name: 'Tempéré', 
-        description: 'Climat modéré avec quatre saisons distinctes',
-        temperatureRange: { min: 5, max: 25 }
-      }),
-      ClimatesCollection.insertAsync({ 
-        name: 'Méditerranéen', 
-        description: 'Climat chaud et sec en été, doux en hiver',
         temperatureRange: { min: 10, max: 35 }
       })
     ]);
@@ -44,34 +37,6 @@ Meteor.startup(async () => {
         harvestPeriod: 3,
         watterRequirement: 3,
         temperatureRange: { min: 20, max: 30 }
-        name: 'Tomate',
-        maintenances: [
-          {
-            _id: Random.id(),
-            name: "Arrosage",
-            frequency: 5,
-          },
-          {
-            _id: Random.id(),
-            name: "Sulfatage",
-            frequency: 150,
-          }
-        ]
-      }),
-      PlantsCollection.insertAsync({ 
-        name: 'Basilic',
-        maintenances: [
-          {
-            _id: Random.id(),
-            name: "Arrosage",
-            frequency: 5,
-          },
-          {
-            _id: Random.id(),
-            name: "Anti-limaces",
-            frequency: 30,
-          }
-        ]
       })
     ]);
   }
@@ -95,8 +60,6 @@ Meteor.startup(async () => {
                 completed: false,
               }
             ],
-            name: 'Jardin Principal',
-            climateId: 'id',
             plants: [
               {
                 _id: Random.id(),
@@ -104,20 +67,6 @@ Meteor.startup(async () => {
                 position: { x: 2, y: 2 },
                 lastHarvestDate: new Date(),
                 lastWatteringDate: new Date(),
-                sensors: [
-                  {
-                    _id: Random.id(),
-                    sensorId: 'id',
-                    datasUrl: "url"
-                  }
-                ],
-                maintenancesDone: [
-                  {
-                    _id: Random.id(),
-                    maintenanceId: "id",
-                    date: new Date()
-                  }
-                ]
               }
             ]
           }
@@ -140,8 +89,6 @@ Meteor.startup(async () => {
                 completed: false,
               }
             ],
-            name: 'Jardin Urbain',
-            climateId: 'id',
             plants: [
               {
                 _id: Random.id(),
@@ -149,20 +96,6 @@ Meteor.startup(async () => {
                 position: { x: 2, y: 2 },
                 lastHarvestDate: new Date(),
                 lastWatteringDate: new Date(),
-                sensors: [
-                  {
-                    _id: Random.id(),
-                    sensorId: 'id',
-                    datasUrl: "url"
-                  }
-                ],
-                maintenancesDone: [
-                  {
-                    _id: Random.id(),
-                    maintenanceId: "id",
-                    date: new Date()
-                  }
-                ]
               }
             ]
           }
@@ -170,14 +103,4 @@ Meteor.startup(async () => {
       })
     ]);
   }
-
-  if ((await SensorsCollection.find().countAsync()) === 0) {
-    await Promise.all([
-      SensorsCollection.insertAsync({
-        name: 'Capteur de Température',
-      }),
-      SensorsCollection.insertAsync({
-        name: 'Capteur Humidité',
-      })
-    ]);
-  }
+});
