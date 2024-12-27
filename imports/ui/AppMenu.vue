@@ -19,5 +19,6 @@ let user = autorun(() =>  Meteor.user()).result
       <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline" @click="Meteor.logout()">Logout</span>
     </template>
 
+    <router-link :to="{ name: 'tasks' }" class="mr-4 text-green-700 hover:underline">Tasks</router-link>
   </nav>
 </template>

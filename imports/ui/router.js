@@ -8,6 +8,8 @@ import Tasks from './Tasks.vue'
 import LoginForm from './LoginForm.vue'
 import SignupForm from './SignupForm.vue'
 >>>>>>> 4b760ac (Added user login, register and logout (need to fix register error messages))
+import Tasks from './Tasks.vue'
+
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -37,6 +39,11 @@ export const router = createRouter({
       name: 'signup',
       component: SignupForm
 >>>>>>> 4b760ac (Added user login, register and logout (need to fix register error messages))
+    },
+    {
+      path: '/tasks',
+      name: 'tasks',
+      component: Tasks,
     }
   ],
 })
