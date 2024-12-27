@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from './Home.vue'
 import About from './About.vue'
+import Tasks from './Tasks.vue'
+
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -15,5 +17,10 @@ export const router = createRouter({
       name: 'about',
       component: About,
     },
+    {
+      path: '/tasks',
+      name: 'tasks',
+      component: Tasks,
+    }
   ],
 })
