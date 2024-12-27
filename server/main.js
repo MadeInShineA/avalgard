@@ -29,12 +29,14 @@ Meteor.startup(async () => {
         growthDuration: 10,
         harvestPeriod: 3,
         watterRequirement: 3,
+        temperatureRange: { min: 20, max: 35 }
       }),
       PlantsCollection.insertAsync({ 
         name: 'Basil',
         growthDuration: 10,
         harvestPeriod: 3,
         watterRequirement: 3,
+        temperatureRange: { min: 20, max: 30 }
       })
     ]);
   }
