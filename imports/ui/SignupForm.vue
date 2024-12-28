@@ -1,35 +1,37 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
+const router = useRouter()
 const username = ref('');
 const password = ref('');
 
-const loginFeedback = ref({message: '', success: false})
+const registerFeedback = ref({ message: '', success: false })
 
 const handleSubmit = () => {
 
   const callback = (error) => {
     if (error) {
       console.log(error)
-      loginFeedback.value.message = error.reason
-      loginFeedback.value.success = false
+      registerFeedback.value.message = error.reason
+      registerFeedback.value.success = false
 
     } else {
-      console.log("Signup successful!");
-      loginFeedback.value.message = 'Signup successful'
-      loginFeedback.value.success = true
+      registerFeedback.value.message = 'Signup successful'
+      registerFeedback.value.success = true
       router.push('/');
     }
   };
 
-
-  Accounts.createUserAsync({
+  let user = {
     username: username.value,
-    password: password.value,
+    password: password.value
+  }
+  Accounts.createUser(
+    user,
     callback
-  });
+  );
 }
 
 
@@ -39,30 +41,16 @@ const handleSubmit = () => {
   <form class="login-form" @submit.prevent="handleSubmit">
     <div>
       <label for="username">Username</label>
-      <input
-          id="username"
-          name="username"
-          type="text"
-          placeholder="Username"
-          required
-          v-model="username"
-      />
+      <input id="username" name="username" type="text" placeholder="Username" required v-model="username" />
     </div>
 
     <div>
       <label for="password">Password</label>
-      <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Password"
-          required
-          v-model="password"
-      />
+      <input id="password" name="password" type="password" placeholder="Password" required v-model="password" />
     </div>
 
-    <div :class="loginFeedback.success ? 'text-green-400' : 'text-red-400'">
-      {{ loginFeedback.message }}
+    <div :class="registerFeedback.success ? 'text-green-400' : 'text-red-400'">
+      {{ registerFeedback.message }}
     </div>
 
     <div>
@@ -81,15 +69,15 @@ const handleSubmit = () => {
   align-items: center;
 }
 
-.login-form > div {
+.login-form>div {
   margin: 8px;
 }
 
-.login-form > div > label {
+.login-form>div>label {
   font-weight: bold;
 }
 
-.login-form > div  > input {
+.login-form>div>input {
   flex-grow: 1;
   box-sizing: border-box;
   padding: 10px 6px;
@@ -101,11 +89,11 @@ const handleSubmit = () => {
   margin-top: 4px;
 }
 
-.login-form > div > input:focus {
+.login-form>div>input:focus {
   outline: 0;
 }
 
-.login-form > div > button {
+.login-form>div>button {
   background-color: #62807e;
 }
 </style>
