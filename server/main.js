@@ -4,18 +4,19 @@ import { PlantsCollection } from '/imports/api/plants';
 //import { UsersCollection } from '/imports/api/users';
 import { ClimatesCollection } from '/imports/api/climates';
 import { Accounts } from 'meteor/accounts-base';
+import './methods';
 //Reset dbs: db.getCollectionNames().forEach(function(collectionName){if (!collectionName.startsWith("system.")) {db[collectionName].drop();}});
 
 Meteor.startup(async () => {
   if ((await ClimatesCollection.find().countAsync()) === 0) {
     await Promise.all([
-      ClimatesCollection.insertAsync({ 
-        name: 'Temperate', 
+      ClimatesCollection.insertAsync({
+        name: 'Temperate',
         description: 'Moderate climate with four distinct seasons',
         temperatureRange: { min: 5, max: 25 }
       }),
-      ClimatesCollection.insertAsync({ 
-        name: 'Mediterranean', 
+      ClimatesCollection.insertAsync({
+        name: 'Mediterranean',
         description: 'Hot and dry in summer, mild in winter',
         temperatureRange: { min: 10, max: 35 }
       })
@@ -24,14 +25,14 @@ Meteor.startup(async () => {
 
   if ((await PlantsCollection.find().countAsync()) === 0) {
     await Promise.all([
-      PlantsCollection.insertAsync({ 
+      PlantsCollection.insertAsync({
         name: 'Tomato',
         growthDuration: 10,
         harvestPeriod: 3,
         watterRequirement: 3,
         temperatureRange: { min: 20, max: 35 }
       }),
-      PlantsCollection.insertAsync({ 
+      PlantsCollection.insertAsync({
         name: 'Basil',
         growthDuration: 10,
         harvestPeriod: 3,
