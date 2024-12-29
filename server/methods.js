@@ -14,7 +14,6 @@ Meteor.methods({
     const existingUser = await Accounts.findUserByUsername(user.username);
 
     if (existingUser) {
-      console.log("User already exists:", existingUser);
       throw new Meteor.Error('user-exists', 'A user with this username already exists.');
     }
 
@@ -24,7 +23,6 @@ Meteor.methods({
       password: user.password,
     });
 
-    console.log(userId)
     this.setUserId(userId)
     return 'User created and logged in successfully!';
   },

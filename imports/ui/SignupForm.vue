@@ -20,7 +20,7 @@ const handleSubmit = () => {
     } else {
       registerFeedback.value.message = 'Signup successful'
       registerFeedback.value.success = true
-      Meteor.loginWithPassword(user.username, user.password, password)
+      Meteor.loginWithPassword(user.username, user.password)
       router.push('/');
     }
   };
