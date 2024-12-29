@@ -1,7 +1,7 @@
 <template>
-    <div class="test-page">
-        <h1>Page de Test</h1>
-        <p>Ceci est une nouvelle page de test.</p>
+    <div class="Garden">
+        <h1>Garden</h1>
+        <p>Garden</p>
         <div
             :style="{
             position: 'relative',

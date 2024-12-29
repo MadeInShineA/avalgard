@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from './Home.vue'
 import About from './About.vue'
-import NewP from './NewP.vue'
+import Garden from './Garden.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -17,9 +17,9 @@ export const router = createRouter({
       component: About,
     },
     {
-      path: '/newP',
-      name: 'newP',
-      component: NewP,
+      path: '/Garden',
+      name: 'Garden',
+      component: Garden,
     },
   ],
 })
