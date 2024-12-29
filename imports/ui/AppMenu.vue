@@ -2,7 +2,7 @@
 import { autorun } from 'vue-meteor-tracker';
 import { Meteor } from 'meteor/meteor';
 
-let user = autorun(() =>  Meteor.user()).result
+let user = autorun(() => Meteor.user()).result
 
 </script>
 <template>
@@ -15,10 +15,8 @@ let user = autorun(() =>  Meteor.user()).result
       <router-link :to="{ name: 'signup' }" class="mr-4 text-green-700 hover:underline">Sign up</router-link>
     </template>
     <template v-else>
-      <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline">{{ user.username}}</span>
+      <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline">{{ user.username }}</span>
       <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline" @click="Meteor.logout()">Logout</span>
     </template>
-
-    <router-link :to="{ name: 'tasks' }" class="mr-4 text-green-700 hover:underline">Tasks</router-link>
   </nav>
 </template>

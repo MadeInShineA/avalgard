@@ -75,4 +75,3 @@ Meteor.startup(async () => {
     });
   }
 });
->>>>>>> 4b760ac (Added user login, register and logout (need to fix register error messages))
