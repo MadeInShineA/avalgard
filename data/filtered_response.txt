@@ -1,0 +1,3122 @@
+[
+    {
+        "id": 5,
+        "name": "Common bean",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.0"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "0.4"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Sweet cherry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "18.0"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Peach",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "6"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Jerusalem artichoke",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.5-3.0m"
+            },
+            {
+                "key": "Width",
+                "value": "1.7"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "name": "Black locust",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "25.0"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "name": "Honey locust",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "20.0"
+            },
+            {
+                "key": "Width",
+                "value": "17"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 36,
+        "name": "Strawberry tree",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "9.0"
+            },
+            {
+                "key": "Width",
+                "value": "7"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 39,
+        "name": "Pawpaw",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "4.5"
+            },
+            {
+                "key": "Width",
+                "value": "7"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 50,
+        "name": "Siberian pea shrub",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "6.0"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 60,
+        "name": "Cornelian cherry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "5.0"
+            },
+            {
+                "key": "Width",
+                "value": "7"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 61,
+        "name": "Common Hazelnut",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "6.0"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 64,
+        "name": "Persimmon",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "12.0"
+            },
+            {
+                "key": "Width",
+                "value": "10"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 71,
+        "name": "Goumi",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "3.0"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 75,
+        "name": "Pineapple guava",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "3"
+            },
+            {
+                "key": "Width",
+                "value": "2"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 77,
+        "name": "Fuchsia",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Partial sun/shade, Full shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "3.6"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 82,
+        "name": "Mallow",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "3"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 86,
+        "name": "Hyssop",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.6"
+            },
+            {
+                "key": "Width",
+                "value": "0.5"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 91,
+        "name": "Lavender",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.2"
+            },
+            {
+                "key": "Width",
+                "value": "0.6"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 101,
+        "name": "White mulberry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "18"
+            },
+            {
+                "key": "Width",
+                "value": "13"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 102,
+        "name": "Black mulberry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "10.0"
+            },
+            {
+                "key": "Width",
+                "value": "4.5"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 107,
+        "name": "Olive",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "10.0"
+            },
+            {
+                "key": "Width",
+                "value": "8"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 117,
+        "name": "European plum",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "12.0"
+            },
+            {
+                "key": "Width",
+                "value": "7"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 136,
+        "name": "Gooseberry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.2"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "id": 138,
+        "name": "Rosemary",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.5"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Width",
+                "value": "1.2"
+            }
+        ]
+    },
+    {
+        "id": 140,
+        "name": "Red raspberry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.0"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Width",
+                "value": "1.5"
+            }
+        ]
+    },
+    {
+        "id": 150,
+        "name": "Lilac",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "6.0"
+            },
+            {
+                "key": "Width",
+                "value": "4"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 152,
+        "name": "Northern Highbush Blueberry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.0"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 155,
+        "name": "Jujube",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "10.0"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            }
+        ]
+    },
+    {
+        "id": 156,
+        "name": "Horseradish",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.7-1.5m"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 159,
+        "name": "Blackberry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade, Full shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "3.0"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "id": 160,
+        "name": "Rhubarb",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.5"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "id": 163,
+        "name": "Chives",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.3"
+            },
+            {
+                "key": "Width",
+                "value": "0.45"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 171,
+        "name": "Tansy",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.5"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 174,
+        "name": "Asparagus",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1-1.5m"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 182,
+        "name": "Tomato",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.0"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "1.00"
+            }
+        ]
+    },
+    {
+        "id": 185,
+        "name": "Thyme",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.1-0.3m"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Width",
+                "value": "0.3"
+            }
+        ]
+    },
+    {
+        "id": 186,
+        "name": "Maximilian Sunflower",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.4"
+            },
+            {
+                "key": "Width",
+                "value": "1.3"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 187,
+        "name": "Pumpkin / Zucchini",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.6"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "id": 189,
+        "name": "Saskatoon berry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "4.0"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 196,
+        "name": "Corn",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2"
+            },
+            {
+                "key": "Width",
+                "value": "0.66"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 210,
+        "name": "Radish",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.5"
+            },
+            {
+                "key": "Width",
+                "value": "0.3"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 213,
+        "name": "Common Grape Vine",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "15-32m"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "id": 216,
+        "name": "Winter Savory",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.4"
+            },
+            {
+                "key": "Width",
+                "value": "0.5"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 226,
+        "name": "Salal",
+        "data": [
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade, Full shade"
+            },
+            {
+                "key": "Height",
+                "value": "1.2"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "id": 230,
+        "name": "Red cedar",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist, Wet"
+            },
+            {
+                "key": "Height",
+                "value": "60.0"
+            },
+            {
+                "key": "Width",
+                "value": "8"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 239,
+        "name": "Sweet potato",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "3.0"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 244,
+        "name": "Buckwheat",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.5"
+            },
+            {
+                "key": "Width",
+                "value": "0.2"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 245,
+        "name": "Oregano",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.6"
+            },
+            {
+                "key": "Width",
+                "value": "0.6"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 569,
+        "name": "Chinese Spinach",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.66"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 591,
+        "name": "Crimson Clover",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.5"
+            },
+            {
+                "key": "Width",
+                "value": "0.9"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 637,
+        "name": "Red Alder",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist, Wet"
+            },
+            {
+                "key": "Height",
+                "value": "20.0"
+            },
+            {
+                "key": "Width",
+                "value": "17"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 692,
+        "name": "Sorghum",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "5.0"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 710,
+        "name": "Garlic Chives",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.3"
+            },
+            {
+                "key": "Width",
+                "value": "0.3"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 731,
+        "name": "Lemon Verbena",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "3.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.6"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 882,
+        "name": "Lime",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "6.0"
+            },
+            {
+                "key": "Width",
+                "value": "2.7"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 1170,
+        "name": "Winter Squash",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.6"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "id": 1403,
+        "name": "Dwarf Fan Palm",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.5"
+            },
+            {
+                "key": "Width",
+                "value": "7"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 1443,
+        "name": "Carob",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "15.0"
+            },
+            {
+                "key": "Width",
+                "value": "6"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 1643,
+        "name": "Echinacea",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.2"
+            },
+            {
+                "key": "Width",
+                "value": "0.5"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 1796,
+        "name": "Avocado",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "15.0"
+            },
+            {
+                "key": "Width",
+                "value": "10"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 2068,
+        "name": "Broom",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.4"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 2227,
+        "name": "Curry tree",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "4.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.9"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 2441,
+        "name": "Whitebark Raspberry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.5"
+            },
+            {
+                "key": "Width",
+                "value": "1.8"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 2442,
+        "name": "Loganberry",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.5"
+            },
+            {
+                "key": "Width",
+                "value": "0.9"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 2494,
+        "name": "Lungwort",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Partial sun/shade, Full shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.3"
+            },
+            {
+                "key": "Width",
+                "value": "0.5"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 2577,
+        "name": "Lemon Grass",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.5"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 2623,
+        "name": "Burr Oak",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "15.0"
+            },
+            {
+                "key": "Width",
+                "value": "27"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 2772,
+        "name": "Pomegranate",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "5.0"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 3362,
+        "name": "Leaf Mustard",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.3"
+            },
+            {
+                "key": "Width",
+                "value": "0.2"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 3532,
+        "name": "Giant Sunflower",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "3.6"
+            },
+            {
+                "key": "Width",
+                "value": "1.2"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 3565,
+        "name": "Juniper",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "9.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.66"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 3631,
+        "name": "Sugarcane",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist, Wet"
+            },
+            {
+                "key": "Height",
+                "value": "6.0"
+            },
+            {
+                "key": "Width",
+                "value": "2"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 3809,
+        "name": "Haskap",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "2.0"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "id": 3831,
+        "name": "Holy Basil",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.3"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 3987,
+        "name": "Ostrich Fern",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.0"
+            },
+            {
+                "key": "Width",
+                "value": "1.2"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 4005,
+        "name": "Kiwi Fruit",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "9.0"
+            },
+            {
+                "key": "Width",
+                "value": "1.8"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 4334,
+        "name": "White Clover",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.1"
+            },
+            {
+                "key": "Width",
+                "value": "0.3"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 4454,
+        "name": "Astilbe",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.5"
+            },
+            {
+                "key": "Width",
+                "value": "0.45"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 4643,
+        "name": "Carnation",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.3"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 4712,
+        "name": "Common Silverweed",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.3"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Width",
+                "value": "0.25"
+            }
+        ]
+    },
+    {
+        "id": 4748,
+        "name": "Cherimoya",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "9.0"
+            },
+            {
+                "key": "Width",
+                "value": "3"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 4916,
+        "name": "Akebia",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade, Full shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "12.0"
+            },
+            {
+                "key": "Width",
+                "value": "2.4"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 5085,
+        "name": "Prickly Juniper",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "15.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.6"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 5201,
+        "name": "Siberian Iris",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist, Wet"
+            },
+            {
+                "key": "Height",
+                "value": "0.6"
+            },
+            {
+                "key": "Width",
+                "value": "0.3"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 5231,
+        "name": "Lemon Thyme",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.1"
+            },
+            {
+                "key": "Width",
+                "value": "0.3"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 5512,
+        "name": "Jambos",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist, Wet"
+            },
+            {
+                "key": "Height",
+                "value": "8.0"
+            },
+            {
+                "key": "Width",
+                "value": "2.4"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 5563,
+        "name": "Banana",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "8.0"
+            },
+            {
+                "key": "Width",
+                "value": "2.4"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 6055,
+        "name": "Service Tree",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "15.0"
+            },
+            {
+                "key": "Width",
+                "value": "4.5"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 6109,
+        "name": "Ice Cream Bean",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist, Wet"
+            },
+            {
+                "key": "Height",
+                "value": "18.0"
+            },
+            {
+                "key": "Width",
+                "value": "7"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 6119,
+        "name": "Lovage",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.8-2.5m"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Width",
+                "value": "0.5"
+            }
+        ]
+    },
+    {
+        "id": 6201,
+        "name": "Wild Bergamot",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.5"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 6322,
+        "name": "Lemon Bergamot",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.6"
+            },
+            {
+                "key": "Width",
+                "value": "0.6"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 6421,
+        "name": "Hyacinth",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.3"
+            },
+            {
+                "key": "Width",
+                "value": "0.15"
+            },
+            {
+                "key": "Growth",
+                "value": "Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 6507,
+        "name": "Quince",
+        "data": [
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade, Full shade"
+            },
+            {
+                "key": "Height",
+                "value": "7.5"
+            },
+            {
+                "key": "Width",
+                "value": "5"
+            }
+        ]
+    },
+    {
+        "id": 6635,
+        "name": "Japanese Wisteria",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "8.0"
+            },
+            {
+                "key": "Width",
+                "value": "8"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 6970,
+        "name": "Common Day Lily",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.6"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            }
+        ]
+    },
+    {
+        "id": 6981,
+        "name": "Western Hemlock",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade, Full shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "70.0"
+            },
+            {
+                "key": "Width",
+                "value": "13"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast, Slow"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 7644,
+        "name": "Shiso",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "0.6"
+            },
+            {
+                "key": "Width",
+                "value": "0.5"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 8038,
+        "name": "Grape Hyacinth",
+        "data": [
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Height",
+                "value": "0.3"
+            },
+            {
+                "key": "Width",
+                "value": "0.1"
+            }
+        ]
+    },
+    {
+        "id": 8096,
+        "name": "African Marigold",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.0"
+            },
+            {
+                "key": "Width",
+                "value": "0.7"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 8104,
+        "name": "Ramanas Rose",
+        "data": [
+            {
+                "key": "Edible",
+                "value": "true"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Dry, Moist"
+            },
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Height",
+                "value": "2.0"
+            },
+            {
+                "key": "Width",
+                "value": "2"
+            }
+        ]
+    },
+    {
+        "id": 8130,
+        "name": "American Plum",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "6.0"
+            },
+            {
+                "key": "Width",
+                "value": "8"
+            },
+            {
+                "key": "Growth",
+                "value": "Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 8456,
+        "name": "Red Maple",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun, Partial sun/shade"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "30.0"
+            },
+            {
+                "key": "Width",
+                "value": "15"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast"
+            },
+            {
+                "key": "Edible",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "id": 8740,
+        "name": "African basil",
+        "data": [
+            {
+                "key": "Light requirement",
+                "value": "Full sun"
+            },
+            {
+                "key": "Water requirement",
+                "value": "Moist"
+            },
+            {
+                "key": "Height",
+                "value": "1.5 m"
+            },
+            {
+                "key": "Growth",
+                "value": "Fast, Medium"
+            },
+            {
+                "key": "Edible",
+                "value": "True"
+            },
+            {
+                "key": "Width",
+                "value": "1"
+            }
+        ]
+    }
+]
