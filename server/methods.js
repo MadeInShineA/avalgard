@@ -2,6 +2,7 @@ import { check } from 'meteor/check';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 
+//TODO Add default profile with empty list garden
 Meteor.methods({
   async createUserCustom(user) {
     // Validate the user data
