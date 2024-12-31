@@ -39,6 +39,22 @@ Meteor.methods({
       { $set: { 'profile.gardens.$': garden } }
     );
   },
+  'gardens.find': async function(userId, gardenId) {
+    check(userId, String);
+    check(gardenId, String);
+
+    const user = await Accounts.users.findOneAsync(userId);
+    if (!user || !user.profile || !user.profile.gardens) {
+      throw new Meteor.Error('not-found', 'User or garden not found');
+    }
+
+    const garden = user.profile.gardens.find(g => g._id === gardenId);
+    if (!garden) {
+      throw new Meteor.Error('not-found', 'Garden not found');
+    }
+
+    return garden;
+  },
   'gardens.findAll': async function() {
     const users = await Accounts.users.find().fetch();
     const gardens = users.flatMap(user => 
