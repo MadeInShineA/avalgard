@@ -3,6 +3,7 @@ import Home from './Home.vue'
 import About from './About.vue'
 import LoginForm from './LoginForm.vue'
 import SignupForm from './SignupForm.vue'
+import Gardens from './Gardens.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -26,6 +27,11 @@ export const router = createRouter({
       path: '/signup',
       name: 'signup',
       component: SignupForm
+    },
+    {
+      path: '/gardens',
+      name: 'gardens',
+      component: Gardens
     }
   ],
 })

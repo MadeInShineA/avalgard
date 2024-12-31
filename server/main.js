@@ -3,6 +3,7 @@ import { Random } from "meteor/random";
 import { PlantsCollection } from '/imports/api/plants';
 import { ClimatesCollection } from '/imports/api/climates';
 import { Accounts } from 'meteor/accounts-base';
+import '../imports/api/gardens/methods';
 import './methods';
 
 Meteor.startup(async () => {
