@@ -1,166 +1,199 @@
-<template>
-    <div class="gardens-container">
-      <button @click="addGarden" class="add-garden-button">Add Garden</button>
-      <ul class="gardens-list">
-        <li v-for="garden in gardens" :key="garden._id" class="garden-item">
-          <div class="garden-details">
-            <h3>{{ garden.name }}</h3>
-            <p>Owner: {{ garden.username }}</p>
-            <p>Climate ID: {{ garden.climateId }}</p>
-            <p>Tasks: {{ garden.tasks.length }}</p>
-            <p>Plants: {{ garden.plants.length }}</p>
-          </div>
-          <div class="garden-actions">
-            <button @click="removeGarden(garden._id)" class="remove-button">Remove</button>
-            <button @click="updateGarden(garden._id, { ...garden, name: 'Updated Garden' })" class="update-button">Update</button>
-            <button @click="viewGarden(garden._id)" class="view-button">View</button>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from 'vue';
-  import { Meteor } from 'meteor/meteor';
-  import { Random } from 'meteor/random';
-  
-  const gardens = ref([]);
-  const userId = ref(null);
-  
-  const fetchGardens = () => {
-    Meteor.call('gardens.findAll', (error, result) => {
-      if (!error) {
-        gardens.value = result;
-      } else {
-        console.error('Error fetching gardens:', error);
-      }
-    });
-  };
-  
-  onMounted(() => {
-    userId.value = Meteor.userId();
-    if (userId.value) {
-      fetchGardens();
+<script setup>
+import { ref, onMounted } from 'vue';
+import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
+import { useRouter } from 'vue-router';
+
+const gardens = ref([]);
+const userId = ref(null);
+const showAddGardenModal = ref(false); // Controls Add Garden Modal visibility
+const showUpdateGardenModal = ref(false); // Controls Update Garden Modal visibility
+const showConfirmationModal = ref(false); // Controls Confirmation Modal visibility
+
+const newGarden = ref({ name: '', climateId: '' }); // Stores data for the new garden
+const updatedGarden = ref({ _id: '', name: '', climateId: '' }); // Stores data for the updated garden
+
+const router = useRouter();
+
+function fetchGardens(){
+  userId.value = Meteor.userId();
+  Meteor.call('gardens.findAll', userId.value, (error, result) => {
+    if (!error) {
+      gardens.value = result;
     } else {
-      console.error('User not logged in');
+      console.error('Error fetching gardens:', error);
     }
   });
-  
-  const addGarden = () => {
-    const newGarden = {
-      _id: Random.id(),
-      name: 'New Garden',
-      climateId: 'someClimateId',
-      tasks: [],
-      plants: [],
-    };
-  
-    Meteor.call('gardens.insert', userId.value, newGarden, (error, result) => {
-      if (!error) {
-        fetchGardens(); // Rafraîchir la liste des jardins après l'ajout
-      } else {
-        console.error('Error adding garden:', error);
-      }
-    });
+};
+
+onMounted(() => {
+  userId.value = Meteor.userId();
+  if (userId.value) {
+    fetchGardens();
+  } else {
+    console.error('User not logged in');
+  }
+  getClimates()
+});
+
+function addGarden(){
+  showAddGardenModal.value = true;
+};
+
+function createGarden(){
+  const gardenToAdd = {
+    _id: Random.id(),
+    name: newGarden.value.name,
+    climateId: newGarden.value.climateId,
+    tasks: [],
+    plants: [],
   };
-  
-  const removeGarden = (gardenId) => {
-    Meteor.call('gardens.remove', userId.value, gardenId, (error, result) => {
-      if (!error) {
-        fetchGardens(); // Rafraîchir la liste des jardins après la suppression
-      } else {
-        console.error('Error removing garden:', error);
-      }
-    });
-  };
-  
-  const updateGarden = (gardenId, updatedGarden) => {
-    Meteor.call('gardens.update', userId.value, gardenId, updatedGarden, (error, result) => {
-      if (!error) {
-        fetchGardens(); // Rafraîchir la liste des jardins après la mise à jour
-      } else {
-        console.error('Error updating garden:', error);
-      }
-    });
-  };
-  
-  const viewGarden = (gardenId) => {
-    if (!userId.value) {
-      userId.value = Meteor.userId();
+
+  Meteor.call('gardens.insert', userId.value, gardenToAdd, (error) => {
+    if (!error) {
+      fetchGardens(); // Refresh gardens list after addition
+      showAddGardenModal.value = false; // Hide Add Garden Modal
+      showConfirmationModal.value = true; // Show Confirmation Modal
+    } else {
+      console.error('Error adding garden:', error);
     }
-  
-    if (!userId.value || !gardenId) {
-      console.error('User ID or Garden ID is missing');
-      return;
+  });
+};
+
+function editGarden(garden){
+  updatedGarden.value = { ...garden }; // Pre-fill modal with garden data
+  showUpdateGardenModal.value = true;
+};
+
+function updateGarden(){
+  Meteor.call('gardens.update', userId.value, updatedGarden.value._id, updatedGarden.value, (error) => {
+    if (!error) {
+      fetchGardens(); // Refresh gardens list after update
+      showUpdateGardenModal.value = false; // Hide Update Garden Modal
+    } else {
+      console.error('Error updating garden:', error);
     }
-  
-    Meteor.call('gardens.find', userId.value, gardenId, (error, result) => {
-      if (!error) {
-        console.log('Garden details:', result);
-        // Vous pouvez afficher les détails du jardin ici
-      } else {
-        console.error('Error fetching garden:', error);
-      }
-    });
-  };
-  </script>
-  
-  <style scoped>
-  .gardens-container {
-    padding: 20px;
-  }
-  
-  .add-garden-button {
-    margin-bottom: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .gardens-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .garden-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-  }
-  
-  .garden-details {
-    flex: 1;
-  }
-  
-  .garden-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .remove-button, .update-button, .view-button {
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .remove-button {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .update-button {
-    background-color: #2196F3;
-    color: white;
-  }
-  
-  .view-button {
-    background-color: #FFC107;
-    color: white;
-  }
-  </style>
+  });
+};
+
+function removeGarden(gardenId){
+  Meteor.call('gardens.remove', userId.value, gardenId, (error) => {
+    if (!error) {
+      fetchGardens(); // Refresh gardens list after removal
+    } else {
+      console.error('Error removing garden:', error);
+    }
+  });
+};
+
+function viewGarden(gardenId){
+  router.push('/gardens/' + gardenId);
+};
+
+const climates = ref([])
+
+function getClimates() {
+  Meteor.call('climates.findAll', (error, result) => {
+    if (!error) {
+      climates.value = result
+    } else {
+      console.error('Error fetching climates:', error);
+    }
+  });
+}
+
+function getClimateName(climateId) {
+      const climate = this.climates.find(c => c._id === climateId);
+      return climate ? climate.name : 'Unknown';
+}
+
+</script>
+
+<template>
+  <div class="p-6">
+    <button @click="addGarden" class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600">Add Garden</button>
+
+    <ul class="mt-6 space-y-4">
+      <li v-for="garden in gardens" :key="garden._id" class="p-4 border rounded shadow flex justify-between items-center">
+        <div>
+          <h3 class="text-lg font-bold">{{ garden.name }}</h3>
+          <p class="text-sm text-gray-600">Climate: {{ getClimateName(garden.climateId) }}</p>
+          <p class="text-sm text-gray-600">Tasks: {{ garden.tasks.length }}</p>
+          <p class="text-sm text-gray-600">Plants: {{ garden.plants.length }}</p>
+        </div>
+        <div class="flex space-x-2">
+          <button @click="editGarden(garden)" class="bg-blue-500 text-white px-3 py-1 rounded shadow hover:bg-blue-600">Edit</button>
+          <button @click="removeGarden(garden._id)" class="bg-red-500 text-white px-3 py-1 rounded shadow hover:bg-red-600">Remove</button>
+          <button @click="viewGarden(garden._id)" class="bg-gray-500 text-white px-3 py-1 rounded shadow hover:bg-gray-600">View</button>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Add Garden Modal -->
+    <div v-if="showAddGardenModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded shadow w-96">
+        <h2 class="text-xl font-bold mb-4">Create a New Garden</h2>
+        <label class="block mb-2">
+          Name:
+          <input v-model="newGarden.name" type="text" class="w-full border rounded px-2 py-1" placeholder="Enter garden name" />
+        </label>
+        <label class="block mb-4">
+          Climate ID:
+          <select v-model="newGarden.climateId" class="w-full border rounded px-2 py-1">
+            <option value="" disabled>Select a climate</option>
+            <option v-for="climate in climates" :key="climate._id" :value="climate._id">
+              {{ climate.name }}
+            </option>
+          </select>
+        </label>
+        <div class="flex justify-end space-x-2">
+          <button @click="createGarden" 
+                  :disabled="!newGarden.name.trim() || !newGarden.climateId" 
+                  :class="{'bg-gray-500': !newGarden.name.trim() || !newGarden.climateId, 'bg-green-500': newGarden.name.trim() && newGarden.climateId}" 
+                  class="text-white px-4 py-2 rounded hover:bg-green-600">
+            Create
+          </button>
+          <button @click="showAddGardenModal = false" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Update Garden Modal -->
+    <div v-if="showUpdateGardenModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow w-96">
+      <h2 class="text-xl font-bold mb-4">Update Garden</h2>
+
+      <label class="block mb-2">
+        Name:
+        <input v-model="updatedGarden.name" type="text" class="w-full border rounded px-2 py-1" placeholder="Enter garden name" />
+      </label>
+
+      <label class="block mb-4">
+        Climate:
+        <select v-model="updatedGarden.climateId" class="w-full border rounded px-2 py-1">
+          <option value="" disabled>Select a climate</option>
+          <option v-for="climate in climates" :key="climate._id" :value="climate._id">
+            {{ climate.name }}
+          </option>
+        </select>
+      </label>
+
+      <div class="flex justify-end space-x-2">
+        <button @click="updateGarden" :disabled="!updatedGarden.name.trim() || !updatedGarden.climateId" :class="{'bg-gray-500': !updatedGarden.name.trim() || !updatedGarden.climateId, 'bg-blue-500': newGarden.name.trim() && newGarden.climateId}" class="text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
+        <button @click="showUpdateGardenModal = false" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- Confirmation Modal -->
+    <div v-if="showConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded shadow w-96">
+        <h2 class="text-xl font-bold mb-4">Garden Created Successfully!</h2>
+        <p><strong>Name:</strong> {{ newGarden.name }}</p>
+        <p><strong>Climate:</strong> {{ getClimateName(newGarden.climateId) }}</p>
+        <button @click="showConfirmationModal = false" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">OK</button>
+      </div>
+    </div>
+  </div>
+</template>

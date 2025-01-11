@@ -4,6 +4,7 @@ import { Accounts } from 'meteor/accounts-base';
 
 Meteor.methods({
   'gardens.insert': async function(userId, garden) {
+    console.log(garden)
     check(userId, String);
     check(garden, {
       _id: String,
@@ -13,9 +14,18 @@ Meteor.methods({
       plants: Array,
     });
 
+    const NonEmptyString = Match.Where((x) => {
+      check(x, String);
+      return x.length > 0;
+    });
+    check(garden.name, NonEmptyString);
+
+    check(garden.climateId, NonEmptyString)
+
     return await Accounts.users.updateAsync(userId, { $push: { 'profile.gardens': garden } });
   },
   'gardens.remove': async function(userId, gardenId) {
+    console.log(userId, gardenId)
     check(userId, String);
     check(gardenId, String);
 
@@ -32,7 +42,7 @@ Meteor.methods({
     }));
 
     // Ne pas permettre la modification de l'ID de l'utilisateur
-    delete garden._id;
+    // delete garden._id;
 
     return await Accounts.users.updateAsync(
       { _id: userId, 'profile.gardens._id': gardenId },
@@ -55,14 +65,12 @@ Meteor.methods({
 
     return garden;
   },
-  'gardens.findAll': async function() {
-    const users = await Accounts.users.find().fetch();
-    const gardens = users.flatMap(user => 
-      (user.profile?.gardens || []).map(garden => ({
-        ...garden,
-        username: user.username
-      }))
-    );
+  'gardens.findAll': async function(userId) {
+    const user = await Accounts.users.findOneAsync(userId);
+    if (!user) {
+      throw new Meteor.Error('not-found', 'User not found');
+    }
+    const gardens = user.profile.gardens
     return gardens;
   },
 });

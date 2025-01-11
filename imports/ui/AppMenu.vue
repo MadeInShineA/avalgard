@@ -14,6 +14,7 @@ let user = autorun(() =>  Meteor.user()).result
       <router-link :to="{ name: 'signup' }" class="mr-4 text-green-700 hover:underline">Sign up</router-link>
     </template>
     <template v-else>
+      <router-link :to="{ name: 'gardens' }" class="mr-4 text-green-700 hover:underline">Gardens</router-link>
       <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline">{{ user.username}}</span>
       <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline" @click="Meteor.logout()">Logout</span>
     </template>

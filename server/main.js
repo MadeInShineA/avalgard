@@ -3,8 +3,9 @@ import { Random } from "meteor/random";
 import { PlantsCollection } from '/imports/api/plants';
 import { ClimatesCollection } from '/imports/api/climates';
 import { Accounts } from 'meteor/accounts-base';
+import '../imports/api/climates/methods';
 import '../imports/api/gardens/methods';
-import './methods';
+import '../imports/api/users/methods';
 
 Meteor.startup(async () => {
   if ((await ClimatesCollection.find().countAsync()) === 0) {
