@@ -1,8 +1,16 @@
 <script setup>
 import { autorun } from 'vue-meteor-tracker';
 import { Meteor } from 'meteor/meteor';
+import { useRouter } from 'vue-router';
 
-let user = autorun(() =>  Meteor.user()).result
+let user = autorun(() => Meteor.user()).result;
+const router = useRouter(); // Accéder au routeur Vue
+
+function handleLogout() {
+  Meteor.logout(() => {
+    router.push({ name: 'home' }); // Redirige vers la page d'accueil
+  });
+}
 
 </script>
 <template>
@@ -16,7 +24,7 @@ let user = autorun(() =>  Meteor.user()).result
     <template v-else>
       <router-link :to="{ name: 'gardens' }" class="mr-4 text-green-700 hover:underline">Gardens</router-link>
       <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline">{{ user.username}}</span>
-      <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline" @click="Meteor.logout()">Logout</span>
+      <span class="mr-4 text-green-700 hover:cursor-pointer hover:underline" @click="handleLogout">Logout</span>
     </template>
 
   </nav>

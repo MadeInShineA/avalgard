@@ -1,9 +1,19 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from './Home.vue'
-import About from './About.vue'
-import LoginForm from './LoginForm.vue'
-import SignupForm from './SignupForm.vue'
-import Gardens from './Gardens.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import { Meteor } from 'meteor/meteor';
+import Home from './Home.vue';
+import About from './About.vue';
+import LoginForm from './LoginForm.vue';
+import SignupForm from './SignupForm.vue';
+import Gardens from './Gardens.vue';
+
+// Fonction pour vérifier si l'utilisateur est connecté
+function requireAuth(to, from, next) {
+  if (Meteor.userId()) {
+    next(); // L'utilisateur est connecté, accès autorisé
+  } else {
+    next({ name: 'login' }); // Redirige vers la page de connexion
+  }
+}
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -21,17 +31,18 @@ export const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: LoginForm
+      component: LoginForm,
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignupForm
+      component: SignupForm,
     },
     {
       path: '/gardens',
       name: 'gardens',
-      component: Gardens
-    }
+      component: Gardens,
+      beforeEnter: requireAuth, // Guard pour sécuriser la route
+    },
   ],
-})
+});
