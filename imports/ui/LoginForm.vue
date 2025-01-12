@@ -16,7 +16,6 @@ const handleSubmit = () => {
       loginFeedback.value.message = error.reason;
       loginFeedback.value.success = false;
     } else {
-      console.log("Login successful!");
       loginFeedback.value.message = 'Login successful';
       loginFeedback.value.success = true;
       router.push('/');

@@ -180,7 +180,7 @@ function getClimateName(climateId) {
       </label>
 
       <div class="flex justify-end space-x-2">
-        <button @click="updateGarden" :disabled="!updatedGarden.name.trim() || !updatedGarden.climateId" :class="{'bg-gray-500': !updatedGarden.name.trim() || !updatedGarden.climateId, 'bg-blue-500': newGarden.name.trim() && newGarden.climateId}" class="text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
+        <button @click="updateGarden" :disabled="!updatedGarden.name.trim() || !updatedGarden.climateId" :class="{'bg-gray-500': !updatedGarden.name.trim() || !updatedGarden.climateId, 'bg-blue-500': updatedGarden.name.trim() && updatedGarden.climateId}" class="text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
         <button @click="showUpdateGardenModal = false" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
       </div>
     </div>

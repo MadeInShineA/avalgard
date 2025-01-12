@@ -4,7 +4,6 @@ import { Accounts } from 'meteor/accounts-base';
 
 Meteor.methods({
   'gardens.insert': async function(userId, garden) {
-    console.log(garden)
     check(userId, String);
     check(garden, {
       _id: String,
@@ -25,7 +24,6 @@ Meteor.methods({
     return await Accounts.users.updateAsync(userId, { $push: { 'profile.gardens': garden } });
   },
   'gardens.remove': async function(userId, gardenId) {
-    console.log(userId, gardenId)
     check(userId, String);
     check(gardenId, String);
 

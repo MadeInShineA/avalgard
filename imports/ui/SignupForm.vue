@@ -12,7 +12,6 @@ const registerFeedback = ref({ message: '', success: false });
 const handleSubmit = () => {
   const callback = (error) => {
     if (error) {
-      console.log(error);
       registerFeedback.value.message = error.reason;
       registerFeedback.value.success = false;
     } else {
