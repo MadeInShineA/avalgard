@@ -29,6 +29,10 @@ export const router = createRouter({
       component: About,
     },
     {
+      path: '/Garden',
+      name: 'Garden',
+      component: Garden,
+    },{
       path: '/login',
       name: 'login',
       component: LoginForm,
