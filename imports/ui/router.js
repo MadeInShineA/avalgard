@@ -49,5 +49,11 @@ export const router = createRouter({
       component: Gardens,
       beforeEnter: requireAuth, // Guard pour sécuriser la route
     },
+    {
+      path: '/gardens/:id_garden',
+      name: 'garden',
+      component: Garden,
+      beforeEnter: requireAuth, 
+    },
   ],
 });
