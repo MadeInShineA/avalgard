@@ -1,53 +1,112 @@
 [
-    {
-      "name": "Temperate",
-      "description": "Moderate temperatures with distinct seasons, including warm summers and cold winters",
-      "temperatureRange": { "min": -10, "max": 25 }
+  {
+    "name": "Temperate",
+    "description": "Moderate temperatures with distinct seasons, including warm summers and cold winters",
+    "temperatureRange": {
+      "min": -10,
+      "max": 25
     },
-    {
-      "name": "Mediterranean",
-      "description": "Hot and dry in summer, mild and wet in winter",
-      "temperatureRange": { "min": 10, "max": 35 }
+    "wateringFactor": 1.2,
+    "growthFactor": 1.5,
+    "harvestFactor": 1.4
+  },
+  {
+    "name": "Mediterranean",
+    "description": "Hot and dry in summer, mild and wet in winter",
+    "temperatureRange": {
+      "min": 10,
+      "max": 35
     },
-    {
-      "name": "Continental",
-      "description": "Large temperature variations between summer and winter, often with snowy winters",
-      "temperatureRange": { "min": -30, "max": 30 }
+    "wateringFactor": 1.0,
+    "growthFactor": 1.7,
+    "harvestFactor": 1.6
+  },
+  {
+    "name": "Continental",
+    "description": "Large temperature variations between summer and winter, often with snowy winters",
+    "temperatureRange": {
+      "min": -30,
+      "max": 30
     },
-    {
-      "name": "Tropical",
-      "description": "Warm and humid year-round, with distinct wet and dry seasons",
-      "temperatureRange": { "min": 20, "max": 35 }
+    "wateringFactor": 1.3,
+    "growthFactor": 1.4,
+    "harvestFactor": 1.2
+  },
+  {
+    "name": "Tropical",
+    "description": "Warm and humid year-round, with distinct wet and dry seasons",
+    "temperatureRange": {
+      "min": 20,
+      "max": 35
     },
-    {
-      "name": "Subtropical",
-      "description": "Hot summers and mild winters, often humid with occasional dry spells",
-      "temperatureRange": { "min": 5, "max": 40 }
+    "wateringFactor": 1.5,
+    "growthFactor": 2.0,
+    "harvestFactor": 1.8
+  },
+  {
+    "name": "Subtropical",
+    "description": "Hot summers and mild winters, often humid with occasional dry spells",
+    "temperatureRange": {
+      "min": 5,
+      "max": 40
     },
-    {
-      "name": "Desert",
-      "description": "Very hot and dry during the day, with cool nights, and minimal rainfall",
-      "temperatureRange": { "min": 0, "max": 50 }
+    "wateringFactor": 1.4,
+    "growthFactor": 1.8,
+    "harvestFactor": 1.7
+  },
+  {
+    "name": "Desert",
+    "description": "Very hot and dry during the day, with cool nights, and minimal rainfall",
+    "temperatureRange": {
+      "min": 0,
+      "max": 50
     },
-    {
-      "name": "Oceanic",
-      "description": "Mild temperatures year-round, with frequent rain and high humidity",
-      "temperatureRange": { "min": 5, "max": 20 }
+    "wateringFactor": 2.0,
+    "growthFactor": 1.0,
+    "harvestFactor": 0.8
+  },
+  {
+    "name": "Oceanic",
+    "description": "Mild temperatures year-round, with frequent rain and high humidity",
+    "temperatureRange": {
+      "min": 5,
+      "max": 20
     },
-    {
-      "name": "Montane",
-      "description": "Cooler temperatures with increased altitude, and variable rainfall depending on elevation",
-      "temperatureRange": { "min": -10, "max": 20 }
+    "wateringFactor": 1.1,
+    "growthFactor": 1.6,
+    "harvestFactor": 1.5
+  },
+  {
+    "name": "Montane",
+    "description": "Cooler temperatures with increased altitude, and variable rainfall depending on elevation",
+    "temperatureRange": {
+      "min": -10,
+      "max": 20
     },
-    {
-      "name": "Polar",
-      "description": "Extremely cold year-round, with short, cool summers and long, harsh winters",
-      "temperatureRange": { "min": -50, "max": 5 }
+    "wateringFactor": 1.3,
+    "growthFactor": 1.2,
+    "harvestFactor": 1.0
+  },
+  {
+    "name": "Polar",
+    "description": "Extremely cold year-round, with short, cool summers and long, harsh winters",
+    "temperatureRange": {
+      "min": -50,
+      "max": 5
     },
-    {
-      "name": "Equatorial",
-      "description": "Consistently warm and wet year-round, with very little seasonal variation",
-      "temperatureRange": { "min": 20, "max": 30 }
-    }
+    "wateringFactor": 0.9,
+    "growthFactor": 0.5,
+    "harvestFactor": 0.3
+  },
+  {
+    "name": "Equatorial",
+    "description": "Consistently warm and wet year-round, with very little seasonal variation",
+    "temperatureRange": {
+      "min": 20,
+      "max": 30
+    },
+    "wateringFactor": 1.6,
+    "growthFactor": 2.1,
+    "harvestFactor": 2.0
+  }
 ]
-  
