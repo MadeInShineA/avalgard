@@ -44,6 +44,8 @@ Meteor.startup(async () => {
 
   const pmudry = await Accounts.findUserByUsername('pmudry');
   if (!pmudry) {
+    const mediterraneanClimate = await Meteor.callAsync('climates.findByName', 'Mediterranean');
+    console.log(mediterraneanClimate)
     await Accounts.createUserAsync({
       username: 'pmudry',
       password: 'isc',
@@ -52,7 +54,7 @@ Meteor.startup(async () => {
           {
             _id: Random.id(),
             name: 'Main garden',
-            climateId: 'id',
+            climateId: mediterraneanClimate._id,
             tasks: [
               {
                 _id: Random.id(),
