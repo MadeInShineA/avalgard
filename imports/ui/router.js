@@ -5,6 +5,7 @@ import About from './About.vue';
 import LoginForm from './LoginForm.vue';
 import SignupForm from './SignupForm.vue';
 import Gardens from './Gardens.vue';
+import Garden from './Garden.vue'
 
 // Fonction pour vérifier si l'utilisateur est connecté
 function requireAuth(to, from, next) {
