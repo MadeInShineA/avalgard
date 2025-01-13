@@ -8,6 +8,7 @@ import './methods';
 
 Meteor.startup(async () => {
   loadFixtures();
+  
   const pmudry = await Accounts.findUserByUsername('pmudry');
   if (!pmudry) {
     await Accounts.createUserAsync({
