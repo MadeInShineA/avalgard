@@ -2,9 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Random } from "meteor/random";
 import { ClimatesCollection, PlantsCollection } from '/imports/api/collections';
 import { Accounts } from 'meteor/accounts-base';
+import plantsData from '../data/plant_data.json';
+import climatesData from '../data/climate_data.json';
 
 Meteor.startup(async () => {
   if (PlantsCollection.find().countAsync() === 0) {
+    console.log("test")
     plantsData.forEach(plant => PlantsCollection.insert(plant));
   }
 
