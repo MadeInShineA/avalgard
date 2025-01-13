@@ -10,11 +10,11 @@ import '../imports/api/users/methods';
 
 Meteor.startup(async () => {
   if (await PlantsCollection.find().countAsync() === 0) {
-    plantsData.forEach(plant => PlantsCollection.insertAsync(plant));
+    await Promise.all(plantsData.map(plant => PlantsCollection.insertAsync(plant)));
   }
 
   if (await ClimatesCollection.find().countAsync() === 0) {
-    climatesData.forEach(climate => ClimatesCollection.insertAsync(climate));
+    await Promise.all(climatesData.map(climate => ClimatesCollection.insertAsync(climate)));
   }
 
   const pmudry = await Accounts.findUserByUsername('pmudry');
@@ -30,7 +30,7 @@ Meteor.startup(async () => {
           {
             _id: firstClimate._id,
             name: 'Main garden',
-            climateId: 'id',
+            climateId: firstClimate._id,
             tasks: [
               {
                 _id: Random.id(),
