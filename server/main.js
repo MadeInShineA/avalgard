@@ -29,14 +29,14 @@ Meteor.startup(async () => {
         name: 'Tomato',
         growthDuration: 10,
         harvestPeriod: 3,
-        watterRequirement: 3,
+        waterRequirement: 3,
         temperatureRange: { min: 20, max: 35 }
       }),
       PlantsCollection.insertAsync({
         name: 'Basil',
         growthDuration: 10,
         harvestPeriod: 3,
-        watterRequirement: 3,
+        waterRequirement: 3,
         temperatureRange: { min: 20, max: 30 }
       })
     ]);
@@ -71,7 +71,7 @@ Meteor.startup(async () => {
                 plantId: 'id',
                 position: { x: 2, y: 2 },
                 lastHarvestDate: new Date(),
-                lastWatteringDate: new Date(),
+                lastWateringDate: new Date(),
               }
             ]
           }
