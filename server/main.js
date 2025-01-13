@@ -6,13 +6,12 @@ import plantsData from '../data/plant_data.json';
 import climatesData from '../data/climate_data.json';
 
 Meteor.startup(async () => {
-  if (PlantsCollection.find().countAsync() === 0) {
-    console.log("test")
-    plantsData.forEach(plant => PlantsCollection.insert(plant));
+  if (await PlantsCollection.find().countAsync() === 0) {
+    plantsData.forEach(plant => PlantsCollection.insertAsync(plant));
   }
 
-  if (ClimatesCollection.find().countAsync() === 0) {
-    climatesData.forEach(climate => ClimatesCollection.insert(climate));
+  if (await ClimatesCollection.find().countAsync() === 0) {
+    climatesData.forEach(climate => ClimatesCollection.insertAsync(climate));
   }
 
   const pmudry = await Accounts.findUserByUsername('pmudry');
