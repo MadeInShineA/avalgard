@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { ClimatesCollection } from '/imports/api/climates';
+import { ClimatesCollection } from '/imports/api/collections';
 
 Meteor.methods({
   'climates.findByName': async function(climateName) {
