@@ -21,10 +21,10 @@ Meteor.methods({
     const userId = await Accounts.createUser({
       username: user.username,
       password: user.password,
+      profile:{gardens:[]} 
     });
 
     this.setUserId(userId)
     return 'User created and logged in successfully!';
   },
 });
-
