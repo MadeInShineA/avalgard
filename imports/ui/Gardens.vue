@@ -107,6 +107,12 @@
     return climate ? climate.name : 'Unknown';
   }
 
+  function hideConfirmationModal() {
+    showConfirmationModal.value = false
+    newGarden.value.name = ''
+    newGarden.value.climateId = ''
+  }
+
 </script>
 
   <template>
@@ -219,7 +225,7 @@
           <h2 class="text-xl font-bold mb-4">Garden Created Successfully!</h2>
           <p><strong>Name:</strong> {{ newGarden.name }}</p>
           <p><strong>Climate:</strong> {{ getClimateName(newGarden.climateId) }}</p>
-          <button @click="showConfirmationModal = false"
+          <button @click="hideConfirmationModal()"
             class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">OK</button>
         </div>
       </div>
