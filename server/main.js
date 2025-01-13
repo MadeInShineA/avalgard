@@ -1,45 +1,20 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from "meteor/random";
-import { PlantsCollection } from '/imports/api/plants';
-import { ClimatesCollection } from '/imports/api/climates';
+import { ClimatesCollection, PlantsCollection } from '/imports/api/collections';
 import { Accounts } from 'meteor/accounts-base';
+import plantsData from '../data/plant_data.json';
+import climatesData from '../data/climate_data.json';
 import '../imports/api/climates/methods';
 import '../imports/api/gardens/methods';
 import '../imports/api/users/methods';
 
 Meteor.startup(async () => {
-  if ((await ClimatesCollection.find().countAsync()) === 0) {
-    await Promise.all([
-      ClimatesCollection.insertAsync({
-        name: 'Temperate',
-        description: 'Moderate climate with four distinct seasons',
-        temperatureRange: { min: 5, max: 25 }
-      }),
-      ClimatesCollection.insertAsync({
-        name: 'Mediterranean',
-        description: 'Hot and dry in summer, mild in winter',
-        temperatureRange: { min: 10, max: 35 }
-      })
-    ]);
+  if (await PlantsCollection.find().countAsync() === 0) {
+    await Promise.all(plantsData.map(plant => PlantsCollection.insertAsync(plant)));
   }
 
-  if ((await PlantsCollection.find().countAsync()) === 0) {
-    await Promise.all([
-      PlantsCollection.insertAsync({
-        name: 'Tomato',
-        growthDuration: 10,
-        harvestPeriod: 3,
-        watterRequirement: 3,
-        temperatureRange: { min: 20, max: 35 }
-      }),
-      PlantsCollection.insertAsync({
-        name: 'Basil',
-        growthDuration: 10,
-        harvestPeriod: 3,
-        watterRequirement: 3,
-        temperatureRange: { min: 20, max: 30 }
-      })
-    ]);
+  if (await ClimatesCollection.find().countAsync() === 0) {
+    await Promise.all(climatesData.map(climate => ClimatesCollection.insertAsync(climate)));
   }
 
   const pmudry = await Accounts.findUserByUsername('pmudry');
@@ -53,7 +28,7 @@ Meteor.startup(async () => {
       profile: {
         gardens: [
           {
-            _id: Random.id(),
+            _id: firstClimate._id,
             name: 'Main garden',
             climateId: firstClimate._id,
             tasks: [
@@ -71,7 +46,7 @@ Meteor.startup(async () => {
                 plantId: 'id',
                 position: { x: 2, y: 2 },
                 lastHarvestDate: new Date(),
-                lastWatteringDate: new Date(),
+                lastWateringDate: new Date(),
               }
             ]
           }
