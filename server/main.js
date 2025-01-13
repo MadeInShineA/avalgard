@@ -1,14 +1,17 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from "meteor/random";
-import { PlantsCollection } from '/imports/api/collections';
-import { ClimatesCollection } from '/imports/api/collections';
-import { loadFixtures } from '../imports/api/import_data_mongoDB';
+import { ClimatesCollection, PlantsCollection } from '/imports/api/collections';
 import { Accounts } from 'meteor/accounts-base';
-import './methods';
 
 Meteor.startup(async () => {
-  loadFixtures();
-  
+  if (PlantsCollection.find().countAsync() === 0) {
+    plantsData.forEach(plant => PlantsCollection.insert(plant));
+  }
+
+  if (ClimatesCollection.find().countAsync() === 0) {
+    climatesData.forEach(climate => ClimatesCollection.insert(climate));
+  }
+
   const pmudry = await Accounts.findUserByUsername('pmudry');
   if (!pmudry) {
     await Accounts.createUserAsync({
