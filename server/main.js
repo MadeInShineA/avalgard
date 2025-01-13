@@ -19,13 +19,16 @@ Meteor.startup(async () => {
 
   const pmudry = await Accounts.findUserByUsername('pmudry');
   if (!pmudry) {
+    const allClimates = await Meteor.callAsync('climates.findAll');
+    const firstClimate = allClimates[0]
+
     await Accounts.createUserAsync({
       username: 'pmudry',
       password: 'isc',
       profile: {
         gardens: [
           {
-            _id: Random.id(),
+            _id: firstClimate._id,
             name: 'Main garden',
             climateId: 'id',
             tasks: [
