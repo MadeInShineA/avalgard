@@ -1,52 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from "meteor/random";
-import { PlantsCollection } from '/imports/api/plants';
-import { ClimatesCollection } from '/imports/api/climates';
+import { PlantsCollection } from '/imports/api/collections';
+import { ClimatesCollection } from '/imports/api/collections';
+import { loadFixtures } from '../imports/api/import_data_mongoDB';
 import { Accounts } from 'meteor/accounts-base';
-import '../imports/api/climates/methods';
-import '../imports/api/gardens/methods';
-import '../imports/api/users/methods';
+import './methods';
 
 Meteor.startup(async () => {
-  if ((await ClimatesCollection.find().countAsync()) === 0) {
-    await Promise.all([
-      ClimatesCollection.insertAsync({
-        name: 'Temperate',
-        description: 'Moderate climate with four distinct seasons',
-        temperatureRange: { min: 5, max: 25 }
-      }),
-      ClimatesCollection.insertAsync({
-        name: 'Mediterranean',
-        description: 'Hot and dry in summer, mild in winter',
-        temperatureRange: { min: 10, max: 35 }
-      })
-    ]);
-  }
-
-  if ((await PlantsCollection.find().countAsync()) === 0) {
-    await Promise.all([
-      PlantsCollection.insertAsync({
-        name: 'Tomato',
-        growthDuration: 10,
-        harvestPeriod: 3,
-        waterRequirement: 3,
-        temperatureRange: { min: 20, max: 35 }
-      }),
-      PlantsCollection.insertAsync({
-        name: 'Basil',
-        growthDuration: 10,
-        harvestPeriod: 3,
-        waterRequirement: 3,
-        temperatureRange: { min: 20, max: 30 }
-      })
-    ]);
-  }
-
+  loadFixtures();
   const pmudry = await Accounts.findUserByUsername('pmudry');
   if (!pmudry) {
-    const allClimates = await Meteor.callAsync('climates.findAll');
-    const firstClimate = allClimates[0]
-
     await Accounts.createUserAsync({
       username: 'pmudry',
       password: 'isc',
@@ -55,7 +18,7 @@ Meteor.startup(async () => {
           {
             _id: Random.id(),
             name: 'Main garden',
-            climateId: firstClimate._id,
+            climateId: 'id',
             tasks: [
               {
                 _id: Random.id(),
