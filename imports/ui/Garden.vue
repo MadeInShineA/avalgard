@@ -107,7 +107,6 @@ function searchPlant(query) {
     fetchPlants(); // If query is empty, fetch all plants
     return;
   }
-
   // Perform a search with the query
   Meteor.call('plants.search', query, (error, result) => {
     console.log(result);
