@@ -33,7 +33,8 @@ export const router = createRouter({
       path: '/Garden',
       name: 'Garden',
       component: Garden,
-    },{
+    },
+    {
       path: '/login',
       name: 'login',
       component: LoginForm,

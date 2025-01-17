@@ -17,7 +17,6 @@ function handleLogout() {
   <nav class="flex items-center">
     <router-link :to="{ name: 'home' }" class="mr-4 text-green-700 hover:underline">Home</router-link>
     <router-link :to="{ name: 'about' }" class="mr-4 text-green-700 hover:underline">About</router-link>
-    <router-link :to="{ name: 'Garden' }" class="mr-4 text-green-700 hover:underline">Garden</router-link>
     <template v-if="!user">
       <router-link :to="{ name: 'login' }" class="mr-4 text-green-700 hover:underline">Login</router-link>
       <router-link :to="{ name: 'signup' }" class="mr-4 text-green-700 hover:underline">Sign up</router-link>
