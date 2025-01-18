@@ -1,685 +1,323 @@
 [
     {
-        "name": "tomato",
-        "growthDuration": 90,
-        "harvestPeriod": 30,
-        "waterRequirement": 2,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "potato",
-        "growthDuration": 120,
-        "harvestPeriod": 60,
-        "waterRequirement": 3,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "carrot",
-        "growthDuration": 90,
-        "harvestPeriod": 60,
-        "waterRequirement": 2,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "onion",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "waterRequirement": 2,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "cucumber",
-        "growthDuration": 90,
-        "harvestPeriod": 30,
-        "waterRequirement": 2,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "lettuce",
-        "growthDuration": 60,
-        "harvestPeriod": 30,
-        "waterRequirement": 2,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "spinach",
-        "growthDuration": 60,
-        "harvestPeriod": 30,
-        "waterRequirement": 2,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "strawberry",
-        "growthDuration": 120,
-        "harvestPeriod": 60,
-        "waterRequirement": 3,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "blueberry",
-        "growthDuration": 120,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "raspberry",
-        "growthDuration": 120,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "blackberry",
-        "growthDuration": 120,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "apple",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "pear",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "cherry",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "peach",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "plum",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "grape",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "orange",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "lemon",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "lime",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "avocado",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "banana",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "pineapple",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "mango",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "papaya",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "watermelon",
-        "growthDuration": 90,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "melon",
-        "growthDuration": 90,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "pumpkin",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "zucchini",
-        "growthDuration": 90,
-        "harvestPeriod": 30,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "eggplant",
-        "growthDuration": 120,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "pepper",
-        "growthDuration": 120,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "chili",
-        "growthDuration": 120,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "corn",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "beans",
-        "growthDuration": 90,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "peas",
-        "growthDuration": 90,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "lentils",
-        "growthDuration": 90,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "chickpeas",
-        "growthDuration": 90,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "soybeans",
-        "growthDuration": 90,
-        "harvestPeriod": 60,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "wheat",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "barley",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "oats",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "rice",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "quinoa",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "amaranth",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "buckwheat",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "rye",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "millet",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "sorghum",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "sunflower",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "canola",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "soy",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "peanut",
-        "growthDuration": 120,
-        "harvestPeriod": 90,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "almond",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "walnut",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "hazelnut",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "cashew",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "pistachio",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "pecan",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "macadamia",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "coconut",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "olive",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "fig",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "date",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "kiwi",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 10,
-            "max": 25
-        }
-    },
-    {
-        "name": "pomegranate",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "guava",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "lychee",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "passionfruit",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "dragonfruit",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "durian",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "jackfruit",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "rambutan",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "longan",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "mangosteen",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
-    },
-    {
-        "name": "starfruit",
-        "growthDuration": 365,
-        "harvestPeriod": 180,
-        "temperatureRange": {
-            "min": 15,
-            "max": 30
-        }
+      "name": "radish",
+      "growthDuration": 25,
+      "harvestPeriod": 10,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 10,
+        "max": 25
+      }
+    },
+    {
+      "name": "turnip",
+      "growthDuration": 50,
+      "harvestPeriod": 20,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 10,
+        "max": 24
+      }
+    },
+    {
+      "name": "garlic",
+      "growthDuration": 180,
+      "harvestPeriod": 30,
+      "waterRequirement": 1,
+      "temperatureRange": {
+        "min": 10,
+        "max": 30
+      }
+    },
+    {
+      "name": "mushroom",
+      "growthDuration": 20,
+      "harvestPeriod": 10,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    {
+      "name": "pumpkin",
+      "growthDuration": 100,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 15,
+        "max": 30
+      }
+    },
+    {
+      "name": "cucumber",
+      "growthDuration": 60,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 18,
+        "max": 30
+      }
+    },
+    {
+      "name": "zucchini",
+      "growthDuration": 50,
+      "harvestPeriod": 20,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 18,
+        "max": 30
+      }
+    },
+    {
+      "name": "sweet_potato",
+      "growthDuration": 100,
+      "harvestPeriod": 30,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 18,
+        "max": 30
+      }
+    },
+    {
+      "name": "green_chili",
+      "growthDuration": 80,
+      "harvestPeriod": 20,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 18,
+        "max": 30
+      }
+    },
+    {
+      "name": "red_chili",
+      "growthDuration": 80,
+      "harvestPeriod": 20,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 18,
+        "max": 30
+      }
+    },
+    {
+      "name": "carrot",
+      "growthDuration": 75,
+      "harvestPeriod": 20,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 10,
+        "max": 25
+      }
+    },
+    {
+      "name": "onion",
+      "growthDuration": 90,
+      "harvestPeriod": 30,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    {
+      "name": "bell_pepper",
+      "growthDuration": 70,
+      "harvestPeriod": 20,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 18,
+        "max": 30
+      }
+    },
+    {
+      "name": "cabbage",
+      "growthDuration": 90,
+      "harvestPeriod": 20,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 7,
+        "max": 24
+      }
+    },
+    {
+      "name": "broccoli",
+      "growthDuration": 60,
+      "harvestPeriod": 15,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    {
+      "name": "corn",
+      "growthDuration": 90,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 18,
+        "max": 32
+      }
+    },
+    {
+      "name": "leek",
+      "growthDuration": 120,
+      "harvestPeriod": 30,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    {
+      "name": "eggplant",
+      "growthDuration": 80,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 20,
+        "max": 30
+      }
+    },
+    {
+      "name": "tomato",
+      "growthDuration": 80,
+      "harvestPeriod": 40,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 30
+      }
+    },
+    {
+      "name": "strawberry",
+      "growthDuration": 100,
+      "harvestPeriod": 30,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    {
+      "name": "blueberry",
+      "growthDuration": 60,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 10,
+        "max": 25
+      }
+    },
+    {
+      "name": "raspberry",
+      "growthDuration": 60,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 10,
+        "max": 25
+      }
+    },
+    {
+      "name": "cherry",
+      "growthDuration": 80,
+      "harvestPeriod": 20,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 18,
+        "max": 25
+      }
+    },
+    {
+      "name": "grapes",
+      "growthDuration": 150,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 15,
+        "max": 30
+      }
+    },
+    {
+      "name": "apple",
+      "growthDuration": 150,
+      "harvestPeriod": 45,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    {
+      "name": "orange",
+      "growthDuration": 180,
+      "harvestPeriod": 60,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 30
+      }
+    },
+    {
+      "name": "lemon",
+      "growthDuration": 180,
+      "harvestPeriod": 60,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 30
+      }
+    },
+    {
+      "name": "peach",
+      "growthDuration": 120,
+      "harvestPeriod": 30,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 18,
+        "max": 30
+      }
+    },
+    {
+      "name": "pomegranate",
+      "growthDuration": 180,
+      "harvestPeriod": 60,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 30
+      }
+    },
+    {
+      "name": "watermelon",
+      "growthDuration": 90,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 18,
+        "max": 35
+      }
+    },
+    {
+      "name": "melon",
+      "growthDuration": 80,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 15,
+        "max": 30
+      }
+    },
+    {
+      "name": "banana",
+      "growthDuration": 350,
+      "harvestPeriod": 60,
+      "waterRequirement": 4,
+      "temperatureRange": {
+        "min": 20,
+        "max": 35
+      }
     }
-]
+  ]
+  
