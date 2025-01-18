@@ -169,7 +169,7 @@ const addPlantToGarden = (plant, compatible) => {
   };
 
   const { x, y } = findFirstAvailablePosition();
-
+  
   if (x >= 0 && y >= 0) {
     // Add the plant to the garden with the new x and y coordinates
     draggablePlants.value.push({
@@ -178,11 +178,11 @@ const addPlantToGarden = (plant, compatible) => {
       name: plant.name,
       x,
       y,
-      w: 100,
-      h: 100,
+      w: plantWidth,
+      h: plantHeight,
     });
   }
-
+  
   showConfirmPlantModal.value = false;
 };
 
