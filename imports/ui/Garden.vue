@@ -247,3 +247,9 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style>
+.vdr {
+  position: absolute
+}
+</style>
