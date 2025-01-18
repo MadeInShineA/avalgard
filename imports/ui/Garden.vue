@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import { Meteor } from 'meteor/meteor';
+import { Random } from "meteor/random";
 import { useRoute, useRouter } from 'vue-router';
 import VueDraggableResizable from 'vue-draggable-resizable';
 
@@ -98,42 +99,79 @@ const addPlantToGarden = (plant) => {
   }));
 
   const findFirstAvailablePosition = () => {
-    const cols = Math.floor((gardenWidth - plantWidth) / cellSize);
-    const rows = Math.floor((gardenHeight - plantHeight) / cellSize);
+    const cols = Math.floor(gardenWidth / cellSize);  // Calculer le nombre de colonnes basé sur la taille de la grille
+    const rows = Math.floor(gardenHeight / cellSize); // Calculer le nombre de rangées basé sur la taille de la grille
 
+    // Parcours de chaque cellule dans la grille
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
+        // Calculer la position (x, y) de la plante dans la grille
         const x = col * cellSize;
         const y = row * cellSize;
 
-        const fitsInBounds =
-          x + plantWidth <= gardenWidth && y + plantHeight <= gardenHeight;
-        const isOccupied = occupiedPositions.some(
-          (pos) => pos.x === col && pos.y === row
-        );
+        // Vérifier si la plante s'adapte dans la grille
+        const fitsInBounds = x + plantWidth <= gardenWidth && y + plantHeight <= gardenHeight;
 
+        // Vérifier si la position est déjà occupée par une autre plante
+        const isOccupied = draggablePlants.value.some((otherPlant) => {
+          // Comparer les positions et les tailles des autres plantes
+          return (
+            x < otherPlant.x + otherPlant.w &&
+            x + plantWidth > otherPlant.x &&
+            y < otherPlant.y + otherPlant.h &&
+            y + plantHeight > otherPlant.y
+          );
+        });
+
+        // Si la position est valide et non occupée, retourner la position
         if (fitsInBounds && !isOccupied) {
-          // Ensure plant doesn't overlap the previously added plant
           return { x, y };
         }
       }
     }
 
     console.warn('No free position found!');
-    return { x: 10, y: 10 }; // Fallback position
+    return { x: -1, y: -1 }; // Retourner une position par défaut si aucune position libre n'est trouvée
   };
 
   const { x, y } = findFirstAvailablePosition();
+  
+  if (x >= 0 && y >= 0) {
+    // Add the plant to the garden with the new x and y coordinates
+    draggablePlants.value.push({
+      id: Random.id(),
+      plantId: plant._id,
+      name: plant.name,
+      x,
+      y,
+      w: plantWidth,
+      h: plantHeight,
+    });
+  }
+};
 
-  // Add the plant to the garden with the new x and y coordinates
-  draggablePlants.value.push({
-    id: plant.id,
-    name: plant.name,
-    x,
-    y,
-    w: plantWidth,
-    h: plantHeight,
+const onDrag = (x, y, id) => {
+  const plant = draggablePlants.value.find((p) => p.id === id);
+  if (!plant) return;
+
+  const isOverlapping = draggablePlants.value.some((otherPlant) => {
+    if (otherPlant.id === plant.id) return false; // Ignore la plante elle-même
+    return (
+      x < otherPlant.x + otherPlant.w &&
+      x + plant.w > otherPlant.x &&
+      y < otherPlant.y + otherPlant.h &&
+      y + plant.h > otherPlant.y
+    );
   });
+
+  if (!isOverlapping) {
+    // Mettre à jour la position de la plante si pas de chevauchement
+    plant.x = x;
+    plant.y = y;
+    return true; // Permet le déplacement
+  }
+
+  return false; // Si chevauchement, empêche le déplacement
 };
 
 onMounted(() => {
@@ -200,13 +238,15 @@ onMounted(() => {
         >
           <vue-draggable-resizable
             v-for="(plant, index) in draggablePlants"
-            :key="plant.id"
+            :key="plant._id"
             :x="plant.x"
             :y="plant.y"
             :w="plant.w"
             :h="plant.h"
             :parent="true"
             :grid="[20, 20]"
+            :on-drag="(x, y) => onDrag(x, y, plant.id)"
+            :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }"
           >
             <p>{{ plant.name }}</p>
           </vue-draggable-resizable>
@@ -231,7 +271,7 @@ onMounted(() => {
         <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <li
             v-for="plant in plants"
-            :key="plant.id"
+            :key="plant._id"
             class="p-4 bg-gray-100 shadow rounded-lg cursor-pointer hover:bg-gray-200"
             @click="addPlantToGarden(plant)"
           >
