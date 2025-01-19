@@ -67,7 +67,8 @@ function initializeGardenGrid() {
         w: plantToPlace.width,
         h: plantToPlace.height,
         lastHarvestDate: plantToPlace.lastHarvestDate,
-        lastWateringDate: plantToPlace.lastWateringDate
+        lastWateringDate: plantToPlace.lastWateringDate,
+        sprite: dbPlant.sprite
       });
     });
   });
@@ -183,7 +184,8 @@ const addPlantToGarden = (plant, compatible) => {
       w: 100,
       h: 100,
       lastHarvestDate: new Date(),
-      lastWateringDate: new Date()
+      lastWateringDate: new Date(),
+      sprite: plant.sprite
     });
   }
   showConfirmPlantModal.value = false;
@@ -285,9 +287,6 @@ function isPlantClimateCompatible(plant) {
 </script>
 
 <template>
-  {{ draggablePlants }}
-  <img src="/test2.png" alt="">
-
   <div class="container mx-auto p-6">
     <!-- Garden Details -->
     <template v-if="garden">
@@ -323,6 +322,7 @@ function isPlantClimateCompatible(plant) {
           <vue-draggable-resizable v-for="(plant, index) in draggablePlants" :key="plant._id" :x="plant.x" :y="plant.y"
             :w="plant.w" :h="plant.h" :parent="true" :grid="[20, 20]" :on-drag="(x, y) => onDrag(x, y, plant)" :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x,y,w,h, plant)"
             :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
+            <img :src="'/plants_sprites/' + plant.sprite">
             <p>{{ plant.name }}</p>
             <button class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
