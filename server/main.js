@@ -23,6 +23,7 @@ Meteor.startup(async () => {
     const allClimates = await Meteor.callAsync('climates.findAll');
     const firstClimate = allClimates[0]
 
+    const tomato = await Meteor.callAsync('plants.findByName', 'tomato');
     await Accounts.createUserAsync({
       username: 'pmudry',
       password: 'isc',
@@ -31,7 +32,7 @@ Meteor.startup(async () => {
           {
             _id: Random.id(),
             name: 'Main garden',
-            climateId: mediterraneanClimate._id,
+            climateId: firstClimate._id,
             tasks: [
               {
                 _id: Random.id(),
