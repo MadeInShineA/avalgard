@@ -79,7 +79,9 @@ Meteor.methods({
       check(plant.y, Number)
       plantsToSave.push({
         plantId: plant.plantId,
-        position: { x: plant.x, y: plant.y }
+        position: { x: plant.x, y: plant.y },
+        width: plant.w,
+        height: plant.h
       })
     });
 
