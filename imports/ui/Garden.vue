@@ -78,7 +78,7 @@ function searchPlant(query) {
     fetchPlants(); // If query is empty, fetch all plants
     return;
   }
-  
+
   // Perform a search with the query
   Meteor.call('plants.search', query, (error, result) => {
     console.log(result);
@@ -135,7 +135,7 @@ const addPlantToGarden = (plant) => {
   };
 
   const { x, y } = findFirstAvailablePosition();
-  
+
   if (x >= 0 && y >= 0) {
     // Add the plant to the garden with the new x and y coordinates
     draggablePlants.value.push({
@@ -213,41 +213,27 @@ onMounted(() => {
           <strong>Plants:</strong> {{ garden.plants.length }}
         </p>
         <div class="mt-4">
-          <button
-            @click="router.push('/')"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
+          <button @click="router.push('/')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Back to Home
           </button>
         </div>
+        {{ draggablePlants }}
 
         <!-- Draggable Garden Area -->
-        <div
-          :style="{
-            position: 'relative',
-            backgroundColor: '#808080',
-            background: 'linear-gradient(-90deg, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px)',
-            backgroundSize: '20px 20px, 20px 20px',
-            backgroundPosition: '10px 10px',
-            height: '100vh', // Full height
-            width: '100%', // Full width
-            border: '1px solid blue',
-            boxSizing: 'border-box',
-          }"
-          class="mt-6"
-        >
-          <vue-draggable-resizable
-            v-for="(plant, index) in draggablePlants"
-            :key="plant._id"
-            :x="plant.x"
-            :y="plant.y"
-            :w="plant.w"
-            :h="plant.h"
-            :parent="true"
-            :grid="[20, 20]"
-            :on-drag="(x, y) => onDrag(x, y, plant.id)"
-            :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }"
-          >
+        <div :style="{
+          position: 'relative',
+          backgroundColor: '#808080',
+          background: 'linear-gradient(-90deg, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px)',
+          backgroundSize: '20px 20px, 20px 20px',
+          backgroundPosition: '10px 10px',
+          height: '100vh', // Full height
+          width: '100%', // Full width
+          border: '1px solid blue',
+          boxSizing: 'border-box',
+        }" class="mt-6">
+          <vue-draggable-resizable v-for="(plant, index) in draggablePlants" :key="plant._id" :x="plant.x" :y="plant.y"
+            :w="plant.w" :h="plant.h" :parent="true" :grid="[20, 20]" :on-drag="(x, y) => onDrag(x, y, plant.id)"
+            :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
             <p>{{ plant.name }}</p>
           </vue-draggable-resizable>
         </div>
@@ -261,20 +247,12 @@ onMounted(() => {
       <!-- Plants Search -->
       <div class="mt-8">
         <h2 class="text-xl font-bold mb-4">Available Plants</h2>
-        <input
-          v-model="searchQuery"
-          type="text"
-          class="p-2 border border-gray-300 rounded-lg mb-4 w-full"
-          placeholder="Search plants..."
-        />
+        <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg mb-4 w-full"
+          placeholder="Search plants..." />
 
         <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <li
-            v-for="plant in plants"
-            :key="plant._id"
-            class="p-4 bg-gray-100 shadow rounded-lg cursor-pointer hover:bg-gray-200"
-            @click="addPlantToGarden(plant)"
-          >
+          <li v-for="plant in plants" :key="plant._id"
+            class="p-4 bg-gray-100 shadow rounded-lg cursor-pointer hover:bg-gray-200" @click="addPlantToGarden(plant)">
             <p class="font-bold">{{ plant.name }}</p>
           </li>
         </ul>
