@@ -1,16 +1,14 @@
 <script setup>
-import { ref, onMounted, watch, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
-import { useRoute, useRouter } from 'vue-router';
-import VueDraggableResizable from 'vue-draggable-resizable';
-import VueSlider from 'vue-3-slider-component';
+import { useRouter } from 'vue-router';
 
 const gardens = ref([]);
 const userId = ref(null);
-const showAddGardenModal = ref(false);
-const showUpdateGardenModal = ref(false);
-const showConfirmationModal = ref(false);
+const showAddGardenModal = ref(false); // Controls Add Garden Modal visibility
+const showUpdateGardenModal = ref(false); // Controls Update Garden Modal visibility
+const showConfirmationModal = ref(false); // Controls Confirmation Modal visibility
 
 const newGarden = ref({ name: '', climateId: '', height: 10, width: 10 }); // Stores data for the new garden
 const updatedGarden = ref({ _id: '', name: '', climateId: '', height: 0, width: 0 }); // Stores data for the updated garden
@@ -20,25 +18,26 @@ const MAX_SIDE_LENGTH = 15;
 const router = useRouter();
 
 function fetchGardensWithoutAnimation() {
-  userId.value = Meteor.userId();
-  Meteor.call('gardens.findAll', userId.value, (error, result) => {
-    if (!error) {
-      gardens.value = result;
-      gardens.value.forEach((garden) => {
-        garden.visible = true;
-      });
-    } else {
-      console.error('Error fetching gardens:', error);
-    }
-  });
-}
+    userId.value = Meteor.userId();
+    Meteor.call('gardens.findAll', userId.value, (error, result) => {
+      if (!error) {
+        gardens.value = result;
+        const gardensList = gardens.value
+        gardensList.forEach((garden, index) => {
+          garden.visible = true;
+        });
+      } else {
+        console.error('Error fetching gardens:', error);
+      }
+    });
+  };
 
 function fetchGardens() {
   userId.value = Meteor.userId();
   Meteor.call('gardens.findAll', userId.value, (error, result) => {
     if (!error) {
       gardens.value = result;
-      displayGardensWithDelay();
+      displayGardensWithDelay(); // Start displaying gardens with delay after fetching
     } else {
       console.error('Error fetching gardens:', error);
     }
@@ -149,141 +148,6 @@ async function displayGardensWithDelay() {
       garden.visible = true;
     }, index * 500);
   });
-}
-
-// ... (les autres fonctions relatives aux plantes : onDrag, saveGarden, openModificationModal, etc.)
-const onDrag = (x, y, plant) => {
-  if (!plant) return;
-  let isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant._id === plant._id) return false;
-    return (
-      x < otherPlant.x + otherPlant.w &&
-      x + plant.w > otherPlant.x &&
-      y < otherPlant.y + otherPlant.h &&
-      y + plant.h > otherPlant.y
-    );
-  });
-  if (!isOverlapping) {
-    plant.x = x;
-    plant.y = y;
-    return true;
-  }
-  return false;
-};
-
-const showSavingConfirmationModal = ref(false);
-const showModificationModal = ref(false);
-const selectedPlant = ref(null);
-
-function saveGarden() {
-  const plantsToSave = garden.value.plants.filter(plant => plant.isVisible);
-  let gardenToSave = garden.value;
-  gardenToSave.plants = plantsToSave;
-  Meteor.call('gardens.update', userId.value, garden.value._id, gardenToSave, (error) => {
-    if (!error) {
-      showSavingConfirmationModal.value = true;
-    } else {
-      console.error('Error saving garden:', error);
-    }
-  });
-}
-
-function openModificationModal(plant) {
-  selectedPlant.value = { ...plant };
-  showModificationModal.value = true;
-}
-
-function saveChanges() {
-  if (!selectedPlant.value || !garden.value.plants) return;
-  const plantIndex = garden.value.plants.findIndex(
-    plant => plant._id === selectedPlant.value._id
-  );
-  if (plantIndex !== -1) {
-    garden.value.plants[plantIndex].lastHarvestDate = selectedPlant.value.lastHarvestDate;
-    garden.value.plants[plantIndex].lastWateringDate = selectedPlant.value.lastWateringDate;
-  }
-  showModificationModal.value = false;
-}
-
-function deletePlant() {
-  if (!selectedPlant.value || !garden.value.plants) return;
-  garden.value.plants = garden.value.plants.filter(plant => plant._id !== selectedPlant.value._id);
-  showModificationModal.value = false;
-}
-
-function handlePlantResize(x, y, w, h, plant) {
-  const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant._id === plant._id) return false;
-    return (
-      x < otherPlant.x + otherPlant.w &&
-      x + w > otherPlant.x &&
-      y < otherPlant.y + otherPlant.h &&
-      y + h > otherPlant.y
-    );
-  });
-  const min_length_size = CELL_SIZE * 4;
-  const isSizeOk = w >= min_length_size && h >= min_length_size;
-  if (!isOverlapping && isSizeOk) {
-    plant.w = w;
-    plant.h = h;
-    plant.x = x;
-    plant.y = y;
-    return true;
-  }
-  return false;
-}
-
-const gardenWidth = ref(0);
-const gardenHeight = ref(0);
-
-watch([gardenWidth, gardenHeight], ([newWidth, newHeight]) => {
-  if (garden.value) {
-    garden.value.height = newHeight;
-    garden.value.width = newWidth;
-    garden.value.plants.forEach((plant) => {
-      if (plant.x < newWidth * ONE_METER_IN_PIXELS && plant.y < newHeight * ONE_METER_IN_PIXELS) {
-        plant.isVisible = true;
-      } else {
-        plant.isVisible = false;
-      }
-    });
-    nextTick(() => {
-      window.dispatchEvent(new Event('resize'));
-    });
-  }
-});
-
-function getCurrentSeason() {
-  const today = new Date().getMonth();
-  if (today >= 2 && today <= 4) {
-    return 'spring';
-  } else if (today >= 5 && today <= 7) {
-    return 'summer';
-  } else if (today >= 8 && today <= 10) {
-    return 'autumn';
-  } else {
-    return 'winter';
-  }
-}
-
-function getSeasonalTemperatureRange() {
-  if (!climate.value || climate.value.name === 'Unknown') {
-    return null;
-  }
-  const season = getCurrentSeason();
-  return climate.value.seasonalTemperatureRange[season];
-}
-
-function isPlantClimateCompatible(plant) {
-  const seasonalRange = getSeasonalTemperatureRange();
-  if (!seasonalRange) {
-    return false;
-  }
-  const plantTempMin = plant.temperatureRange.min;
-  const plantTempMax = plant.temperatureRange.max;
-  const climateTempMin = seasonalRange.min;
-  const climateTempMax = seasonalRange.max;
-  return !(plantTempMin > climateTempMax || plantTempMax < climateTempMin);
 }
 </script>
 
