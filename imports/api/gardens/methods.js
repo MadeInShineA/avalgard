@@ -81,7 +81,9 @@ Meteor.methods({
         plantId: plant.plantId,
         position: { x: plant.x, y: plant.y },
         width: plant.w,
-        height: plant.h
+        height: plant.h,
+        lastHarvestDate: plant.lastHarvestDate,
+        lastWateringDate: plant.lastWateringDate
       })
     });
 
