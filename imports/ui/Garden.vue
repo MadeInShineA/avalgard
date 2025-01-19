@@ -182,7 +182,6 @@ const addPlantToGarden = (plant, compatible) => {
       h: 100,
     });
   }
-  
   showConfirmPlantModal.value = false;
 };
 
