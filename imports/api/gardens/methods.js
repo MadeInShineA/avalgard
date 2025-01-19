@@ -72,15 +72,20 @@ Meteor.methods({
     return gardens;
   },
   'gardens.savePlants': async function (userId, gardenId, plants) {
-    plants.array.forEach(plant => {
+    let plantsToSave = []
+    plants.forEach(plant => {
       check(plant.plantId, String);
-      check(plant.x);
-      check(plant.y)
+      check(plant.x, Number);
+      check(plant.y, Number)
+      plantsToSave.push({
+        plantId: plant.plantId,
+        position: { x: plant.x, y: plant.y }
+      })
     });
 
     return await Accounts.users.updateAsync(
       { _id: userId, 'profile.gardens._id': gardenId },
-      { $set: { 'profile.gardens.plants': plants } }
+      { $set: { 'profile.gardens.$.plants': plantsToSave } }
     );
 
 
