@@ -178,8 +178,8 @@ const addPlantToGarden = (plant, compatible) => {
       name: plant.name,
       x,
       y,
-      w: plantWidth,
-      h: plantHeight,
+      w: 100,
+      h: 100,
     });
   }
   
@@ -301,7 +301,6 @@ function isPlantClimateCompatible(plant) {
             Save
           </button>
         </div>
-        {{ draggablePlants }}
 
         <!-- Draggable Garden Area -->
         <div :style="{
