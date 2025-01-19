@@ -44,7 +44,7 @@ Meteor.startup(async () => {
             plants: [
               {
                 _id: Random.id(),
-                plantId: 'id',
+                plantId: tomato._id,
                 position: { x: 2, y: 2 },
                 lastHarvestDate: new Date(),
                 lastWateringDate: new Date(),
