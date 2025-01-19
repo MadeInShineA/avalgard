@@ -28,6 +28,7 @@ function fetchGarden() {
   Meteor.call('gardens.find', userId.value, gardenId.value, (error, result) => {
     if (!error && result) {
       garden.value = result;
+      initializeGardenGrid()
 
       // Fetch the climate only if `climateId` exists
       if (result.climateId) {
@@ -39,6 +40,31 @@ function fetchGarden() {
     } else {
       console.error('Error fetching garden:', error);
     }
+  });
+}
+
+function initializeGardenGrid() {
+  console.log(garden.value);
+  let plantsToPlace = garden.value.plants;
+
+  plantsToPlace.forEach((plantToPlace) => {
+    Meteor.call('plants.findById', plantToPlace.plantId, (error, dbPlant) => {
+      if (error) {
+        console.error(`Error fetching plant by ID: ${plantToPlace.plantId}`, error);
+        return;
+      }
+
+      console.log(dbPlant)
+      draggablePlants.value.push({
+        id: Random.id(),
+        plantId: plantToPlace.plantId,
+        name: dbPlant.name,
+        x: plantToPlace.position.x,
+        y: plantToPlace.position.y,
+        w: 100,
+        h: 100,
+      });
+    });
   });
 }
 
@@ -144,8 +170,8 @@ const addPlantToGarden = (plant) => {
       name: plant.name,
       x,
       y,
-      w: plantWidth,
-      h: plantHeight,
+      w: 100,
+      h: 100,
     });
   }
 };
@@ -173,6 +199,12 @@ const onDrag = (x, y, id) => {
 
   return false; // Si chevauchement, empêche le déplacement
 };
+
+function saveDraggablePlants() {
+
+  console.log(draggablePlants.value)
+  Meteor.call('gardens.savePlants', userId.value, garden.value._id, draggablePlants.value)
+}
 
 onMounted(() => {
   console.log('onMounted: Garden');
@@ -213,11 +245,10 @@ onMounted(() => {
           <strong>Plants:</strong> {{ garden.plants.length }}
         </p>
         <div class="mt-4">
-          <button @click="router.push('/')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Back to Home
+          <button @click="saveDraggablePlants()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            Save
           </button>
         </div>
-        {{ draggablePlants }}
 
         <!-- Draggable Garden Area -->
         <div :style="{

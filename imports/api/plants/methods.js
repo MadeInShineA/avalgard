@@ -24,5 +24,14 @@ Meteor.methods({
     }
 
     return plant;
+  },
+  'plants.findById': async function (plantId) {
+    check(plantId, String)
+
+    const plant = await PlantsCollection.findOneAsync({ _id: plantId });
+    if (!plant) {
+      throw new Meteor.Error('not-found', 'Plant not foud');
+    }
+    return plant
   }
 });
