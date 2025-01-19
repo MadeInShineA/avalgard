@@ -7,7 +7,8 @@
       "temperatureRange": {
         "min": 10,
         "max": 25
-      }
+      },
+      "sprite": "radis_nb.png"
     },
     {
       "name": "turnip",
@@ -17,7 +18,8 @@
       "temperatureRange": {
         "min": 10,
         "max": 24
-      }
+      },
+      "sprite": "navet_nb.png"
     },
     {
       "name": "garlic",
@@ -27,7 +29,8 @@
       "temperatureRange": {
         "min": 10,
         "max": 30
-      }
+      },
+      "sprite": "ail_nb.png"
     },
     {
       "name": "mushroom",
@@ -37,7 +40,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 25
-      }
+      },
+      "sprite": "champignon_nb.png"
     },
     {
       "name": "pumpkin",
@@ -47,7 +51,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 30
-      }
+      },
+      "sprite": "courge_nb.png"
     },
     {
       "name": "cucumber",
@@ -57,7 +62,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 30
-      }
+      },
+      "sprite": "concombre_nb.png"
     },
     {
       "name": "zucchini",
@@ -67,7 +73,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 30
-      }
+      },
+      "sprite": "courgette_nb.png"
     },
     {
       "name": "sweet_potato",
@@ -77,7 +84,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 30
-      }
+      },
+      "sprite": "patate_douce_nb.png"
     },
     {
       "name": "green_chili",
@@ -87,7 +95,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 30
-      }
+      },
+      "sprite": "piment_vert_nb.png"
     },
     {
       "name": "red_chili",
@@ -97,7 +106,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 30
-      }
+      },
+      "sprite": "piment_nb.png"
     },
     {
       "name": "carrot",
@@ -107,7 +117,8 @@
       "temperatureRange": {
         "min": 10,
         "max": 25
-      }
+      },
+      "sprite": "carotte_nb.png"
     },
     {
       "name": "onion",
@@ -117,7 +128,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 25
-      }
+      },
+      "sprite": "oignon_nb.png"
     },
     {
       "name": "bell_pepper",
@@ -127,7 +139,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 30
-      }
+      },
+      "sprite": "poivron_nb.png"
     },
     {
       "name": "cabbage",
@@ -137,7 +150,8 @@
       "temperatureRange": {
         "min": 7,
         "max": 24
-      }
+      },
+      "sprite": "chou_nb.png"
     },
     {
       "name": "broccoli",
@@ -147,7 +161,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 25
-      }
+      },
+      "sprite": "brocoli_nb.png"
     },
     {
       "name": "corn",
@@ -157,7 +172,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 32
-      }
+      },
+      "sprite": "mais_nb.png"
     },
     {
       "name": "leek",
@@ -167,7 +183,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 25
-      }
+      },
+      "sprite": "poireau_nb.png"
     },
     {
       "name": "eggplant",
@@ -177,7 +194,8 @@
       "temperatureRange": {
         "min": 20,
         "max": 30
-      }
+      },
+      "sprite": "aubergine_nb.png"
     },
     {
       "name": "tomato",
@@ -187,7 +205,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 30
-      }
+      },
+      "sprite": "tomate_nb.png"
     },
     {
       "name": "strawberry",
@@ -197,7 +216,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 25
-      }
+      },
+      "sprite": "fraise_nb.png"
     },
     {
       "name": "blueberry",
@@ -207,7 +227,8 @@
       "temperatureRange": {
         "min": 10,
         "max": 25
-      }
+      },
+      "sprite": "myrtille_nb.png"
     },
     {
       "name": "raspberry",
@@ -217,7 +238,8 @@
       "temperatureRange": {
         "min": 10,
         "max": 25
-      }
+      },
+      "sprite": "ERROR 404"
     },
     {
       "name": "cherry",
@@ -227,7 +249,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 25
-      }
+      },
+      "sprite": "cerise_nb.png"
     },
     {
       "name": "grapes",
@@ -237,7 +260,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 30
-      }
+      },
+      "sprite": "raisin_nb.png"
     },
     {
       "name": "apple",
@@ -247,7 +271,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 25
-      }
+      },
+      "sprite": "pomme_nb.png"
     },
     {
       "name": "orange",
@@ -257,7 +282,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 30
-      }
+      },
+      "sprite": "orange_nb.png"
     },
     {
       "name": "lemon",
@@ -267,7 +293,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 30
-      }
+      },
+      "sprite": "citron_nb.png"
     },
     {
       "name": "peach",
@@ -277,7 +304,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 30
-      }
+      },
+      "sprite": "ERROR 404"
     },
     {
       "name": "pomegranate",
@@ -287,7 +315,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 30
-      }
+      },
+      "sprite": "grenade_nb.png"
     },
     {
       "name": "watermelon",
@@ -297,7 +326,8 @@
       "temperatureRange": {
         "min": 18,
         "max": 35
-      }
+      },
+      "sprite": "pasteque_nb.png"
     },
     {
       "name": "melon",
@@ -307,7 +337,8 @@
       "temperatureRange": {
         "min": 15,
         "max": 30
-      }
+      },
+      "sprite": "melon_nb.png"
     },
     {
       "name": "banana",
@@ -317,7 +348,85 @@
       "temperatureRange": {
         "min": 20,
         "max": 35
-      }
+      },
+      "sprite": "banane_nb.png"
+    },
+    {
+      "name": "potato",
+      "growthDuration": 120,
+      "harvestPeriod": 30,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 10,
+        "max": 25
+      },
+      "sprite": "patate_nb.png"
+    },
+    {
+      "name": "lime",
+      "growthDuration": 180,
+      "harvestPeriod": 60,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 30
+      },
+      "sprite": "lime_nb.png"
+    },
+    {
+      "name": "pear",
+      "growthDuration": 150,
+      "harvestPeriod": 45,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 15,
+        "max": 25
+      },
+      "sprite": "poire_nb.png"
+    },
+    {
+      "name": "cranberry",
+      "growthDuration": 60,
+      "harvestPeriod": 30,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 10,
+        "max": 25
+      },
+      "sprite": "cranberry_nb.png"
+    },
+    {
+      "name": "cauliflower",
+      "growthDuration": 90,
+      "harvestPeriod": 20,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 7,
+        "max": 24
+      },
+      "sprite": "chou-fleur_nb.png"
+    },
+    {
+      "name": "pineapple",
+      "growthDuration": 180,
+      "harvestPeriod": 60,
+      "waterRequirement": 3,
+      "temperatureRange": {
+        "min": 20,
+        "max": 35
+      },
+      "sprite": "ananas_nb.png"
+    },
+    {
+      "name": "abricot",
+      "growthDuration": 120,
+      "harvestPeriod": 30,
+      "waterRequirement": 2,
+      "temperatureRange": {
+        "min": 18,
+        "max": 30
+      },
+      "sprite": "abricot_nb.png"
     }
   ]
   
