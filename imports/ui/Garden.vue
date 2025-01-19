@@ -18,6 +18,9 @@ const isGardenFull = computed(() => draggablePlants.value.length >= maxPlants); 
 
 const searchQuery = ref(''); // Search query for the plant search bar
 
+const showConfirmPlantModal = ref(false); // Popup to confirm an incompatible plant
+const incompatiblePlant = ref(null); //Store the incompatible plant
+
 // Watch for changes in the searchQuery and trigger the search function
 watch(searchQuery, (newQuery) => {
   searchPlant(newQuery);
@@ -112,7 +115,13 @@ function searchPlant(query) {
   });
 }
 
-const addPlantToGarden = (plant) => {
+const addPlantToGarden = (plant, compatible) => {
+  if (!compatible) {
+    incompatiblePlant.value = plant;
+    showConfirmPlantModal.value = true;
+    return;
+  }
+  
   const gardenWidth = 600; // Match the garden's actual width
   const gardenHeight = 600; // Match the garden's actual height
   const cellSize = 20; // The grid cell size for positioning
@@ -174,6 +183,8 @@ const addPlantToGarden = (plant) => {
       h: 100,
     });
   }
+
+  showConfirmPlantModal.value = false;
 };
 
 const onDrag = (x, y, id) => {
@@ -225,6 +236,24 @@ onMounted(() => {
     router.push('/'); // Redirect if no garden ID is found
   }
 });
+
+function isPlantClimateCompatible(plant) {
+  if (!climate.value || climate.value.name === 'Unknown') {
+    return false;
+  }
+
+  const plantTempMin = plant.temperatureRange.min;
+  const plantTempMax = plant.temperatureRange.max;
+  const climateTempMin = climate.value.temperatureRange.min;
+  const climateTempMax = climate.value.temperatureRange.max;
+
+  if (plantTempMin > climateTempMax || plantTempMax < climateTempMin) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
 
 // TODO Fix the plant's available positions (can't go up but more down)
 </script>
@@ -281,14 +310,40 @@ onMounted(() => {
         <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg mb-4 w-full"
           placeholder="Search plants..." />
 
-        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <li v-for="plant in plants" :key="plant._id"
-            class="p-4 bg-gray-100 shadow rounded-lg cursor-pointer hover:bg-gray-200" @click="addPlantToGarden(plant)">
-            <p class="font-bold">{{ plant.name }}</p>
-          </li>
-        </ul>
+          <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <li 
+              v-for="plant in plants" 
+              :key="plant._id"
+              :class="[
+                'p-4 shadow rounded-lg cursor-pointer',
+                isPlantClimateCompatible(plant) 
+                  ? 'bg-gray-100 hover:bg-gray-200' 
+                  : 'bg-red-200 hover:bg-red-300'
+              ]" 
+              @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
+            >
+              <p class="font-bold">{{ plant.name }}</p>
+            </li>
+          </ul>
       </div>
     </template>
+
+    <!-- Confirm incompatible plant modal -->
+    <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded shadow w-150">
+          <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
+          <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate. You can still add it to your garden, but it may not grow well.</p>
+          <div class="flex justify-center space-x-2">
+            <button @click="addPlantToGarden(incompatiblePlant, true)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600">
+              Add
+            </button>
+            <button @click="showConfirmPlantModal = false"
+              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
 
     <!-- Loader -->
     <div v-else class="text-center py-10">
