@@ -64,8 +64,8 @@ function initializeGardenGrid() {
         name: dbPlant.name,
         x: plantToPlace.position.x,
         y: plantToPlace.position.y,
-        w: 100,
-        h: 100,
+        w: plantToPlace.width,
+        h: plantToPlace.height,
       });
     });
   });
@@ -187,8 +187,7 @@ const addPlantToGarden = (plant, compatible) => {
   showConfirmPlantModal.value = false;
 };
 
-const onDrag = (x, y, id) => {
-  const plant = draggablePlants.value.find((p) => p.id === id);
+const onDrag = (x, y, plant) => {
   if (!plant) return;
 
   const isOverlapping = draggablePlants.value.some((otherPlant) => {
@@ -215,6 +214,31 @@ function saveDraggablePlants() {
 
   console.log(draggablePlants.value)
   Meteor.call('gardens.savePlants', userId.value, garden.value._id, draggablePlants.value)
+}
+
+function handlePlantResize(x, y, w, h, plant){
+
+  const isOverlapping = draggablePlants.value.some((otherPlant) => {
+    if (otherPlant.id === plant.id) return false; // Ignore la plante elle-même
+    return (
+      x < otherPlant.x + otherPlant.w &&
+      x + w > otherPlant.x &&
+      y < otherPlant.y + otherPlant.h &&
+      y + h > otherPlant.y
+    );
+  });
+
+  if (!isOverlapping) {
+    // Mettre à jour la position de la plante si pas de chevauchement
+    plant.w = w
+    plant.h = h
+    plant.x = x
+    plant.y = y
+    return true; // Permet le déplacement
+  }
+
+  return false;
+
 }
 
 onMounted(() => {
@@ -292,7 +316,7 @@ function isPlantClimateCompatible(plant) {
           boxSizing: 'border-box',
         }" class="mt-6">
           <vue-draggable-resizable v-for="(plant, index) in draggablePlants" :key="plant._id" :x="plant.x" :y="plant.y"
-            :w="plant.w" :h="plant.h" :parent="true" :grid="[20, 20]" :on-drag="(x, y) => onDrag(x, y, plant.id)"
+            :w="plant.w" :h="plant.h" :parent="true" :grid="[20, 20]" :on-drag="(x, y) => onDrag(x, y, plant)" :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x,y,w,h, plant)"
             :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
             <p>{{ plant.name }}</p>
           </vue-draggable-resizable>
@@ -353,6 +377,8 @@ function isPlantClimateCompatible(plant) {
 </template>
 
 <style>
+@import "vue-draggable-resizable/style.css";
+
 .vdr {
   position: absolute
 }
