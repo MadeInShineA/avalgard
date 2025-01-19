@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import RippleButton from './RippleButton.vue';
 
 const count = ref(0)
 
@@ -9,7 +10,7 @@ function increment() {
 </script>
 
 <template>
-  <button @click="increment" class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded">Click Me</button>
+    <RippleButton @click="increment">Click Me</RippleButton>
   <p>
     You've pressed the button <strong>{{ count }}</strong> times.
   </p>
