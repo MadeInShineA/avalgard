@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { PlantsCollection } from '/imports/api/plants';
+import { PlantsCollection } from '../collections.js';
 
 Meteor.methods({
   'plants.findAll': async function () {
