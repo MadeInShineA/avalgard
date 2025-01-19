@@ -169,7 +169,7 @@ const addPlantToGarden = (plant, compatible) => {
   };
 
   const { x, y } = findFirstAvailablePosition();
-  
+
   if (x >= 0 && y >= 0) {
     // Add the plant to the garden with the new x and y coordinates
     draggablePlants.value.push({
@@ -301,6 +301,7 @@ function isPlantClimateCompatible(plant) {
             Save
           </button>
         </div>
+        {{ draggablePlants }}
 
         <!-- Draggable Garden Area -->
         <div :style="{
