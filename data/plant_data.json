@@ -338,7 +338,7 @@
         "min": 15,
         "max": 30
       },
-      "sprite": "meERROR 404lon_nb.png"
+      "sprite": "melon_nb.png"
     },
     {
       "name": "banana",

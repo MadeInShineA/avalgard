@@ -33,6 +33,8 @@ Meteor.startup(async () => {
             _id: Random.id(),
             name: 'Main garden',
             climateId: firstClimate._id,
+            height: 100,
+            width: 100,
             tasks: [
               {
                 _id: Random.id(),
