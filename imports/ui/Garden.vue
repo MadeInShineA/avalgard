@@ -16,6 +16,8 @@ const router = useRouter()
 const isGardenFull = ref(false) // Check if garden is full
 
 const searchQuery = ref('') // Search query for the plant search bar
+const ONE_METER_IN_PIXELS = 100
+const CELL_SIZE = ONE_METER_IN_PIXELS / 5
 
 const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible plant
 const incompatiblePlant = ref(null) //Store the incompatible plant
@@ -126,9 +128,9 @@ const addPlantToGarden = (plant, compatible) => {
   //TODO IMPORTANT CHANGER ATTENTION ERREUR 404
   const gardenWidth = 600 // Match the garden's actual width
   const gardenHeight = 600 // Match the garden's actual height
-  const cellSize = 20 // The grid cell size for positioning
-  const plantWidth = 100 // Default width of a plant
-  const plantHeight = 100 // Default height of a plant
+  const cellSize = CELL_SIZE // The grid cell size for positioning
+  const plantWidth = ONE_METER_IN_PIXELS // Default width of a plant
+  const plantHeight = ONE_METER_IN_PIXELS // Default height of a plant
 
   const occupiedPositions = draggablePlants.value.map((p) => ({
     x: Math.floor(p.x / cellSize),
@@ -276,7 +278,10 @@ function handlePlantResize(x, y, w, h, plant) {
     )
   })
 
-  if (!isOverlapping) {
+  const min_length_size = CELL_SIZE * 4
+  const isSizeOk = w >= min_length_size && h >= min_length_size
+
+  if (!isOverlapping && isSizeOk) {
     // Mettre à jour la position de la plante si pas de chevauchement
     plant.w = w
     plant.h = h
@@ -388,19 +393,19 @@ function isPlantClimateCompatible(plant) {
         position: 'relative',
         backgroundColor: '#808080',
         background: 'linear-gradient(-90deg, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px)',
-        backgroundSize: '20px 20px, 20px 20px',
-        backgroundPosition: '10px 10px',
-        height: garden.height * 100 + 'px',
-        width: garden.width * 100 + 'px',
+        backgroundSize: CELL_SIZE + 'px ' + CELL_SIZE + 'px,' + CELL_SIZE + 'px ' + CELL_SIZE + 'px',
+        backgroundPosition: CELL_SIZE + 'px ' + CELL_SIZE + 'px',
+        height: garden.height * ONE_METER_IN_PIXELS + 'px',
+        width: garden.width * ONE_METER_IN_PIXELS + 'px',
         border: '1px solid blue',
         boxSizing: 'border-box',
       }" class="mt-6">
         <vue-draggable-resizable v-for="(plant, index) in draggablePlants" :key="plant._id" :x="plant.x" :y="plant.y"
-          :w="plant.w" :h="plant.h" :parent="true" :grid="[20, 20]" :on-drag="(x, y) => onDrag(x, y, plant)"
+          :w="plant.w" :h="plant.h" :parent="true" :grid="[CELL_SIZE, CELL_SIZE]" :on-drag="(x, y) => onDrag(x, y, plant)"
           :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x, y, w, h, plant)"
           :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
           <img :src="'/plants_sprites/' + plant.sprite">
-          <p>{{ plant.name }}</p>
+          <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name }}</p>
           <button @click="openModificationModal(plant)"
             class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">

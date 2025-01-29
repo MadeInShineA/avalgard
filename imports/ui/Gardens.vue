@@ -10,7 +10,7 @@
   const showUpdateGardenModal = ref(false); // Controls Update Garden Modal visibility
   const showConfirmationModal = ref(false); // Controls Confirmation Modal visibility
 
-  const newGarden = ref({ name: '', climateId: '', height: 100, width: 100 }); // Stores data for the new garden
+  const newGarden = ref({ name: '', climateId: '', height: 10, width: 10 }); // Stores data for the new garden
   const updatedGarden = ref({ _id: '', name: '', climateId: '', height: 0, width: 0 }); // Stores data for the updated garden
 
   const router = useRouter();
