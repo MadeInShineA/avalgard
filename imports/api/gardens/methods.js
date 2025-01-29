@@ -19,19 +19,31 @@ Meteor.methods({
       check(x, String);
       return x.length > 0;
     });
+
     check(garden.name, NonEmptyString);
+    check(garden.climateId, NonEmptyString);
 
-    check(garden.climateId, NonEmptyString)
-
-    return await Accounts.users.updateAsync(userId, { $push: { 'profile.gardens': garden } });
+    return await Accounts.users.updateAsync(
+      userId, 
+      { 
+        $push: { 'profile.gardens': garden } 
+      }
+    );
   },
-  'gardens.remove': async function (userId, gardenId) {
+
+  'gardens.remove': async function(userId, gardenId) {
     check(userId, String);
     check(gardenId, String);
 
-    return await Accounts.users.updateAsync(userId, { $pull: { 'profile.gardens': { _id: gardenId } } });
+    return await Accounts.users.updateAsync(
+      userId, 
+      { 
+        $pull: { 'profile.gardens': { _id: gardenId } } 
+      }
+    );
   },
-  'gardens.update': async function (userId, gardenId, garden) {
+
+  'gardens.update': async function(userId, gardenId, garden) {
     check(userId, String);
     check(gardenId, String);
     check(garden, Match.ObjectIncluding({
@@ -45,10 +57,18 @@ Meteor.methods({
 
     return await Accounts.users.updateAsync(
       { _id: userId, 'profile.gardens._id': gardenId },
-      { $set: { 'profile.gardens.$': garden } }
+      {
+        $set: {
+          'profile.gardens.$.name': garden.name,
+          'profile.gardens.$.climateId': garden.climateId,
+          'profile.gardens.$.tasks': garden.tasks,
+          'profile.gardens.$.plants': garden.plants,
+        },
+      }
     );
   },
-  'gardens.find': async function (userId, gardenId) {
+
+  'gardens.find': async function(userId, gardenId) {
     check(userId, String);
     check(gardenId, String);
 
@@ -64,12 +84,15 @@ Meteor.methods({
 
     return garden;
   },
-  'gardens.findAll': async function (userId) {
+
+  'gardens.findAll': async function(userId) {
+    check(userId, String);
+
     const user = await Accounts.users.findOneAsync(userId);
     if (!user) {
       throw new Meteor.Error('not-found', 'User not found');
     }
-    const gardens = user.profile.gardens
-    return gardens;
+
+    return user.profile.gardens;
   },
 });
