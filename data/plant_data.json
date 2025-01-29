@@ -77,7 +77,7 @@
       "sprite": "courgette_nb.png"
     },
     {
-      "name": "sweet_potato",
+      "name": "sweet potato",
       "growthDuration": 100,
       "harvestPeriod": 30,
       "waterRequirement": 2,
@@ -88,7 +88,7 @@
       "sprite": "patate_douce_nb.png"
     },
     {
-      "name": "green_chili",
+      "name": "green chili",
       "growthDuration": 80,
       "harvestPeriod": 20,
       "waterRequirement": 2,
@@ -99,7 +99,7 @@
       "sprite": "piment_vert_nb.png"
     },
     {
-      "name": "red_chili",
+      "name": "red chili",
       "growthDuration": 80,
       "harvestPeriod": 20,
       "waterRequirement": 2,
@@ -132,7 +132,7 @@
       "sprite": "oignon_nb.png"
     },
     {
-      "name": "bell_pepper",
+      "name": "bell pepper",
       "growthDuration": 70,
       "harvestPeriod": 20,
       "waterRequirement": 2,
