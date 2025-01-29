@@ -265,20 +265,48 @@ onMounted(() => {
   }
 });
 
-function isPlantClimateCompatible(plant) {
+function getCurrentSeason() {
+  const spring = new Date('2024-03-15').getMonth();
+  const summer = new Date('2024-06-15').getMonth();
+  const automn = new Date('2024-09-15').getMonth();
+  const winter = new Date('2024-12-15').getMonth();
+  const today = new Date().getMonth();
+
+  const month = today;
+  if (month >= 2 && month <= 4) {
+    return 'spring';
+  } else if (month >= 5 && month <= 7) {
+    return 'summer';
+  } else if (month >= 8 && month <= 10) {
+    return 'autumn';
+  } else {
+    return 'winter';
+  }
+}
+
+function getSeasonalTemperatureRange() {
   if (!climate.value || climate.value.name === 'Unknown') {
+    return null;
+  }
+
+  const season = getCurrentSeason();
+  return climate.value.seasonalTemperatureRange[season];
+}
+
+function isPlantClimateCompatible(plant) {
+  const seasonalRange = getSeasonalTemperatureRange();
+  if (!seasonalRange) {
     return false;
   }
 
   const plantTempMin = plant.temperatureRange.min;
   const plantTempMax = plant.temperatureRange.max;
-  const climateTempMin = climate.value.temperatureRange.min;
-  const climateTempMax = climate.value.temperatureRange.max;
+  const climateTempMin = seasonalRange.min;
+  const climateTempMax = seasonalRange.max;
 
   if (plantTempMin > climateTempMax || plantTempMax < climateTempMin) {
     return false;
-  }
-  else {
+  } else {
     return true;
   }
 }

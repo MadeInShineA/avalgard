@@ -3,8 +3,26 @@
     "name": "Temperate",
     "description": "Moderate temperatures with distinct seasons, including warm summers and cold winters",
     "temperatureRange": {
-      "min": -10,
+      "min": -5,
       "max": 25
+    },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 5,
+        "max": 20
+      },
+      "summer": {
+        "min": 15,
+        "max": 25
+      },
+      "autumn": {
+        "min": 5,
+        "max": 15
+      },
+      "winter": {
+        "min": -5,
+        "max": 10
+      }
     },
     "wateringFactor": 1.2,
     "growthFactor": 1.5,
@@ -14,8 +32,26 @@
     "name": "Mediterranean",
     "description": "Hot and dry in summer, mild and wet in winter",
     "temperatureRange": {
-      "min": 10,
+      "min": 5,
       "max": 35
+    },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 10,
+        "max": 20
+      },
+      "summer": {
+        "min": 20,
+        "max": 35
+      },
+      "autumn": {
+        "min": 15,
+        "max": 30
+      },
+      "winter": {
+        "min": 5,
+        "max": 15
+      }
     },
     "wateringFactor": 1.0,
     "growthFactor": 1.7,
@@ -28,6 +64,24 @@
       "min": -30,
       "max": 30
     },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 0,
+        "max": 20
+      },
+      "summer": {
+        "min": 15,
+        "max": 30
+      },
+      "autumn": {
+        "min": 0,
+        "max": 15
+      },
+      "winter": {
+        "min": -30,
+        "max": 5
+      }
+    },
     "wateringFactor": 1.3,
     "growthFactor": 1.4,
     "harvestFactor": 1.2
@@ -38,6 +92,24 @@
     "temperatureRange": {
       "min": 20,
       "max": 35
+    },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 20,
+        "max": 30
+      },
+      "summer": {
+        "min": 25,
+        "max": 35
+      },
+      "autumn": {
+        "min": 20,
+        "max": 30
+      },
+      "winter": {
+        "min": 20,
+        "max": 30
+      }
     },
     "wateringFactor": 1.5,
     "growthFactor": 2.0,
@@ -50,6 +122,24 @@
       "min": 5,
       "max": 40
     },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 10,
+        "max": 25
+      },
+      "summer": {
+        "min": 20,
+        "max": 40
+      },
+      "autumn": {
+        "min": 15,
+        "max": 30
+      },
+      "winter": {
+        "min": 5,
+        "max": 15
+      }
+    },
     "wateringFactor": 1.4,
     "growthFactor": 1.8,
     "harvestFactor": 1.7
@@ -61,6 +151,24 @@
       "min": 0,
       "max": 50
     },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 10,
+        "max": 30
+      },
+      "summer": {
+        "min": 25,
+        "max": 50
+      },
+      "autumn": {
+        "min": 10,
+        "max": 30
+      },
+      "winter": {
+        "min": 0,
+        "max": 15
+      }
+    },
     "wateringFactor": 2.0,
     "growthFactor": 1.0,
     "harvestFactor": 0.8
@@ -69,8 +177,26 @@
     "name": "Oceanic",
     "description": "Mild temperatures year-round, with frequent rain and high humidity",
     "temperatureRange": {
-      "min": 5,
+      "min": 0,
       "max": 20
+    },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 5,
+        "max": 15
+      },
+      "summer": {
+        "min": 10,
+        "max": 20
+      },
+      "autumn": {
+        "min": 5,
+        "max": 15
+      },
+      "winter": {
+        "min": 0,
+        "max": 10
+      }
     },
     "wateringFactor": 1.1,
     "growthFactor": 1.6,
@@ -83,6 +209,24 @@
       "min": -10,
       "max": 20
     },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 0,
+        "max": 15
+      },
+      "summer": {
+        "min": 10,
+        "max": 20
+      },
+      "autumn": {
+        "min": 0,
+        "max": 10
+      },
+      "winter": {
+        "min": -10,
+        "max": 5
+      }
+    },
     "wateringFactor": 1.3,
     "growthFactor": 1.2,
     "harvestFactor": 1.0
@@ -92,7 +236,25 @@
     "description": "Extremely cold year-round, with short, cool summers and long, harsh winters",
     "temperatureRange": {
       "min": -50,
-      "max": 5
+      "max": 10
+    },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": -20,
+        "max": 5
+      },
+      "summer": {
+        "min": -10,
+        "max": 10
+      },
+      "autumn": {
+        "min": -30,
+        "max": -10
+      },
+      "winter": {
+        "min": -50,
+        "max": -20
+      }
     },
     "wateringFactor": 0.9,
     "growthFactor": 0.5,
@@ -104,6 +266,24 @@
     "temperatureRange": {
       "min": 20,
       "max": 30
+    },
+    "seasonalTemperatureRange": {
+      "spring": {
+        "min": 20,
+        "max": 30
+      },
+      "summer": {
+        "min": 20,
+        "max": 30
+      },
+      "autumn": {
+        "min": 20,
+        "max": 30
+      },
+      "winter": {
+        "min": 20,
+        "max": 30
+      }
     },
     "wateringFactor": 1.6,
     "growthFactor": 2.1,
