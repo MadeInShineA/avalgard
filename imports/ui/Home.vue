@@ -112,12 +112,12 @@
         <p class="text-green-100 text-lg mb-6">
           Rejoignez A Avalgard et profitez d’une expérience de jardinage nouvelle génération.
         </p>
-        <a
-          href="#"
+        <router-link
+          :to="{ name: 'signup' }"
           class="inline-block bg-white text-green-600 px-6 py-3 rounded-md shadow hover:bg-green-100 font-semibold transition duration-300"
-        >
-          Créer un compte
-        </a>
+      >
+        Créer un compte
+      </router-link>
       </div>
     </section>
 
