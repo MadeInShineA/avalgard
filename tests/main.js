@@ -1,9 +1,12 @@
 import assert from 'assert'
+import './climates.test.js';
+import './gardens.test.js';
+import './users.test.js';
 
-describe('vue-skeleton', function () {
+describe('avalgard', function () {
   it('package.json has correct name', async function () {
     const { name } = await import('../package.json')
-    assert.strictEqual(name, 'vue-skeleton')
+    assert.strictEqual(name, 'avalgard')
   })
 
   if (Meteor.isClient) {
