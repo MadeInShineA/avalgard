@@ -395,7 +395,7 @@ function isPlantClimateCompatible(plant) {
     <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded shadow w-150">
           <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
-          <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate. You can still add it to your garden, but it may not grow well.</p>
+          <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season. You can still add it to your garden, but it may not grow well.</p>
           <div class="flex justify-center space-x-2">
             <button @click="addPlantToGarden(incompatiblePlant, true)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600">
               Add
