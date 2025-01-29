@@ -18,6 +18,7 @@ const isGardenFull = ref(false) // Check if garden is full
 const searchQuery = ref('') // Search query for the plant search bar
 const ONE_METER_IN_PIXELS = 100
 const CELL_SIZE = ONE_METER_IN_PIXELS / 5
+const BORDER_SIZE = 3
 
 const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible plant
 const incompatiblePlant = ref(null) //Store the incompatible plant
@@ -176,9 +177,9 @@ const addPlantToGarden = (plant, compatible) => {
   const { x, y } = findFirstAvailablePosition()
 
   const dateObj = new Date();
-  const month   = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0');
-  const day     = dateObj.getUTCDate().toString().padStart(2, '0');
-  const year    = dateObj.getUTCFullYear();
+  const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = dateObj.getUTCDate().toString().padStart(2, '0');
+  const year = dateObj.getUTCFullYear();
 
   const date = year + "-" + month + "-" + day
 
@@ -361,54 +362,37 @@ function isPlantClimateCompatible(plant) {
 // TODO Fix the plant's available positions (can't go up but more down)
 </script>
 
-<template class="mt-6 space-y-4">
+<template class="mt-6 space-y-6">
   <!-- Garden Details -->
   <template v-if="garden">
-    <h1 class="text-2xl font-bold mb-4">{{ garden.name }}</h1>
-    <p class="text-gray-600 mb-2">
-      <strong>Climate:</strong> {{ climate?.name || 'Loading...' }}
-    </p>
-    <p class="text-gray-600 mb-2">
-      <strong>Tasks:</strong> {{ garden.tasks.length }}
-    </p>
-    <p class="text-gray-600 mb-2">
-      <strong>Height:</strong> {{ garden.height }} m
-    </p>
-    <p class="text-gray-600 mb-2">
-      <strong>Width:</strong> {{ garden.width }} m
-    </p>
-    <p class="text-gray-600 mb-2">
-      <strong>Plants:</strong> {{ draggablePlants.length }}
-    </p>
-    <div class="mt-4">
-      <button @click="saveDraggablePlants()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-        Save
-      </button>
+    <div class="p-6 rounded-xl shadow-lg border border-gray-200">
+      <h1 class="text-3xl font-bold text-green-700 mb-4">{{ garden.name }}</h1>
+      <p class="text-black-800"><strong>Climate:</strong> {{ climate?.name || 'Loading...' }}</p>
+      <p class="text-black-800"><strong>Tasks:</strong> {{ garden.tasks.length }}</p>
+      <p class="text-black-800"><strong>Height:</strong> {{ garden.height }} m</p>
+      <p class="text-black-800"><strong>Width:</strong> {{ garden.width }} m</p>
+      <p class="text-black-800"><strong>Plants:</strong> {{ draggablePlants.length }}</p>
     </div>
 
-    <div class="bg-white shadow rounded-lg p-6">
-
+    <div
+      class="bg-white shadow-lg rounded-xl p-6 mt-6 border border-gray-200 flex justify-center items-center flex-col">
       <!-- Draggable Garden Area -->
       <div :style="{
-        position: 'relative',
-        backgroundColor: '#808080',
-        background: 'linear-gradient(-90deg, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px)',
-        backgroundSize: CELL_SIZE + 'px ' + CELL_SIZE + 'px,' + CELL_SIZE + 'px ' + CELL_SIZE + 'px',
-        backgroundPosition: CELL_SIZE + 'px ' + CELL_SIZE + 'px',
-        height: garden.height * ONE_METER_IN_PIXELS + 'px',
-        width: garden.width * ONE_METER_IN_PIXELS + 'px',
-        border: '1px solid blue',
-        boxSizing: 'border-box',
-      }" class="mt-6">
+        background: 'repeating-linear-gradient(45deg, #8bc34a, #8bc34a 10px, #7cb342 10px, #7cb342 20px)',
+        height: garden.height * ONE_METER_IN_PIXELS + 2 * BORDER_SIZE + 'px',
+        width: garden.width * ONE_METER_IN_PIXELS + 2 * BORDER_SIZE + 'px',
+        border: BORDER_SIZE + 'px solid green',
+      }" class="relative rounded-xl overflow-hidden">
         <vue-draggable-resizable v-for="(plant, index) in draggablePlants" :key="plant._id" :x="plant.x" :y="plant.y"
-          :w="plant.w" :h="plant.h" :parent="true" :grid="[CELL_SIZE, CELL_SIZE]" :on-drag="(x, y) => onDrag(x, y, plant)"
+          :w="plant.w" :h="plant.h" :parent="true" :grid="[CELL_SIZE, CELL_SIZE]"
+          :on-drag="(x, y) => onDrag(x, y, plant)"
           :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x, y, w, h, plant)"
-          :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
+          :style="{ backgroundColor: 'transparent', border: BORDER_SIZE + 'px solid black', color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
           <img :src="'/plants_sprites/' + plant.sprite">
           <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name }}</p>
           <button @click="openModificationModal(plant)"
             class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" class="size-6">
               <path
                 d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
               <path
@@ -418,26 +402,29 @@ function isPlantClimateCompatible(plant) {
         </vue-draggable-resizable>
       </div>
 
-      <!-- Show a message if the garden is full -->
-      <p v-if="isGardenFull" class="text-red-500 mt-4">
+      <p v-if="isGardenFull" class="text-red-500 mt-4 text-center font-bold">
         The garden is full! Remove a plant to add a new one.
       </p>
+
+      <!-- Save Garden Button -->
+      <div class="mt-4 flex justify-center w-full">
+        <button @click="saveDraggablePlants()"
+          class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+          Save  
+        </button>
+      </div>
     </div>
 
     <!-- Plants Search -->
-    <div class="mt-8">
-      <h2 class="text-xl font-bold mb-4">Available Plants</h2>
-      <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg mb-4 w-full"
+    <div class="mt-8 p-6 border-gray-200 rounded-xl shadow-md border">
+      <h2 class="text-xl font-bold text-green-700 mb-4">Available Plants</h2>
+      <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm"
         placeholder="Search plants..." />
-
-      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <li v-for="plant in plants" :key="plant._id" :class="[
-          'p-4 shadow rounded-lg cursor-pointer',
-          isPlantClimateCompatible(plant)
-            ? 'bg-gray-100 hover:bg-gray-200'
-            : 'bg-red-200 hover:bg-red-300'
-        ]" @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))">
-          <p class="font-bold">{{ plant.name }}</p>
+      <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <li v-for="plant in plants" :key="plant._id" @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
+          :class="['p-4 shadow-md rounded-lg cursor-pointer text-center',
+            isPlantClimateCompatible(plant) ? 'bg-green-100 hover:bg-green-200' : 'bg-red-100 hover:bg-red-200']">
+          <p class="font-bold text-green-900">{{ plant.name }}</p>
         </li>
       </ul>
     </div>
@@ -447,12 +434,12 @@ function isPlantClimateCompatible(plant) {
   <div v-else class="text-center py-10">
     <p class="text-gray-500">Loading garden details...</p>
   </div>
-
   <!-- Confirm incompatible plant modal -->
   <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
     <div class="bg-white p-6 rounded shadow w-150">
       <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
-      <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season. You can still add it to your garden, but it may not grow well.</p>
+      <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season.
+        You can still add it to your garden, but it may not grow well.</p>
       <div class="flex justify-center space-x-2">
         <button @click="addPlantToGarden(incompatiblePlant, true)"
           class="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600">
@@ -468,10 +455,11 @@ function isPlantClimateCompatible(plant) {
 
   <!-- Saving confirmation message -->
   <div v-if="showSavingConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-6 rounded shadow w-96">
-      <h2 class="text-xl font-bold mb-4">Garden Saved Successfully!</h2>
+    <div class="bg-white p-6 rounded shadow w-96 flex flex-col justify-center items-center">
+      <h2 class="text-xl font-bold mb-4 text-center">Garden Saved Successfully!</h2>
       <button @click="showSavingConfirmationModal = !showSavingConfirmationModal"
-        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">OK
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">
+        OK
       </button>
     </div>
   </div>
@@ -483,22 +471,14 @@ function isPlantClimateCompatible(plant) {
 
       <div class="mb-4">
         <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last harvest date</label>
-        <input
-          v-model="selectedPlant.lastHarvestDate"
-          type="date"
-          id="lastHarvestedDate"
-          class="p-2 border border-gray-300 rounded-lg w-full"
-        />
+        <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate"
+          class="p-2 border border-gray-300 rounded-lg w-full" />
       </div>
 
       <div class="mb-4">
         <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last watering date</label>
-        <input
-          v-model="selectedPlant.lastWateringDate"
-          type="date"
-          id="lastHarvestedDate"
-          class="p-2 border border-gray-300 rounded-lg w-full"
-        />
+        <input v-model="selectedPlant.lastWateringDate" type="date" id="lastHarvestedDate"
+          class="p-2 border border-gray-300 rounded-lg w-full" />
       </div>
 
       <div class="flex justify-between">
@@ -508,14 +488,15 @@ function isPlantClimateCompatible(plant) {
         <button @click="deletePlant()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
           Delete
         </button>
-        <button @click="showModificationModal = false" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+        <button @click="showModificationModal = false"
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
           Cancel
         </button>
       </div>
     </div>
   </div>
-
 </template>
+
 
 <style>
 @import "vue-draggable-resizable/style.css";
