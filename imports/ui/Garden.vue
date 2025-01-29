@@ -1,60 +1,59 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
-import { Meteor } from 'meteor/meteor';
-import { Random } from "meteor/random";
-import { useRoute, useRouter } from 'vue-router';
-import VueDraggableResizable from 'vue-draggable-resizable';
+import { ref, onMounted, computed, watch } from 'vue'
+import { Meteor } from 'meteor/meteor'
+import { Random } from "meteor/random"
+import { useRoute, useRouter } from 'vue-router'
+import VueDraggableResizable from 'vue-draggable-resizable'
 
-const garden = ref(null);
-const climate = ref();
-const userId = ref(null);
-const gardenId = ref(null);
-const plants = ref([]);
-const draggablePlants = ref([]); // Store draggable plants for the garden
-const route = useRoute();
-const router = useRouter();
-const maxPlants = 10; // Maximum number of plants allowed in the garden
-const isGardenFull = computed(() => draggablePlants.value.length >= maxPlants); // Check if garden is full
+const garden = ref(null)
+const climate = ref()
+const userId = ref(null)
+const gardenId = ref(null)
+const plants = ref([])
+const draggablePlants = ref([]) // Store draggable plants for the garden
+const route = useRoute()
+const router = useRouter()
+const isGardenFull = ref(false) // Check if garden is full
 
-const searchQuery = ref(''); // Search query for the plant search bar
+const searchQuery = ref('') // Search query for the plant search bar
 
-const showConfirmPlantModal = ref(false); // Popup to confirm an incompatible plant
-const incompatiblePlant = ref(null); //Store the incompatible plant
+const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible plant
+const incompatiblePlant = ref(null) //Store the incompatible plant
 
 // Watch for changes in the searchQuery and trigger the search function
 watch(searchQuery, (newQuery) => {
-  searchPlant(newQuery);
-});
+  searchPlant(newQuery)
+})
 
 function fetchGarden() {
-  console.log('Fetching garden...');
+  console.log('Fetching garden...')
   Meteor.call('gardens.find', userId.value, gardenId.value, (error, result) => {
     if (!error && result) {
-      garden.value = result;
+      garden.value = result
       initializeGardenGrid()
 
       // Fetch the climate only if `climateId` exists
       if (result.climateId) {
-        fetchClimate(result.climateId);
+        fetchClimate(result.climateId)
       } else {
-        console.warn('No climate ID in garden data');
-        climate.value = { name: 'Not specified' }; // Fallback
+        console.warn('No climate ID in garden data')
+        climate.value = { name: 'Not specified' } // Fallback
       }
     } else {
-      console.error('Error fetching garden:', error);
+      console.error('Error fetching garden:', error)
     }
-  });
+  })
 }
 
 function initializeGardenGrid() {
-  console.log(garden.value);
-  let plantsToPlace = garden.value.plants;
+  console.log(garden.value)
+  let plantsToPlace = garden.value.plants
 
   plantsToPlace.forEach((plantToPlace) => {
     Meteor.call('plants.findById', plantToPlace.plantId, (error, dbPlant) => {
       if (error) {
-        console.error(`Error fetching plant by ID: ${plantToPlace.plantId}`, error);
-        return;
+        console.error(`Error fetching plant by ID: ${plantToPlace.plantId}`, error)
+        return
       }
 
       console.log(dbPlant)
@@ -69,85 +68,86 @@ function initializeGardenGrid() {
         lastHarvestDate: plantToPlace.lastHarvestDate,
         lastWateringDate: plantToPlace.lastWateringDate,
         sprite: dbPlant.sprite
-      });
-    });
-  });
+      })
+    })
+  })
 }
 
 function fetchClimate(climateId) {
   if (!climateId) {
-    console.error('Invalid climate ID:', climateId);
-    return;
+    console.error('Invalid climate ID:', climateId)
+    return
   }
 
-  console.log('Fetching climate...');
+  console.log('Fetching climate...')
   Meteor.call('climates.findById', climateId, (error, result) => {
     if (!error && result) {
-      console.log('Climate found:', result.name);
-      climate.value = result; // Store the climate data
+      console.log('Climate found:', result.name)
+      climate.value = result // Store the climate data
     } else {
-      console.error('Error fetching climate:', error);
-      climate.value = { name: 'Unknown' }; // Default value in case of an error
+      console.error('Error fetching climate:', error)
+      climate.value = { name: 'Unknown' } // Default value in case of an error
     }
-  });
+  })
 }
 
 function fetchPlants() {
-  console.log('Fetching plants...');
+  console.log('Fetching plants...')
   Meteor.call('plants.findAll', (error, result) => {
     if (!error) {
-      console.log('Plants found:', result);
-      plants.value = result;
+      console.log('Plants found:', result)
+      plants.value = result
     } else {
-      console.error('Error fetching plants:', error);
+      console.error('Error fetching plants:', error)
     }
-  });
+  })
 }
 
 function searchPlant(query) {
   // Filter plants based on the search query
   if (!query) {
-    fetchPlants(); // If query is empty, fetch all plants
-    return;
+    fetchPlants() // If query is empty, fetch all plants
+    return
   }
   // Perform a search with the query
   Meteor.call('plants.search', query, (error, result) => {
-    console.log(result);
-    plants.value = result || []; // Update the plants list with the search results
-  });
+    console.log(result)
+    plants.value = result || [] // Update the plants list with the search results
+  })
 }
 
 const addPlantToGarden = (plant, compatible) => {
   if (!compatible) {
-    incompatiblePlant.value = plant;
-    showConfirmPlantModal.value = true;
-    return;
+    incompatiblePlant.value = plant
+    showConfirmPlantModal.value = true
+    return
   }
-  
-  const gardenWidth = 600; // Match the garden's actual width
-  const gardenHeight = 600; // Match the garden's actual height
-  const cellSize = 20; // The grid cell size for positioning
-  const plantWidth = 100; // Default width of a plant
-  const plantHeight = 100; // Default height of a plant
+
+  //TODO IMPORTANT CHANGER ATTENTION ERREUR 404
+  const gardenWidth = 600 // Match the garden's actual width
+  const gardenHeight = 600 // Match the garden's actual height
+  const cellSize = 20 // The grid cell size for positioning
+  const plantWidth = 100 // Default width of a plant
+  const plantHeight = 100 // Default height of a plant
 
   const occupiedPositions = draggablePlants.value.map((p) => ({
     x: Math.floor(p.x / cellSize),
     y: Math.floor(p.y / cellSize),
-  }));
+  }))
 
   const findFirstAvailablePosition = () => {
-    const cols = Math.floor(gardenWidth / cellSize);  // Calculer le nombre de colonnes basé sur la taille de la grille
-    const rows = Math.floor(gardenHeight / cellSize); // Calculer le nombre de rangées basé sur la taille de la grille
+    const cols = Math.floor(gardenWidth / cellSize)  // Calculer le nombre de colonnes basé sur la taille de la grille
+    const rows = Math.floor(gardenHeight / cellSize) // Calculer le nombre de rangées basé sur la taille de la grille
 
     // Parcours de chaque cellule dans la grille
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         // Calculer la position (x, y) de la plante dans la grille
-        const x = col * cellSize;
-        const y = row * cellSize;
+        const x = col * cellSize
+        const y = row * cellSize
 
         // Vérifier si la plante s'adapte dans la grille
-        const fitsInBounds = x + plantWidth <= gardenWidth && y + plantHeight <= gardenHeight;
+        const fitsInBounds = x + plantWidth <= gardenWidth && y + plantHeight <= gardenHeight
 
         // Vérifier si la position est déjà occupée par une autre plante
         const isOccupied = draggablePlants.value.some((otherPlant) => {
@@ -157,25 +157,31 @@ const addPlantToGarden = (plant, compatible) => {
             x + plantWidth > otherPlant.x &&
             y < otherPlant.y + otherPlant.h &&
             y + plantHeight > otherPlant.y
-          );
-        });
+          )
+        })
 
         // Si la position est valide et non occupée, retourner la position
         if (fitsInBounds && !isOccupied) {
-          return { x, y };
+          return { x, y }
         }
       }
     }
 
-    console.warn('No free position found!');
-    return { x: -1, y: -1 }; // Retourner une position par défaut si aucune position libre n'est trouvée
-  };
+    console.warn('No free position found!')
+    return { x: -1, y: -1 } // Retourner une position par défaut si aucune position libre n'est trouvée
+  }
 
-  const { x, y } = findFirstAvailablePosition();
+  const { x, y } = findFirstAvailablePosition()
+
+  const dateObj = new Date();
+  const month   = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day     = dateObj.getUTCDate().toString().padStart(2, '0');
+  const year    = dateObj.getUTCFullYear();
+
+  const date = year + "-" + month + "-" + day
 
   if (x >= 0 && y >= 0) {
-    // Add the plant to the garden with the new x and y coordinates
-    draggablePlants.value.push({
+    let plantToPlace = {
       id: Random.id(),
       plantId: plant._id,
       name: plant.name,
@@ -183,54 +189,92 @@ const addPlantToGarden = (plant, compatible) => {
       y,
       w: 100,
       h: 100,
-      lastHarvestDate: new Date(),
-      lastWateringDate: new Date(),
+      lastHarvestDate: date,
+      lastWateringDate: date,
       sprite: plant.sprite
-    });
+    }
+    // Add the plant to the garden with the new x and y coordinates
+    draggablePlants.value.push(plantToPlace)
   }
-  showConfirmPlantModal.value = false;
-};
+  showConfirmPlantModal.value = false
+}
 
 const onDrag = (x, y, plant) => {
-  if (!plant) return;
+  if (!plant) return
 
   const isOverlapping = draggablePlants.value.some((otherPlant) => {
-    if (otherPlant.id === plant.id) return false; // Ignore la plante elle-même
+    if (otherPlant.id === plant.id) return false // Ignore la plante elle-même
     return (
       x < otherPlant.x + otherPlant.w &&
       x + plant.w > otherPlant.x &&
       y < otherPlant.y + otherPlant.h &&
       y + plant.h > otherPlant.y
-    );
-  });
+    )
+  })
 
   if (!isOverlapping) {
     // Mettre à jour la position de la plante si pas de chevauchement
-    plant.x = x;
-    plant.y = y;
-    return true; // Permet le déplacement
+    plant.x = x
+    plant.y = y
+    return true // Permet le déplacement
   }
 
-  return false; // Si chevauchement, empêche le déplacement
-};
-
-function saveDraggablePlants() {
-
-  console.log(draggablePlants.value)
-  Meteor.call('gardens.savePlants', userId.value, garden.value._id, draggablePlants.value)
+  return false // Si chevauchement, empêche le déplacement
 }
 
-function handlePlantResize(x, y, w, h, plant){
+const showSavingConfirmationModal = ref(false)
+const showModificationModal = ref(false)
+const selectedPlant = ref(null)
 
+function saveDraggablePlants() {
+  console.log(draggablePlants.value)
+  Meteor.call('gardens.savePlants', userId.value, garden.value._id, draggablePlants.value, (error) => {
+    if (!error) {
+      showSavingConfirmationModal.value = true // Show Confirmation Modal
+    } else {
+      console.error('Error saving garden:', error)
+    }
+  })
+}
+
+function openModificationModal(plant) {
+  selectedPlant.value = { ...plant }
+  showModificationModal.value = true
+}
+
+function saveChanges() {
+  if (!selectedPlant.value || !draggablePlants.value) return
+
+  const plantIndex = draggablePlants.value.findIndex(
+    plant => plant.plantId === selectedPlant.value.plantId
+  )
+
+  if (plantIndex !== -1) {
+    draggablePlants.value[plantIndex].lastHarvestDate = selectedPlant.value.lastHarvestDate
+    draggablePlants.value[plantIndex].lastWateringDate = selectedPlant.value.lastWateringDate
+
+  }
+
+  showModificationModal.value = false
+}
+
+function deletePlant() {
+  if (!selectedPlant.value || !draggablePlants.value) return
+
+  draggablePlants.value = draggablePlants.value.filter(plant => plant.plantId !== selectedPlant.value.plantId)
+  showModificationModal.value = false
+}
+
+function handlePlantResize(x, y, w, h, plant) {
   const isOverlapping = draggablePlants.value.some((otherPlant) => {
-    if (otherPlant.id === plant.id) return false; // Ignore la plante elle-même
+    if (otherPlant.id === plant.id) return false // Ignore la plante elle-même
     return (
       x < otherPlant.x + otherPlant.w &&
       x + w > otherPlant.x &&
       y < otherPlant.y + otherPlant.h &&
       y + h > otherPlant.y
-    );
-  });
+    )
+  })
 
   if (!isOverlapping) {
     // Mettre à jour la position de la plante si pas de chevauchement
@@ -238,32 +282,30 @@ function handlePlantResize(x, y, w, h, plant){
     plant.h = h
     plant.x = x
     plant.y = y
-    return true; // Permet le déplacement
+    return true // Permet le déplacement
   }
-
-  return false;
-
+  return false
 }
 
 onMounted(() => {
-  console.log('onMounted: Garden');
-  gardenId.value = route.params.id_garden;
-  console.log('gardenId:', gardenId.value);
-  userId.value = Meteor.userId();
+  console.log('onMounted: Garden')
+  gardenId.value = route.params.id_garden
+  console.log('gardenId:', gardenId.value)
+  userId.value = Meteor.userId()
 
   if (gardenId.value) {
     if (userId.value) {
-      fetchGarden();
-      fetchPlants();
+      fetchGarden()
+      fetchPlants()
     } else {
-      console.error('User not logged in');
-      router.push('/'); // Redirect if the user is not logged in
+      console.error('User not logged in')
+      router.push('/') // Redirect if the user is not logged in
     }
   } else {
-    console.error('No garden ID found in route.');
-    router.push('/'); // Redirect if no garden ID is found
+    console.error('No garden ID found in route.')
+    router.push('/') // Redirect if no garden ID is found
   }
-});
+})
 
 function getCurrentSeason() {
   const spring = new Date('2024-03-15').getMonth();
@@ -314,106 +356,160 @@ function isPlantClimateCompatible(plant) {
 // TODO Fix the plant's available positions (can't go up but more down)
 </script>
 
-<template>
-  <div class="container mx-auto p-6">
-    <!-- Garden Details -->
-    <template v-if="garden">
-      <div class="bg-white shadow rounded-lg p-6">
-        <h1 class="text-2xl font-bold mb-4">{{ garden.name }}</h1>
-        <p class="text-gray-600 mb-2">
-          <strong>Climate:</strong> {{ climate?.name || 'Loading...' }}
-        </p>
-        <p class="text-gray-600 mb-2">
-          <strong>Tasks:</strong> {{ garden.tasks.length }}
-        </p>
-        <p class="text-gray-600 mb-2">
-          <strong>Plants:</strong> {{ garden.plants.length }}
-        </p>
-        <div class="mt-4">
-          <button @click="saveDraggablePlants()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-            Save
+<template class="mt-6 space-y-4">
+  <!-- Garden Details -->
+  <template v-if="garden">
+    <h1 class="text-2xl font-bold mb-4">{{ garden.name }}</h1>
+    <p class="text-gray-600 mb-2">
+      <strong>Climate:</strong> {{ climate?.name || 'Loading...' }}
+    </p>
+    <p class="text-gray-600 mb-2">
+      <strong>Tasks:</strong> {{ garden.tasks.length }}
+    </p>
+    <p class="text-gray-600 mb-2">
+      <strong>Height:</strong> {{ garden.height }} m
+    </p>
+    <p class="text-gray-600 mb-2">
+      <strong>Width:</strong> {{ garden.width }} m
+    </p>
+    <p class="text-gray-600 mb-2">
+      <strong>Plants:</strong> {{ draggablePlants.length }}
+    </p>
+    <div class="mt-4">
+      <button @click="saveDraggablePlants()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        Save
+      </button>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6">
+
+      <!-- Draggable Garden Area -->
+      <div :style="{
+        position: 'relative',
+        backgroundColor: '#808080',
+        background: 'linear-gradient(-90deg, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px)',
+        backgroundSize: '20px 20px, 20px 20px',
+        backgroundPosition: '10px 10px',
+        height: garden.height * 100 + 'px',
+        width: garden.width * 100 + 'px',
+        border: '1px solid blue',
+        boxSizing: 'border-box',
+      }" class="mt-6">
+        <vue-draggable-resizable v-for="(plant, index) in draggablePlants" :key="plant._id" :x="plant.x" :y="plant.y"
+          :w="plant.w" :h="plant.h" :parent="true" :grid="[20, 20]" :on-drag="(x, y) => onDrag(x, y, plant)"
+          :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x, y, w, h, plant)"
+          :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
+          <img :src="'/plants_sprites/' + plant.sprite">
+          <p>{{ plant.name }}</p>
+          <button @click="openModificationModal(plant)"
+            class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+              <path
+                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+              <path
+                d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+            </svg>
           </button>
-        </div>
-
-        <!-- Draggable Garden Area -->
-        <div :style="{
-          position: 'relative',
-          backgroundColor: '#808080',
-          background: 'linear-gradient(-90deg, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px)',
-          backgroundSize: '20px 20px, 20px 20px',
-          backgroundPosition: '10px 10px',
-          height: '100vh', // Full height
-          width: '100%', // Full width
-          border: '1px solid blue',
-          boxSizing: 'border-box',
-        }" class="mt-6">
-          <vue-draggable-resizable v-for="(plant, index) in draggablePlants" :key="plant._id" :x="plant.x" :y="plant.y"
-            :w="plant.w" :h="plant.h" :parent="true" :grid="[20, 20]" :on-drag="(x, y) => onDrag(x, y, plant)" :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x,y,w,h, plant)"
-            :style="{ backgroundColor: 'red', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
-            <img :src="'/plants_sprites/' + plant.sprite">
-            <p>{{ plant.name }}</p>
-            <button class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-                <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-              </svg>
-            </button>
-          </vue-draggable-resizable>
-        </div>
-
-        <!-- Show a message if the garden is full -->
-        <p v-if="isGardenFull" class="text-red-500 mt-4">
-          The garden is full! Remove a plant to add a new one.
-        </p>
+        </vue-draggable-resizable>
       </div>
 
-      <!-- Plants Search -->
-      <div class="mt-8">
-        <h2 class="text-xl font-bold mb-4">Available Plants</h2>
-        <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg mb-4 w-full"
-          placeholder="Search plants..." />
+      <!-- Show a message if the garden is full -->
+      <p v-if="isGardenFull" class="text-red-500 mt-4">
+        The garden is full! Remove a plant to add a new one.
+      </p>
+    </div>
 
-          <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <li 
-              v-for="plant in plants" 
-              :key="plant._id"
-              :class="[
-                'p-4 shadow rounded-lg cursor-pointer',
-                isPlantClimateCompatible(plant) 
-                  ? 'bg-gray-100 hover:bg-gray-200' 
-                  : 'bg-red-200 hover:bg-red-300'
-              ]" 
-              @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
-            >
-              <p class="font-bold">{{ plant.name }}</p>
-            </li>
-          </ul>
+    <!-- Plants Search -->
+    <div class="mt-8">
+      <h2 class="text-xl font-bold mb-4">Available Plants</h2>
+      <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg mb-4 w-full"
+        placeholder="Search plants..." />
+
+      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <li v-for="plant in plants" :key="plant._id" :class="[
+          'p-4 shadow rounded-lg cursor-pointer',
+          isPlantClimateCompatible(plant)
+            ? 'bg-gray-100 hover:bg-gray-200'
+            : 'bg-red-200 hover:bg-red-300'
+        ]" @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))">
+          <p class="font-bold">{{ plant.name }}</p>
+        </li>
+      </ul>
+    </div>
+  </template>
+
+  <!-- Loader -->
+  <div v-else class="text-center py-10">
+    <p class="text-gray-500">Loading garden details...</p>
+  </div>
+
+  <!-- Confirm incompatible plant modal -->
+  <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow w-150">
+      <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
+      <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season. You can still add it to your garden, but it may not grow well.</p>
+      <div class="flex justify-center space-x-2">
+        <button @click="addPlantToGarden(incompatiblePlant, true)"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          Add
+        </button>
+        <button @click="showConfirmPlantModal = false"
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          Cancel
+        </button>
       </div>
-    </template>
-
-    <!-- Confirm incompatible plant modal -->
-    <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <div class="bg-white p-6 rounded shadow w-150">
-          <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
-          <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season. You can still add it to your garden, but it may not grow well.</p>
-          <div class="flex justify-center space-x-2">
-            <button @click="addPlantToGarden(incompatiblePlant, true)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600">
-              Add
-            </button>
-            <button @click="showConfirmPlantModal = false"
-              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-      
-
-    <!-- Loader -->
-    <div v-else class="text-center py-10">
-      <p class="text-gray-500">Loading garden details...</p>
     </div>
   </div>
+
+  <!-- Saving confirmation message -->
+  <div v-if="showSavingConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow w-96">
+      <h2 class="text-xl font-bold mb-4">Garden Saved Successfully!</h2>
+      <button @click="showSavingConfirmationModal = !showSavingConfirmationModal"
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">OK
+      </button>
+    </div>
+  </div>
+
+  <!-- Plant modification -->
+  <div v-if="showModificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow w-96">
+      <h2 class="text-xl font-bold mb-4">Plant details</h2>
+
+      <div class="mb-4">
+        <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last harvest date</label>
+        <input
+          v-model="selectedPlant.lastHarvestDate"
+          type="date"
+          id="lastHarvestedDate"
+          class="p-2 border border-gray-300 rounded-lg w-full"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last watering date</label>
+        <input
+          v-model="selectedPlant.lastWateringDate"
+          type="date"
+          id="lastHarvestedDate"
+          class="p-2 border border-gray-300 rounded-lg w-full"
+        />
+      </div>
+
+      <div class="flex justify-between">
+        <button @click="saveChanges()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          Save
+        </button>
+        <button @click="deletePlant()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+          Delete
+        </button>
+        <button @click="showModificationModal = false" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <style>
@@ -424,7 +520,6 @@ function isPlantClimateCompatible(plant) {
 }
 
 .vdr:hover {
-  cursor: pointer;
+  cursor: pointer
 }
-
 </style>

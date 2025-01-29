@@ -9,6 +9,8 @@ Meteor.methods({
       _id: String,
       name: String,
       climateId: String,
+      height: Number,
+      width: Number,
       tasks: Array,
       plants: Array,
     });
@@ -35,6 +37,8 @@ Meteor.methods({
     check(garden, Match.ObjectIncluding({
       name: String,
       climateId: String,
+      height: Number,
+      width: Number,
       tasks: Array,
       plants: Array,
     }));
@@ -72,6 +76,19 @@ Meteor.methods({
     return gardens;
   },
   'gardens.savePlants': async function (userId, gardenId, plants) {
+    check(userId, String);
+    check(gardenId, String);
+
+    const user = await Accounts.users.findOneAsync(userId);
+    if (!user || !user.profile || !user.profile.gardens) {
+      throw new Meteor.Error('not-found', 'User or garden not found');
+    }
+
+    const garden = user.profile.gardens.find(g => g._id === gardenId);
+    if (!garden) {
+      throw new Meteor.Error('not-found', 'Garden not found');
+    }
+
     let plantsToSave = []
     plants.forEach(plant => {
       check(plant.plantId, String);
@@ -91,8 +108,5 @@ Meteor.methods({
       { _id: userId, 'profile.gardens._id': gardenId },
       { $set: { 'profile.gardens.$.plants': plantsToSave } }
     );
-
-
-
-  }
+  },
 });
