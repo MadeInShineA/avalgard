@@ -75,38 +75,4 @@ Meteor.methods({
     const gardens = user.profile.gardens
     return gardens;
   },
-  'gardens.savePlants': async function (userId, gardenId, plants) {
-    check(userId, String);
-    check(gardenId, String);
-
-    const user = await Accounts.users.findOneAsync(userId);
-    if (!user || !user.profile || !user.profile.gardens) {
-      throw new Meteor.Error('not-found', 'User or garden not found');
-    }
-
-    const garden = user.profile.gardens.find(g => g._id === gardenId);
-    if (!garden) {
-      throw new Meteor.Error('not-found', 'Garden not found');
-    }
-
-    let plantsToSave = []
-    plants.forEach(plant => {
-      check(plant.plantId, String);
-      check(plant.x, Number);
-      check(plant.y, Number)
-      plantsToSave.push({
-        plantId: plant.plantId,
-        position: { x: plant.x, y: plant.y },
-        width: plant.w,
-        height: plant.h,
-        lastHarvestDate: plant.lastHarvestDate,
-        lastWateringDate: plant.lastWateringDate
-      })
-    });
-
-    return await Accounts.users.updateAsync(
-      { _id: userId, 'profile.gardens._id': gardenId },
-      { $set: { 'profile.gardens.$.plants': plantsToSave } }
-    );
-  },
 });

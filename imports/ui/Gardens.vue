@@ -12,6 +12,8 @@
 
   const newGarden = ref({ name: '', climateId: '', height: 10, width: 10 }); // Stores data for the new garden
   const updatedGarden = ref({ _id: '', name: '', climateId: '', height: 0, width: 0 }); // Stores data for the updated garden
+  const MIN_SIDE_LENGTH = 1
+  const MAX_SIDE_LENGTH = 15
 
   const router = useRouter();
 
@@ -111,7 +113,16 @@
 
   function hideConfirmationModal() {
     showConfirmationModal.value = false
-    newGarden.value = { name: '', climateId: '', height: 100, width: 100 }
+    newGarden.value = { name: '', climateId: '', height: 10, width: 10 }
+  }
+
+  function canSubmitForm(garden) {
+    return garden.name.trim() &&
+      garden.climateId &&
+      garden.height >= MIN_SIDE_LENGTH &&
+      garden.width >= MIN_SIDE_LENGTH &&
+      garden.height <= MAX_SIDE_LENGTH &&
+      garden.width <= MAX_SIDE_LENGTH
   }
 
 </script>
@@ -164,30 +175,35 @@
 
           <label class="block mb-2">
             Height (m):
-            <input v-model="newGarden.height" type="number" min="1" class="w-full border rounded px-2 py-1"/>
+            <input v-model="newGarden.height" type="number" :min=MIN_SIDE_LENGTH :max=MAX_SIDE_LENGTH
+              class="w-full border rounded px-2 py-1" />
           </label>
-          <p v-if="newGarden.height <= 0" class="text-red-500 text-sm mb-4">
-            The height should be positive
+          <p v-if="newGarden.height < MIN_SIDE_LENGTH || newGarden.height > MAX_SIDE_LENGTH"
+            class="text-red-500 text-sm mb-4">
+            The height should be between {{ MIN_SIDE_LENGTH }} and {{ MAX_SIDE_LENGTH }}
           </p>
 
           <label class="block mb-4">
             Width (m):
-            <input v-model="newGarden.width" type="number" min="1" class="w-full border rounded px-2 py-1"/>
+            <input v-model="newGarden.width" type="number" :min=MIN_SIDE_LENGTH :max=MAX_SIDE_LENGTH
+              class="w-full border rounded px-2 py-1" />
           </label>
 
-          <p v-if="newGarden.width <= 0" class="text-red-500 text-sm mb-4">
-            The width should be positive
+          <p v-if="newGarden.width < MIN_SIDE_LENGTH || newGarden.width > MAX_SIDE_LENGTH"
+            class="text-red-500 text-sm mb-4">
+            The width should be between {{ MIN_SIDE_LENGTH }} and {{ MAX_SIDE_LENGTH }}
           </p>
 
           <!-- Validation Message -->
-          <p v-if="!newGarden.name.trim() || !newGarden.climateId || !newGarden.height || !newGarden.width" class="text-red-500 text-sm mb-4">
+          <p v-if="!newGarden.name.trim() || !newGarden.climateId || !newGarden.height || !newGarden.width"
+            class="text-red-500 text-sm mb-4">
             Please fill the fields.
           </p>
 
           <div class="flex justify-end space-x-2">
-            <button @click="createGarden" :disabled="!newGarden.name.trim() || !newGarden.climateId" :class="{
-              'bg-gray-500': !newGarden.name.trim() || !newGarden.climateId || !newGarden.height|| !newGarden.width || newGarden.height <= 0 || newGarden.width <= 0,
-              'bg-green-500': ! (!newGarden.name.trim() || !newGarden.climateId || !newGarden.height|| !newGarden.width || newGarden.height <= 0 || newGarden.width <= 0)
+            <button @click="createGarden" :disabled=!canSubmitForm(newGarden) :class="{
+              'bg-gray-500': !canSubmitForm(newGarden),
+              'bg-green-500': canSubmitForm(newGarden)
             }" class="text-white px-4 py-2 rounded hover:bg-green-600">
               Create
             </button>
@@ -223,31 +239,34 @@
 
           <label class="block mb-2">
             Height (m):
-            <input v-model="updatedGarden.height" type="number" min="1" class="w-full border rounded px-2 py-1"/>
+            <input v-model="updatedGarden.height" type="number" min="1" class="w-full border rounded px-2 py-1" />
           </label>
-          <p v-if="updatedGarden.height <= 0" class="text-red-500 text-sm mb-4">
-            The height should be positive
+
+          <p v-if="updatedGarden.height < MIN_SIDE_LENGTH || updatedGarden.height > MAX_SIDE_LENGTH" class="text-red-500 text-sm mb-4">
+            The height should be between {{ MIN_SIDE_LENGTH }} and {{ MAX_SIDE_LENGTH }}
           </p>
 
           <label class="block mb-4">
             Width (m):
-            <input v-model="updatedGarden.width" type="number" min="1" class="w-full border rounded px-2 py-1"/>
+            <input v-model="updatedGarden.width" type="number" min="1" class="w-full border rounded px-2 py-1" />
           </label>
 
-          <p v-if="updatedGarden.width <= 0" class="text-red-500 text-sm mb-4">
-            The width should be positive
+          <p v-if="updatedGarden.width < MIN_SIDE_LENGTH || updatedGarden.width > MAX_SIDE_LENGTH" class="text-red-500 text-sm mb-4">
+            The width should be between {{ MIN_SIDE_LENGTH }} and {{ MAX_SIDE_LENGTH }}
           </p>
 
-
-          <p v-if="!updatedGarden.name.trim() || !updatedGarden.climateId || !updatedGarden.height || !updatedGarden.width" class="text-red-500 text-sm mb-4">
+          <p v-if="!updatedGarden.name.trim() || !updatedGarden.climateId || !updatedGarden.height || !updatedGarden.width"
+            class="text-red-500 text-sm mb-4">
             Please fill the fields.
           </p>
 
           <div class="flex justify-end space-x-2">
-            <button @click="updateGarden" :disabled="!updatedGarden.name.trim() || !updatedGarden.climateId || !updatedGarden.height|| !updatedGarden.width || updatedGarden.height <= 0 || updatedGarden.width <= 0" :class="{
-              'bg-gray-500': !updatedGarden.name.trim() || !updatedGarden.climateId || !updatedGarden.height|| !updatedGarden.width || updatedGarden.height <= 0 || updatedGarden.width <= 0,
-              'bg-green-500': ! (!updatedGarden.name.trim() || !updatedGarden.climateId || !updatedGarden.height|| !updatedGarden.width || updatedGarden.height <= 0 || updatedGarden.width <= 0)
-            }" class="text-white px-4 py-2 rounded hover:bg-green-600">
+            <button @click="updateGarden"
+              :disabled=!canSubmitForm(updatedGarden)
+              :class="{
+                'bg-gray-500': !canSubmitForm(updatedGarden),
+                'bg-green-500': canSubmitForm(updatedGarden)
+              }" class="text-white px-4 py-2 rounded hover:bg-green-600">
               Update
             </button>
             <button @click="showUpdateGardenModal = false"

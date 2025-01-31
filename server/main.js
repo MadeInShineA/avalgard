@@ -33,8 +33,8 @@ Meteor.startup(async () => {
             _id: Random.id(),
             name: 'Main garden',
             climateId: firstClimate._id,
-            height: 100,
-            width: 100,
+            height: 10,
+            width: 10,
             tasks: [
               {
                 _id: Random.id(),
@@ -49,8 +49,8 @@ Meteor.startup(async () => {
                 _id: Random.id(),
                 plantId: tomato._id,
                 position: { x: 60, y: 60 },
-                width: 100,
-                height: 100,
+                width: 10,
+                height: 10,
                 lastHarvestDate: new Date(),
                 lastWateringDate: new Date(),
               }
