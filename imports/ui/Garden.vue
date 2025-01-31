@@ -152,9 +152,6 @@ const addPlantToGarden = (plant, compatible) => {
     x: Math.floor(p.x / cellSize),
     y: Math.floor(p.y / cellSize),
   }))
-  console.log(gardenWidth.value)
-  console.log(gardenWidthInPixel)
-  console.log(gardenHeightInPixel)
 
   const findFirstAvailablePosition = () => {
     const cols = Math.floor(gardenWidthInPixel / cellSize)  // Calculer le nombre de colonnes basé sur la taille de la grille
@@ -389,6 +386,11 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
     garden.value.plants.forEach((plant) => {
       plant.isVisible = false
     })
+
+    // Déclencher l'événement resize après mise à jour
+    setTimeout(function(){
+      window.dispatchEvent(new Event('resize'));
+    }, 2);
   }
 })
 
