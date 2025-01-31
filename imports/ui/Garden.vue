@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch, reactive } from 'vue';
+import { ref, onMounted, watch, nextTick } from 'vue';
 import { Meteor } from 'meteor/meteor';
 import { Random } from "meteor/random";
 import { useRoute, useRouter } from 'vue-router';
@@ -388,9 +388,9 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
     })
 
     // Déclencher l'événement resize après mise à jour
-    setTimeout(function(){
+    nextTick(() => {
       window.dispatchEvent(new Event('resize'));
-    }, 2);
+    });
   }
 })
 
