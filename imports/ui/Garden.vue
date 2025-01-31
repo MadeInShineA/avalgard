@@ -401,7 +401,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
 
 {{garden}}
   <!-- Garden Details -->
-  <template v-if="garden">
+  <template v-if="garden && garden.plants">
     <div class="p-6 rounded-xl shadow-lg border border-gray-200">
       <h1 class="text-3xl font-bold text-green-700 mb-4">{{ garden.name }}</h1>
       <p class="text-black-800"><strong>Climate:</strong> {{ climate?.name || 'Loading...' }}</p>
@@ -444,12 +444,12 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
         width: garden.width * ONE_METER_IN_PIXELS + 2 * BORDER_SIZE + 'px',
         border: BORDER_SIZE + 'px solid green',
       }" class="relative rounded-xl overflow-hidden">
+      
         <vue-draggable-resizable v-for="(plant, index) in garden.plants" :key="plant._id" :x="plant.x" :y="plant.y"
           :w="plant.w" :h="plant.h" :parent="true" :grid="[CELL_SIZE, CELL_SIZE]"
           :on-drag="(x, y) => onDrag(x, y, plant)"
           :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x, y, w, h, plant)"
-          :style="{ backgroundColor: 'transparent', border: BORDER_SIZE + 'px solid black', color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }"
-          v-if="plant.isVisible">
+          :style="{ backgroundColor: 'transparent', border: BORDER_SIZE + 'px solid black', color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
           <img :src="'/plants_sprites/' + plant.sprite">
           <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
           <button @click="openModificationModal(plant)"
