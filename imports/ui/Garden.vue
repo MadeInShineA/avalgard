@@ -20,6 +20,8 @@ const searchQuery = ref('') // Search query for the plant search bar
 const ONE_METER_IN_PIXELS = 100
 const CELL_SIZE = ONE_METER_IN_PIXELS / 5
 const BORDER_SIZE = 3
+const MIN_SIDE_LENGTH = 1
+const MAX_SIDE_LENGTH = 15
 
 const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible plant
 const incompatiblePlant = ref(null) //Store the incompatible plant
@@ -253,13 +255,12 @@ function saveChanges() {
   if (!selectedPlant.value || !draggablePlants.value) return
 
   const plantIndex = draggablePlants.value.findIndex(
-    plant => plant.plantId === selectedPlant.value.plantId
+    plant => plant.id === selectedPlant.value.id
   )
 
   if (plantIndex !== -1) {
     draggablePlants.value[plantIndex].lastHarvestDate = selectedPlant.value.lastHarvestDate
     draggablePlants.value[plantIndex].lastWateringDate = selectedPlant.value.lastWateringDate
-
   }
 
   showModificationModal.value = false
@@ -268,7 +269,7 @@ function saveChanges() {
 function deletePlant() {
   if (!selectedPlant.value || !draggablePlants.value) return
 
-  draggablePlants.value = draggablePlants.value.filter(plant => plant.plantId !== selectedPlant.value.plantId)
+  draggablePlants.value = draggablePlants.value.filter(plant => plant.id !== selectedPlant.value.id)
   showModificationModal.value = false
 }
 
@@ -367,6 +368,7 @@ function isPlantClimateCompatible(plant) {
 </script>
 
 <template class="mt-6 space-y-6">
+  {{ garden }}
   <!-- Garden Details -->
   <template v-if="garden">
     <div class="p-6 rounded-xl shadow-lg border border-gray-200">
@@ -378,11 +380,35 @@ function isPlantClimateCompatible(plant) {
       <p class="text-black-800"><strong>Plants:</strong> {{ draggablePlants.length }}</p>
     </div>
 
+    <div class="flex flex-col items-center space-y-4">
+      <!-- Sliders pour la taille du jardin -->
+      <div class="flex items-center space-x-4 w-full">
+        <label class="font-bold">Width:</label>
+        <VueSlider v-model="garden.width" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
+        <span class="font-medium">{{ garden.width }}m</span>
+      </div>
+
+      <div class="flex items-center space-x-4 w-full">
+        <label class="font-bold">Height:</label>
+        <VueSlider v-model="garden.height" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
+        <span class="font-medium">{{ garden.height }}m</span>
+      </div>
+    </div>
+
     <div
       class="bg-white shadow-lg rounded-xl p-6 mt-6 border border-gray-200 flex justify-center items-center flex-col">
       <!-- Draggable Garden Area -->
       <div :style="{
-        background: 'repeating-linear-gradient(45deg, #8bc34a, #8bc34a 10px, #7cb342 10px, #7cb342 20px)',
+        background: `
+          radial-gradient(circle at 10% 20%, #8bc34a 0%, #7cb342 20%, transparent 30%),
+          radial-gradient(circle at 30% 40%, #7cb342 0%, #8bc34a 15%, transparent 25%),
+          radial-gradient(circle at 50% 60%, #8bc34a 0%, #7cb342 20%, transparent 35%),
+          radial-gradient(circle at 70% 30%, #7cb342 0%, #8bc34a 15%, transparent 25%),
+          radial-gradient(circle at 90% 50%, #8bc34a 0%, #7cb342 20%, transparent 30%),
+          radial-gradient(circle at 20% 80%, #7cb342 0%, #8bc34a 15%, transparent 35%),
+          radial-gradient(circle at 80% 90%, #8bc34a 0%, #7cb342 20%, transparent 25%)`,
+        backgroundColor: '#7cb342',
+        backgroundSize: '100% 100%',
         height: garden.height * ONE_METER_IN_PIXELS + 2 * BORDER_SIZE + 'px',
         width: garden.width * ONE_METER_IN_PIXELS + 2 * BORDER_SIZE + 'px',
         border: BORDER_SIZE + 'px solid green',
@@ -393,7 +419,7 @@ function isPlantClimateCompatible(plant) {
           :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x, y, w, h, plant)"
           :style="{ backgroundColor: 'transparent', border: BORDER_SIZE + 'px solid black', color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
           <img :src="'/plants_sprites/' + plant.sprite">
-          <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name }}</p>
+          <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
           <button @click="openModificationModal(plant)"
             class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" class="size-6">
@@ -411,12 +437,17 @@ function isPlantClimateCompatible(plant) {
       </p>
 
       <!-- Save Garden Button -->
-      <div class="mt-4 flex justify-center w-full">
+      <div class="mt-4 flex justify-center w-full space-x-4">
         <button @click="saveDraggablePlants()"
           class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
-          Save  
+          Save
+        </button>
+        <button @click="draggablePlants = []"
+          class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700">
+          Clear
         </button>
       </div>
+
     </div>
 
     <!-- Plants Search -->
@@ -426,25 +457,15 @@ function isPlantClimateCompatible(plant) {
         placeholder="Search plants..." />
       <div class="mb-4">
         <h2 class="text-xl font-bold mb-4">Filter by growth duration</h2>
-        <VueSlider 
-          v-model="growthDurationRange" 
-          :min="0" 
-          :max="400" 
-          :step="10"
-        />
+        <VueSlider v-model="growthDurationRange" :min="0" :max="400" :step="10" />
         <p class="text-sm text-gray-600">
-            {{ growthDurationRange[0] }} - {{ growthDurationRange[1] }} days
+          {{ growthDurationRange[0] }} - {{ growthDurationRange[1] }} days
         </p>
       </div>
 
       <div class="mb-4">
         <h2 class="text-xl font-bold mb-4">Filter by water requirement</h2>
-        <VueSlider 
-          v-model="waterRequirementRange" 
-          :min="0" 
-          :max="5" 
-          :step="1"
-        />
+        <VueSlider v-model="waterRequirementRange" :min="0" :max="5" :step="1" />
         <p class="text-sm text-gray-600">
           {{ waterRequirementRange[0] }} - {{ waterRequirementRange[1] }}
         </p>
@@ -453,7 +474,7 @@ function isPlantClimateCompatible(plant) {
         <li v-for="plant in plants" :key="plant._id" @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
           :class="['p-4 shadow-md rounded-lg cursor-pointer text-center',
             isPlantClimateCompatible(plant) ? 'bg-green-100 hover:bg-green-200' : 'bg-red-100 hover:bg-red-200']">
-          <p class="font-bold text-green-900">{{ plant.name }}</p>
+          <p class="font-bold text-green-900">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
         </li>
       </ul>
     </div>
@@ -483,7 +504,8 @@ function isPlantClimateCompatible(plant) {
   </div>
 
   <!-- Saving confirmation message -->
-  <div v-if="showSavingConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div v-if="showSavingConfirmationModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white p-6 rounded shadow w-96 flex flex-col justify-center items-center">
       <h2 class="text-xl font-bold mb-4 text-center">Garden Saved Successfully!</h2>
       <button @click="showSavingConfirmationModal = !showSavingConfirmationModal"
