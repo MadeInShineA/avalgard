@@ -418,13 +418,13 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       <!-- Draggable Garden Area -->
       <div class="flex flex-col items-center space-y-4 w-full">
         <!-- Sliders pour la taille du jardin -->
-        <div class="flex items-center w-full space-x-4">
+        <div class="z-1 flex items-center w-full space-x-4">
           <label class="font-bold w-20 text-right">Width:</label>
           <VueSlider v-model="gardenWidth" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
           <span class="font-medium w-12">{{ gardenWidth }}m</span>
         </div>
 
-        <div class="flex items-center w-full space-x-4">
+        <div class="z-1 flex items-center w-full space-x-4">
           <label class="font-bold w-20 text-right">Height:</label>
           <VueSlider v-model="gardenHeight" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
           <span class="font-medium w-12">{{ gardenHeight }}m</span>
@@ -488,7 +488,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       <h2 class="text-xl font-bold text-green-700 mb-4">Available Plants</h2>
       <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm"
         placeholder="Search plants..." />
-      <div class="mb-4">
+      <div class="mb-4 z-1">
         <h2 class="text-xl font-bold mb-4">Filter by growth duration</h2>
         <VueSlider v-model="growthDurationRange" :min="0" :max="400" :step="10" />
         <p class="text-sm text-gray-600">
@@ -496,7 +496,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
         </p>
       </div>
 
-      <div class="mb-4">
+      <div class="mb-4 z-1">
         <h2 class="text-xl font-bold mb-4">Filter by water requirement</h2>
         <VueSlider v-model="waterRequirementRange" :min="0" :max="5" :step="1" />
         <p class="text-sm text-gray-600">
@@ -518,7 +518,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
     <p class="text-gray-500">Loading garden details...</p>
   </div>
   <!-- Confirm incompatible plant modal -->
-  <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div v-if="showConfirmPlantModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white p-6 rounded shadow w-150">
       <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
       <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season.
@@ -538,7 +538,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
 
   <!-- Saving confirmation message -->
   <div v-if="showSavingConfirmationModal"
-    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white p-6 rounded shadow w-96 flex flex-col justify-center items-center">
       <h2 class="text-xl font-bold mb-4 text-center">Garden Saved Successfully!</h2>
       <button @click="showSavingConfirmationModal = !showSavingConfirmationModal"
@@ -549,7 +549,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
   </div>
 
   <!-- Plant modification -->
-  <div v-if="showModificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+  <div v-if="showModificationModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
     <div class="bg-white p-6 rounded shadow w-96">
       <h2 class="text-xl font-bold mb-4">Plant details</h2>
 
