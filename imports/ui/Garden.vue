@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
-import { Meteor } from 'meteor/meteor'
-import { Random } from "meteor/random"
-import { useRoute, useRouter } from 'vue-router'
-import VueDraggableResizable from 'vue-draggable-resizable'
+import { ref, onMounted, computed, watch } from 'vue';
+import { Meteor } from 'meteor/meteor';
+import { Random } from "meteor/random";
+import { useRoute, useRouter } from 'vue-router';
+import VueDraggableResizable from 'vue-draggable-resizable';
+import VueSlider from 'vue-3-slider-component';
 
 const garden = ref(null)
 const climate = ref()
@@ -23,10 +24,13 @@ const BORDER_SIZE = 3
 const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible plant
 const incompatiblePlant = ref(null) //Store the incompatible plant
 
-// Watch for changes in the searchQuery and trigger the search function
-watch(searchQuery, (newQuery) => {
-  searchPlant(newQuery)
-})
+const growthDurationRange = ref([0, 400]); //Filter
+const waterRequirementRange = ref([0, 5]); //Filter
+
+// Watch for changes in searchbar and sliders and trigger the search function
+watch(searchQuery, searchAndFilterPlants);
+watch(growthDurationRange, searchAndFilterPlants);
+watch(waterRequirementRange, searchAndFilterPlants);
 
 function fetchGarden() {
   console.log('Fetching garden...')
@@ -106,17 +110,17 @@ function fetchPlants() {
   })
 }
 
-function searchPlant(query) {
-  // Filter plants based on the search query
-  if (!query) {
-    fetchPlants() // If query is empty, fetch all plants
-    return
-  }
-  // Perform a search with the query
-  Meteor.call('plants.search', query, (error, result) => {
+function searchAndFilterPlants() {
+  Meteor.call('plants.searchAndFilter', {
+    searchQuery: searchQuery.value,
+    minGrowthDuration: growthDurationRange.value[0],
+    maxGrowthDuration: growthDurationRange.value[1],
+    minWaterRequirement: waterRequirementRange.value[0],
+    maxWaterRequirement: waterRequirementRange.value[1]
+  }, (error, result) => {
     console.log(result)
-    plants.value = result || [] // Update the plants list with the search results
-  })
+    plants.value = result || []; // Update the plants list with the filters results
+  });
 }
 
 const addPlantToGarden = (plant, compatible) => {
@@ -420,6 +424,31 @@ function isPlantClimateCompatible(plant) {
       <h2 class="text-xl font-bold text-green-700 mb-4">Available Plants</h2>
       <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm"
         placeholder="Search plants..." />
+      <div class="mb-4">
+        <h2 class="text-xl font-bold mb-4">Filter by growth duration</h2>
+        <VueSlider 
+          v-model="growthDurationRange" 
+          :min="0" 
+          :max="400" 
+          :step="10"
+        />
+        <p class="text-sm text-gray-600">
+            {{ growthDurationRange[0] }} - {{ growthDurationRange[1] }} days
+        </p>
+      </div>
+
+      <div class="mb-4">
+        <h2 class="text-xl font-bold mb-4">Filter by water requirement</h2>
+        <VueSlider 
+          v-model="waterRequirementRange" 
+          :min="0" 
+          :max="5" 
+          :step="1"
+        />
+        <p class="text-sm text-gray-600">
+          {{ waterRequirementRange[0] }} - {{ waterRequirementRange[1] }}
+        </p>
+      </div>
       <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <li v-for="plant in plants" :key="plant._id" @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
           :class="['p-4 shadow-md rounded-lg cursor-pointer text-center',
@@ -435,7 +464,7 @@ function isPlantClimateCompatible(plant) {
     <p class="text-gray-500">Loading garden details...</p>
   </div>
   <!-- Confirm incompatible plant modal -->
-  <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+  <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white p-6 rounded shadow w-150">
       <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
       <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season.
@@ -454,7 +483,7 @@ function isPlantClimateCompatible(plant) {
   </div>
 
   <!-- Saving confirmation message -->
-  <div v-if="showSavingConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+  <div v-if="showSavingConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white p-6 rounded shadow w-96 flex flex-col justify-center items-center">
       <h2 class="text-xl font-bold mb-4 text-center">Garden Saved Successfully!</h2>
       <button @click="showSavingConfirmationModal = !showSavingConfirmationModal"
