@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { Accounts } from 'meteor/accounts-base';
+import { Random } from "meteor/random";
 
 Meteor.methods({
   'tasks.insert': async function (userId, gardenId, task) {
@@ -95,31 +96,6 @@ Meteor.methods({
 
     return garden.tasks;
   },
-  'tasks.countUnseen': async function(userId) {
-    check(userId, String);
-    
-    const user = await Meteor.users.findOneAsync(userId, {
-      fields: {
-        'profile.gardens.tasks.seen': 1
-      }
-    });
-
-    if (!user || !user.profile?.gardens) return 0;
-
-    let unseenCount = 0;
-    
-    user.profile.gardens.forEach(garden => {
-      if (garden.tasks) {
-        garden.tasks.forEach(task => {
-          if (task.seen === false) {
-            unseenCount++;
-          }
-        });
-      }
-    });
-
-    return unseenCount;
-  },
 
   'tasks.createAutomaticallyForGarden': async function(userId, gardenId) {
     check(userId, String);
@@ -141,13 +117,14 @@ Meteor.methods({
     let newTasks = []
 
     for(const plant of plants) {
+      const dbPlant = await Meteor.call("plants.findById", plant.plantId)
       const lastWateringTask = oldTasks.filter((task) => {task.plantId == plant._id && task.type == "watering"})
       const lastHarvestTask = oldTasks.filter((task) => {task.plantId == plant._id && task.type == "harvest"})
       const lastCutTask = oldTasks.filter((task) => {task.plantId == plant._id && task.type == "cut"})
 
-      lastWateringTaskCreateDate = lastWateringTask ? lastWateringTask.createDate : null
-      lastHarvestTaskCreateDate = lastHarvestTask ? lastHarvestTask.createDate : null
-      lastCutTaskCreateDate = lastCutTask ? lastCutTask.createDate : null
+      let lastWateringTaskCreateDate = lastWateringTask ? lastWateringTask.createDate : null
+      let lastHarvestTaskCreateDate = lastHarvestTask ? lastHarvestTask.createDate : null
+      let lastCutTaskCreateDate = lastCutTask ? lastCutTask.createDate : null
 
       let tryToSendWateringNotification = true
       let tryToSendHarvestNotification = true
@@ -179,23 +156,25 @@ Meteor.methods({
         }
       }
 
-      const climate = Meteor.call('climates.findById', garden.climateId)
+      const climate = await Meteor.call('climates.findById', garden.climateId)
 
       if(tryToSendWateringNotification){
-        const numberOfHoursUntilNewWateringNotification = plant.waterRequirement * climate.wateringFactor * 24
-        const diffTime = Math.abs(today - plant.lastWateringDate);
+        const numberOfHoursUntilNewWateringNotification = dbPlant.waterRequirement * climate.wateringFactor * 24
+        const lastWateringDate = new Date(plant.lastWateringDate)
+        const diffTime = Math.abs(today - lastWateringDate);
         const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-
+       
         if (diffHours > numberOfHoursUntilNewWateringNotification){
           const newTask = {
             _id: Random.id(),
-            name: "Watering task for " + plant.name,
+            name: "Watering task for " + dbPlant.name,
             description: "You need to water this plant!",
             deadLine: today,
             completed: false,
             type: "watering",
             createDate: today,
-            seen: false
+            seen: false,
+            plantId: plant._id
           }
 
           newTasks.push(newTask)
@@ -203,20 +182,23 @@ Meteor.methods({
       }
 
       if(tryToSendHarvestNotification){
-        const numberOfHoursUntilNewHarvestNotification = plant.harvestPeriod * climate.harvestFactor * 24
-        const diffTime = Math.abs(today - plant.lastHarvestDate);
+        const numberOfHoursUntilNewHarvestNotification = dbPlant.harvestPeriod * climate.harvestFactor * 24
+        const lastHarvestDate = new Date(plant.lastHarvestDate)
+
+        const diffTime = Math.abs(today - lastHarvestDate);
         const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
 
         if (diffHours > numberOfHoursUntilNewHarvestNotification){
           const newTask = {
             _id: Random.id(),
-            name: "Harvest task for " + plant.name,
+            name: "Harvest task for " + dbPlant.name,
             description: "You need to harvest this plant!",
             deadLine: today,
             completed: false,
             type: "harvest",
             createDate: today,
-            seen: false
+            seen: false,
+            plantId: plant._id
           }
 
           newTasks.push(newTask)
@@ -224,19 +206,23 @@ Meteor.methods({
       }
 
       if(tryToSendCutNotification){
-        const numberOfHoursUntilNewCutNotification = plant.growthDuration * climate.growthFactor * 24
-        const diffTime = Math.abs(today - plant.lastCutDate);
+        const numberOfHoursUntilNewCutNotification = dbPlant.growthDuration * climate.growthFactor * 24
+        const lastCutDate = new Date(plant.lastCutDate)
+
+        const diffTime = Math.abs(today - lastCutDate);
         const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
 
         if (diffHours > numberOfHoursUntilNewCutNotification){
           const newTask = {
-            name: "Growth task for " + plant.name,
+            _id: Random.id(),
+            name: "Growth task for " + dbPlant.name,
             description: "You need to cut this plant!",
             deadLine: today,
             completed: false,
             type: "cut",
             createDate: today,
-            seen: false
+            seen: false,
+            plantId: plant._id
           }
 
           newTasks.push(newTask)

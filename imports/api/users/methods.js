@@ -64,7 +64,7 @@ Meteor.methods({
   },
   
   'users.createTasksAutomatically': async function(userId){
-    const gardens = await Meteor.call('findAll', userId)
+    const gardens = await Meteor.call('gardens.findAll', userId)
 
     for(const garden of gardens){
       await Meteor.call('tasks.createAutomaticallyForGarden', userId, garden._id)
