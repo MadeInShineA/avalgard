@@ -44,40 +44,22 @@ Meteor.methods({
     return 'Nom d\'utilisateur mis à jour avec succès !';
   },
 
-  async updatePassword(oldPassword, newPassword) {
-    check(oldPassword, String);
-    check(newPassword, String);
-
-    const user = await Meteor.userAsync();
-    if (!user) {
-      throw new Meteor.Error('not-authorized', 'Vous devez être connecté pour changer votre mot de passe.');
+  async deleteUserAccount(password) {
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized", "You must be logged in to delete your account.");
     }
-
-    // Vérifie l'ancien mot de passe
-    const passwordCheck = await Accounts.checkPassword(user, oldPassword);
-    if (passwordCheck.error) {
-      throw new Meteor.Error('invalid-password', 'Ancien mot de passe incorrect.');
+    
+    const user = await Meteor.users.findOneAsync(this.userId);
+    if (!user || !user.services || !user.services.password || !user.services.password.bcrypt) {
+      throw new Meteor.Error("user-invalid", "Unable to check user password.");
     }
-
-    // Change le mot de passe
-    await Accounts.setPassword(user._id, newPassword);
-    return 'Mot de passe mis à jour avec succès !';
-  },
-
-  async deleteUser(password) {
-    check(password, String);
-
-    const user = await Meteor.userAsync();
-    if (!user) {
-      throw new Meteor.Error('not-authorized');
+    
+    if (Meteor.users.removeAsync) {
+      await Meteor.users.removeAsync(this.userId);
+    } else {
+      await Meteor.users.rawCollection().deleteOne({ _id: this.userId });
     }
-
-    const passwordCheck = await Accounts.checkPassword(user, password);
-    if (passwordCheck.error) {
-      throw new Meteor.Error('invalid-password', 'Mot de passe incorrect.');
-    }
-
-    await Meteor.users.remove({ _id: this.userId });
-    return 'Compte supprimé avec succès.';
+    
+    return true;
   }
 });

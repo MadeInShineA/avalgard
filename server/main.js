@@ -6,6 +6,7 @@ import plantsData from '../data/plant_data.json';
 import climatesData from '../data/climate_data.json';
 import '../imports/api/climates/methods';
 import '../imports/api/gardens/methods';
+import '../imports/api/plants/methods';
 import '../imports/api/users/methods';
 
 Meteor.startup(async () => {
@@ -28,9 +29,11 @@ Meteor.startup(async () => {
       profile: {
         gardens: [
           {
-            _id: firstClimate._id,
+            _id: Random.id(),
             name: 'Main garden',
             climateId: firstClimate._id,
+            height: 10,
+            width: 10,
             tasks: [
               {
                 _id: Random.id(),
@@ -41,44 +44,10 @@ Meteor.startup(async () => {
               }
             ],
             plants: [
-              {
-                _id: Random.id(),
-                plantId: 'id',
-                position: { x: 2, y: 2 },
-                lastHarvestDate: new Date(),
-                lastWateringDate: new Date(),
-              }
             ]
           }
         ]
       }
     });
-  }
-});
-Meteor.methods({
-  async deleteUserAccount(password) {
-    if (!this.userId) {
-      throw new Meteor.Error("not-authorized", "You must be logged in to delete your account.");
-    }
-    
-    const user = await Meteor.users.findOneAsync(this.userId);
-    if (!user || !user.services || !user.services.password || !user.services.password.bcrypt) {
-      throw new Meteor.Error("user-invalid", "Unable to check user password.");
-    }
-    // Todo: Vérifier le mot de passe
-
-
-    /*const isValid = await bcrypt.compare(password, user.services.password.bcrypt);
-    if (!isValid) {
-      throw new Meteor.Error("incorrect-password", "Mot de passe incorrect.");
-    }*/
-    
-    if (Meteor.users.removeAsync) {
-      await Meteor.users.removeAsync(this.userId);
-    } else {
-      await Meteor.users.rawCollection().deleteOne({ _id: this.userId });
-    }
-    
-    return true;
   }
 });
