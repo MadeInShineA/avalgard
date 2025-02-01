@@ -93,7 +93,6 @@
         </button>
       </form>
     </div>
-
     <!-- Suppression du compte -->
     <div class="mb-8">
       <h3 class="text-lg font-semibold mb-4 text-red-700">Supprimer le compte</h3>
@@ -125,6 +124,8 @@ import { ref } from 'vue';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { useRouter } from 'vue-router';
+
+
 
 const router = useRouter();
 
