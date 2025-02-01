@@ -56,6 +56,13 @@ async function fetchAllGardensAndTasks() {
 
 onMounted(() => {
   fetchAllGardensAndTasks();
+  Meteor.call('tasks.markAllAsSeen', (error, result) => {
+    if (error) {
+        console.error('Error marking tasks:', error.reason);
+    } else {
+        console.log(`${result} tasks marked as seen`);
+    }
+});
 });
 
 // Navigation vers un jardin

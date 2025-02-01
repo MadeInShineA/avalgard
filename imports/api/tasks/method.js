@@ -121,6 +121,25 @@ Meteor.methods({
 
     return unseenCount;
   },
+  'tasks.markAllAsSeen': async function() {
+      const userId = Meteor.userId();
+      if (!userId) throw new Meteor.Error('unauthorized', 'Not logged in');
+
+      const result = await Meteor.users.updateAsync(
+          { _id: userId },
+          {
+              $set: {
+                  "profile.gardens.$[].tasks.$[task].seen": true
+              }
+          },
+          {
+              arrayFilters: [{ "task.seen": false }],
+              multi: true
+          }
+      );
+
+      return result;
+  },
   'tasks.createAutomaticallyForGarden': async function(userId, gardenId) {
     check(userId, String);
     check(gardenId, String);
