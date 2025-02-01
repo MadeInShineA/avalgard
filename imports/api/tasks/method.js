@@ -170,6 +170,8 @@ Meteor.methods({
         null
       );
 
+      console.log(lastWateringTask)
+
       let lastHarvestTask = harvestTasks.reduce((latest, task) => 
         !latest || new Date(task.createDate) > new Date(latest.createDate) ? task : latest, 
         null
@@ -186,12 +188,12 @@ Meteor.methods({
 
       let tryToSendWateringNotification = true
       let tryToSendHarvestNotification = true
-      let tryToSendCutNotification
+      let tryToSendCutNotification = true
 
       const today = new Date()
 
       if(lastWateringTaskCreateDate){
-        const diffTime = Math.abs(today - lastWateringTaskCreateDate);
+        const diffTime = Math.abs(today - new Date(lastWateringTaskCreateDate));
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         if (diffDays < 1){
           tryToSendWateringNotification = false
@@ -199,7 +201,7 @@ Meteor.methods({
       }
 
       if(lastHarvestTaskCreateDate){
-        const diffTime = Math.abs(today - lastHarvestTaskCreateDate);
+        const diffTime = Math.abs(today - new Date(lastHarvestTaskCreateDate));
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         if (diffDays < 1){
           tryToSendHarvestNotification = false
@@ -207,7 +209,7 @@ Meteor.methods({
       }
 
       if(lastCutTaskCreateDate){
-        const diffTime = Math.abs(today - lastWateringTaskCreateDate);
+        const diffTime = Math.abs(today - new Date(lastWateringTaskCreateDate));
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         if (diffDays < 1){
           tryToSendCutNotification = false
