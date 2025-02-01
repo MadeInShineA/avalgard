@@ -7,6 +7,7 @@ import SignupForm from './SignupForm.vue';
 import Gardens from './Gardens.vue';
 import Garden from './Garden.vue';
 import Account from './Account.vue';
+import GardenTasks from './GardenTasks.vue';
 import Tasks from './Tasks.vue';
 
 // Fonction pour vérifier si l'utilisateur est connecté
@@ -47,6 +48,12 @@ export const router = createRouter({
       component: SignupForm,
     },
     {
+      path: '/tasks',
+      name: 'tasks',
+      component: Tasks,
+      beforeEnter: requireAuth,
+    },
+    {
       path: '/gardens',
       name: 'gardens',
       component: Gardens,
@@ -66,8 +73,8 @@ export const router = createRouter({
     },
     {
       path: '/gardens/:id_garden/tasks',
-      name: 'tasks',
-      component: Tasks,
+      name: 'gardenTasks',
+      component: GardenTasks,
       beforeEnter: requireAuth,
     },
     {

@@ -5,10 +5,8 @@
         <!-- Logo -->
         <div class="flex">
           <div class="flex-shrink-0 flex items-center">
-            <router-link 
-              :to="{ name: 'home' }" 
-              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
-            >
+            <router-link :to="{ name: 'home' }"
+              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
               <h1 class="text-2xl font-bold text-green-600">Avalgard</h1>
             </router-link>
           </div>
@@ -16,46 +14,38 @@
         <!-- Liens de navigation -->
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
           <!-- Liens statiques -->
-          <router-link 
-            :to="{ name: 'home' }" 
-            class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
-          >
+          <router-link :to="{ name: 'home' }"
+            class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
             Home
           </router-link>
-          
+
           <!-- Liens dynamiques en fonction de l'état de l'utilisateur -->
           <template v-if="!user">
-            <router-link 
-              :to="{ name: 'login' }" 
-              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
-            >
+            <router-link :to="{ name: 'login' }"
+              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
               Login
             </router-link>
-            <router-link 
-              :to="{ name: 'signup' }" 
-              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
-            >
+            <router-link :to="{ name: 'signup' }"
+              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
               Sign up
             </router-link>
           </template>
           <template v-else>
-            <router-link 
-              :to="{ name: 'gardens' }" 
-              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
-            >
+            <router-link :to="{ name: 'gardens' }"
+              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
               Gardens
             </router-link>
-            <router-link 
-            :to="{ name: 'account' }" 
-            class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
-            >
-            {{ user.username }}
+            <router-link :to="{ name: 'tasks' }"
+              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
+              Tasks
             </router-link>
-            
-            <span 
-              class="text-green-700 hover:cursor-pointer hover:underline px-3 py-2 rounded-md text-sm font-medium"
-              @click="handleLogout"
-            >
+            <router-link :to="{ name: 'account' }"
+              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
+              {{ user.username }}
+            </router-link>
+
+            <span class="text-green-700 hover:cursor-pointer hover:underline px-3 py-2 rounded-md text-sm font-medium"
+              @click="handleLogout">
               Logout
             </span>
           </template>
