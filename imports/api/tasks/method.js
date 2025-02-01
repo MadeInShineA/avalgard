@@ -225,5 +225,5 @@ Meteor.methods({
         { $push: { 'profile.gardens.$.tasks': task } }
       );
     }
-  }
+  },  
 });

@@ -61,5 +61,13 @@ Meteor.methods({
     }
     
     return true;
+  },
+  
+  'users.createTasksAutomatically': async function(userId){
+    const gardens = await Meteor.call('findAll', userId)
+
+    for(const garden of gardens){
+      await Meteor.call('tasks.createAutomaticallyForGarden', userId, garden._id)
+    }
   }
 });
