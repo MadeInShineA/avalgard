@@ -5,8 +5,9 @@ import About from './About.vue';
 import LoginForm from './LoginForm.vue';
 import SignupForm from './SignupForm.vue';
 import Gardens from './Gardens.vue';
-import Garden from './Garden.vue'
-import Account from './Account.vue'
+import Garden from './Garden.vue';
+import Account from './Account.vue';
+import Tasks from './Tasks.vue';
 
 // Fonction pour vérifier si l'utilisateur est connecté
 function requireAuth(to, from, next) {
@@ -62,6 +63,12 @@ export const router = createRouter({
       name: 'account',
       component: Account,
       beforeEnter: requireAuth, // Guard pour sécuriser la route
+    },
+    {
+      path: '/gardens/:id_garden/tasks',
+      name: 'tasks',
+      component: Tasks,
+      beforeEnter: requireAuth,
     },
     {
       path: '/:pathMatch(.*)*',
