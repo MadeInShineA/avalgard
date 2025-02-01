@@ -4,8 +4,10 @@
       <div class="flex justify-between h-16">
         <div class="flex">
           <div class="flex-shrink-0 flex items-center">
-            <router-link :to="{ name: 'home' }"
-              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
+            <router-link 
+              :to="{ name: 'home' }" 
+              class="text-green-700 px-3 py-2 rounded-md text-sm font-medium"
+            >
               <h1 class="text-2xl font-bold text-green-600">Avalgard</h1>
             </router-link>
           </div>
@@ -41,8 +43,7 @@
 
             <router-link 
               to="/tasks" 
-              class="menu-item flex items-center justify-between"
-            >
+              class="menu-item flex items-center justify-between">
               <span class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
                 Tasks
               </span>
@@ -55,7 +56,7 @@
               </span>
             </router-link>
             <router-link :to="{ name: 'account' }"
-              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
+              class="text-green-700 dark:text-green-200 hover:underline px-3 py-2 rounded-md text-sm font-medium">
               {{ user.username }}
             </router-link>
             

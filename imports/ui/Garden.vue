@@ -23,15 +23,14 @@ const MIN_SIDE_LENGTH = 1
 const MAX_SIDE_LENGTH = 15
 
 const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible plant
-const incompatiblePlant = ref(null) //Store the incompatible plant
+const incompatiblePlant = ref(null) // Store the incompatible plant
 
-const growthDurationRange = ref([0, 400]); //Filter
-const waterRequirementRange = ref([0, 5]); //Filterà
+const growthDurationRange = ref([0, 400]); // Filter
+const waterRequirementRange = ref([0, 5]); // Filter
 const selectedPlantType = ref(''); // Filter
 
 const gardenWidth = ref(0) // Match the garden's actual width
 const gardenHeight = ref(0) // Match the garden's actual height
-
 
 // Watch for changes in searchbar and sliders and trigger the search function
 watch(searchQuery, searchAndFilterPlants);
@@ -73,7 +72,7 @@ function initializeGardenGrid() {
 
       if(plantToPlace.x < garden.value.width * ONE_METER_IN_PIXELS && plantToPlace.y < garden.value.height * ONE_METER_IN_PIXELS){
         plantToPlace.isVisible = true
-      }else{
+      } else {
         plantToPlace.isVisible = false
       }
       plantToPlace.name = dbPlant.name
@@ -141,22 +140,17 @@ const addPlantToGarden = (plant, compatible) => {
   }))
 
   const findFirstAvailablePosition = () => {
-    const cols = Math.floor(gardenWidthInPixel / cellSize)  // Compute the number of columns based on the grid size
-    const rows = Math.floor(gardenHeightInPixel / cellSize) // Compute the number of rows based on the grid size
+    const cols = Math.floor(gardenWidthInPixel / cellSize)
+    const rows = Math.floor(gardenHeightInPixel / cellSize)
 
-    // Loop through each cell in the grid
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        // Compute the x and y position based on the cell size
         const x = col * cellSize
         const y = row * cellSize
 
-        // Check if the position is within the garden bounds
         const fitsInBounds = x + plantWidth <= gardenWidthInPixel && y + plantHeight <= gardenHeightInPixel
 
-        // Check if the position is already occupied by another plant
         const isOccupied = garden.value.plants.some((otherPlant) => {
-          // Compare the position of the current plant with the other plants
           return (
             x < otherPlant.x + otherPlant.w &&
             x + plantWidth > otherPlant.x &&
@@ -165,7 +159,6 @@ const addPlantToGarden = (plant, compatible) => {
           )
         })
 
-        // If the position is within bounds and not occupied, return the position
         if (fitsInBounds && !isOccupied) {
           return { x, y }
         }
@@ -174,7 +167,7 @@ const addPlantToGarden = (plant, compatible) => {
 
     isGardenFull.value = true
     console.warn('No free position found!')
-    return { x: -1, y: -1 } // Return a default position if no free position is found
+    return { x: -1, y: -1 }
   }
 
   const { x, y } = findFirstAvailablePosition()
@@ -201,7 +194,6 @@ const addPlantToGarden = (plant, compatible) => {
       sprite: plant.sprite,
       isVisible: true
     }
-    // Add the plant to the garden with the new x and y coordinates
     garden.value.plants.push(plantToPlace)
   }
   showConfirmPlantModal.value = false
@@ -221,7 +213,7 @@ const onDrag = (x, y, plant) => {
 
   isGardenFull.value = false
   const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant._id === plant._id) return false // Ignor the plant itself
+    if (otherPlant._id === plant._id) return false
     return (
       x < otherPlant.x + otherPlant.w &&
       x + plant.w > otherPlant.x &&
@@ -231,13 +223,12 @@ const onDrag = (x, y, plant) => {
   })
 
   if (!isOverlapping) {
-    // Update the plant position if no overlap
     plant.x = x
     plant.y = y
-    return true // Allow the drag
+    return true
   }
 
-  return false // If there is an overlap, prevent the drag
+  return false
 }
 
 const showSavingConfirmationModal = ref(false)
@@ -250,7 +241,7 @@ function saveGarden() {
   gardenToSave.plants = plantsToSave
   Meteor.call('gardens.update', userId.value, garden.value._id, gardenToSave, (error) => {
     if (!error) {
-      showSavingConfirmationModal.value = true // Show Confirmation Modal
+      showSavingConfirmationModal.value = true
     } else {
       console.error('Error saving garden:', error)
     }
@@ -299,7 +290,7 @@ function deletePlant() {
 function handlePlantResize(x, y, w, h, plant) {
   isGardenFull.value = false
   const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant._id === plant._id) return false // Ignore the plant itself
+    if (otherPlant._id === plant._id) return false
     return (
       x < otherPlant.x + otherPlant.w &&
       x + w > otherPlant.x &&
@@ -312,12 +303,11 @@ function handlePlantResize(x, y, w, h, plant) {
   const isSizeOk = w >= min_length_size && h >= min_length_size
 
   if (!isOverlapping && isSizeOk) {
-    // Update the plant position and size if no overlap
     plant.w = w
     plant.h = h
     plant.x = x
     plant.y = y
-    return true // Allow the resize
+    return true
   }
   return false
 }
@@ -332,27 +322,21 @@ onMounted(() => {
       fetchPlants()
     } else {
       console.error('User not logged in')
-      router.push('/') // Redirect if the user is not logged in
+      router.push('/')
     }
   } else {
     console.error('No garden ID found in route.')
-    router.push('/') // Redirect if no garden ID is found
+    router.push('/')
   }
 })
 
 function getCurrentSeason() {
-  const spring = new Date('2024-03-15').getMonth();
-  const summer = new Date('2024-06-15').getMonth();
-  const automn = new Date('2024-09-15').getMonth();
-  const winter = new Date('2024-12-15').getMonth();
   const today = new Date().getMonth();
-
-  const month = today;
-  if (month >= 2 && month <= 4) {
+  if (today >= 2 && today <= 4) {
     return 'spring';
-  } else if (month >= 5 && month <= 7) {
+  } else if (today >= 5 && today <= 7) {
     return 'summer';
-  } else if (month >= 8 && month <= 10) {
+  } else if (today >= 8 && today <= 10) {
     return 'autumn';
   } else {
     return 'winter';
@@ -379,19 +363,14 @@ function isPlantClimateCompatible(plant) {
   const climateTempMin = seasonalRange.min;
   const climateTempMax = seasonalRange.max;
 
-  if (plantTempMin > climateTempMax || plantTempMax < climateTempMin) {
-    return false;
-  } else {
-    return true;
-  }
+  return !(plantTempMin > climateTempMax || plantTempMax < climateTempMin);
 }
 
-watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]) => {
+watch([gardenWidth, gardenHeight], ([newWidth, newHeight]) => {
   if (garden.value) {
     garden.value.height = newHeight;
     garden.value.width = newWidth;
-    isGardenFull.value = false
-    
+    isGardenFull.value = false;
 
     garden.value.plants.forEach((plant) => {
 
@@ -400,9 +379,8 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       }else{
         plant.isVisible = false
       }
-    })
+    });
 
-    // Trigger a resize event to update the garden grid
     nextTick(() => {
       window.dispatchEvent(new Event('resize'));
     });
@@ -414,37 +392,37 @@ function viewTasks() {
 };
 
 </script>
+
 <template class="mt-6 space-y-6">
   <!-- Garden Details -->
   <template v-if="garden && garden.plants">
-    <div class="p-6 rounded-xl shadow-lg border border-gray-200">
-      <h1 class="text-3xl font-bold text-green-700 mb-4">{{ garden.name }}</h1>
-      <p class="text-black-800"><strong>Climate:</strong> {{ climate?.name || 'Loading...' }}</p>
-      <p class="text-black-800"><strong>Tasks:</strong> {{ garden.tasks.length }}</p>
-      <p class="text-black-800"><strong>Width:</strong> {{ garden.width }} m</p>
-      <p class="text-black-800"><strong>Height:</strong> {{ garden.height }} m</p>
-      <p class="text-black-800"><strong>Plants:</strong> {{ garden.plants.filter(plant => plant.isVisible).length }}</p>
+    <div class="p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <h1 class="text-3xl font-bold text-green-700 dark:text-green-400 mb-4">{{ garden.name }}</h1>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Climate:</strong> {{ climate?.name || 'Loading...' }}</p>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Tasks:</strong> {{ garden.tasks.length }}</p>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Width:</strong> {{ garden.width }} m</p>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Height:</strong> {{ garden.height }} m</p>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Plants:</strong> {{ garden.plants.filter(plant => plant.isVisible).length }}</p>
       <button @click="viewTasks()"
         class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out">
         View tasks
       </button>
     </div>
 
-    <div
-      class="bg-white shadow-lg rounded-xl p-6 mt-6 border border-gray-200 flex justify-center items-center flex-col">
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 mt-6 border border-gray-200 dark:border-gray-700 flex justify-center items-center flex-col">
       <!-- Draggable Garden Area -->
       <div class="flex flex-col items-center space-y-4 w-full">
-        <!-- Sliders for the garden width and height -->
+        <!-- Garden size sliders -->
         <div class="z-1 flex items-center w-full space-x-4">
-          <label class="font-bold w-20 text-right">Width:</label>
+          <label class="font-bold w-20 text-right text-gray-800 dark:text-gray-200">Width:</label>
           <VueSlider v-model="gardenWidth" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
-          <span class="font-medium w-12">{{ gardenWidth }}m</span>
+          <span class="font-medium w-12 text-gray-800 dark:text-gray-200">{{ gardenWidth }}m</span>
         </div>
 
         <div class="z-1 flex items-center w-full space-x-4">
-          <label class="font-bold w-20 text-right">Height:</label>
+          <label class="font-bold w-20 text-right text-gray-800 dark:text-gray-200">Height:</label>
           <VueSlider v-model="gardenHeight" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
-          <span class="font-medium w-12">{{ gardenHeight }}m</span>
+          <span class="font-medium w-12 text-gray-800 dark:text-gray-200">{{ gardenHeight }}m</span>
         </div>
       </div>
 
@@ -473,21 +451,20 @@ function viewTasks() {
           :style="{ background: 'none', border: 'none' }"
           >
           <div v-if="plant.isVisible" 
-            :style="{position: 'absolute', inset: 0, backgroundColor: 'transparent', border: '3px solid black', 
-            color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }"
-            >
-          <img :src="'/plants_sprites/' + plant.sprite">
-          <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
-          <button @click="openModificationModal(plant)"
-            class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" class="size-6">
-              <path
-                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-              <path
-                d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-            </svg>
-          </button>
-        </div>
+            :style="{ position: 'absolute', inset: 0, backgroundColor: 'transparent', border: '3px solid black', 
+                      color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
+            <img :src="'/plants_sprites/' + plant.sprite">
+            <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
+            <button @click="openModificationModal(plant)"
+              class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center bg-gray-600 hover:bg-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" class="w-4 h-4">
+                <path
+                  d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                <path
+                  d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5Z" />
+              </svg>
+            </button>
+          </div>
         </vue-draggable-resizable>
       </div>
 
@@ -497,51 +474,51 @@ function viewTasks() {
 
       <!-- Save Garden Button -->
       <div class="mt-4 flex justify-center w-full space-x-4">
-        <button @click="saveGarden()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+        <button @click="saveGarden()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md">
           Save
         </button>
-        <button @click="garden.plants = []"
-          class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700">
+        <button @click="garden.plants = []" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-md">
           Clear
         </button>
       </div>
-
     </div>
 
     <!-- Plants Search -->
-    <div class="mt-8 p-6 border-gray-200 rounded-xl shadow-md border">
-      <h2 class="text-xl font-bold text-green-700 mb-4">Available Plants</h2>
-      <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm"
+    <div class="mt-8 p-6 border border-gray-200 dark:border-gray-600 rounded-xl shadow-md bg-white dark:bg-gray-800">
+      <h2 class="text-xl font-bold text-green-700 dark:text-green-400 mb-4">Available Plants</h2>
+      <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 dark:border-gray-500 rounded-lg w-full mb-4 shadow-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
         placeholder="Search plants..." />
-        <div class="mb-4 z-1">
-          <h2 class="text-xl font-bold mb-4">Filter by Plant Type</h2>
-          <select v-model="selectedPlantType" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm">
-            <option value="">All Types</option>
-            <option value="vegetable">Vegetable</option>
-            <option value="fruit">Fruit</option>
-            <option value="fungus">Fungus</option>
-          </select>
-        </div>
       <div class="mb-4 z-1">
-        <h2 class="text-xl font-bold mb-4">Filter by growth duration</h2>
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Filter by Plant Type</h2>
+        <select v-model="selectedPlantType" class="p-2 border border-gray-300 dark:border-gray-500 rounded-lg w-full mb-4 shadow-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+          <option value="">All Types</option>
+          <option value="vegetable">Vegetable</option>
+          <option value="fruit">Fruit</option>
+          <option value="fungus">Fungus</option>
+        </select>
+      </div>
+      <div class="mb-4 z-1">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Filter by growth duration</h2>
         <VueSlider v-model="growthDurationRange" :min="0" :max="400" :step="10" />
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600 dark:text-gray-300">
           {{ growthDurationRange[0] }} - {{ growthDurationRange[1] }} days
         </p>
       </div>
 
       <div class="mb-4 z-1">
-        <h2 class="text-xl font-bold mb-4">Filter by water requirement</h2>
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Filter by water requirement</h2>
         <VueSlider v-model="waterRequirementRange" :min="0" :max="5" :step="1" />
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600 dark:text-gray-300">
           {{ waterRequirementRange[0] }} - {{ waterRequirementRange[1] }}
         </p>
       </div>
       <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <li v-for="plant in plants" :key="plant._id" @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
           :class="['p-4 shadow-md rounded-lg cursor-pointer text-center',
-            isPlantClimateCompatible(plant) ? 'bg-green-100 hover:bg-green-200' : 'bg-red-100 hover:bg-red-200']">
-          <p class="font-bold text-green-900">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
+            isPlantClimateCompatible(plant) ? 'bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800' : 'bg-red-100 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800']">
+          <p class="font-bold text-green-900 dark:text-green-300">
+            {{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}
+          </p>
         </li>
       </ul>
     </div>
@@ -549,43 +526,46 @@ function viewTasks() {
 
   <!-- Loader -->
   <div v-else class="text-center py-10">
-    <p class="text-gray-500">Loading garden details...</p>
+    <p class="text-gray-500 dark:text-gray-400">Loading garden details...</p>
   </div>
+  
   <!-- Confirm incompatible plant modal -->
-  <div v-if="showConfirmPlantModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white p-6 rounded shadow w-150">
-      <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
-      <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season.
-        You can still add it to your garden, but it may not grow well.</p>
+  <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow w-150">
+      <h2 class="text-xl font-bold mb-4 text-center dark:text-gray-100">Are you sure to add this plant?</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4 text-center">
+        This plant is not compatible with your climate and your season.
+        You can still add it to your garden, but it may not grow well.
+      </p>
       <div class="flex justify-center space-x-2">
         <button @click="addPlantToGarden(incompatiblePlant, true)"
-          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          class="bg-red-500 hover:bg-green-600 text-white px-4 py-2 rounded">
           Add
         </button>
         <button @click="showConfirmPlantModal = false"
-          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
           Cancel
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Saving confirmation message -->
+  <!-- Saving confirmation modal -->
   <div v-if="showSavingConfirmationModal"
-    class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white p-6 rounded shadow w-96 flex flex-col justify-center items-center">
-      <h2 class="text-xl font-bold mb-4 text-center">Garden Saved Successfully!</h2>
+    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow w-96 flex flex-col justify-center items-center">
+      <h2 class="text-xl font-bold mb-4 text-center dark:text-gray-100">Garden Saved Successfully!</h2>
       <button @click="showSavingConfirmationModal = !showSavingConfirmationModal"
-        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4">
         OK
       </button>
     </div>
   </div>
 
-  <!-- Plant modification -->
-  <div v-if="showModificationModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-6 rounded shadow w-96">
-      <h2 class="text-xl font-bold mb-4">Plant details</h2>
+  <!-- Plant modification modal -->
+  <div v-if="showModificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow w-96">
+      <h2 class="text-xl font-bold mb-4 dark:text-gray-100">Plant details</h2>
 
       <div class="mb-4">
         <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last harvest date</label>
@@ -606,30 +586,30 @@ function viewTasks() {
       </div>
 
       <div class="flex justify-between">
-        <button @click="saveChanges()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <button @click="saveChanges()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
           Save
         </button>
-        <button @click="deletePlant()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        <button @click="deletePlant()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
           Delete
         </button>
         <button @click="showModificationModal = false"
-          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
           Cancel
         </button>
       </div>
     </div>
   </div>
+  
 </template>
-
 
 <style>
 @import "vue-draggable-resizable/style.css";
 
 .vdr {
-  position: absolute
+  position: absolute;
 }
 
 .vdr:hover {
-  cursor: pointer
+  cursor: pointer;
 }
 </style>

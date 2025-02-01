@@ -2,7 +2,7 @@
   <div class="min-h-screen flex flex-col">
     <AppMenu />
 
-    <main class="flex-grow">
+    <main class="flex-grow dark:bg-gray-900">
       <router-view />
     </main>
 
