@@ -62,7 +62,11 @@ onMounted(() => {
     } else {
         console.log(`${result} tasks marked as seen`);
     }
-});
+  });
+  const bubble = document.getElementById("taskBubble")
+  if(bubble) {
+    bubble.style.display = 'none';
+  }
 });
 
 // Navigation vers un jardin

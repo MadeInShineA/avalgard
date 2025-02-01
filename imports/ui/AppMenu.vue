@@ -44,6 +44,7 @@
               </span>
               <span 
                 v-if="unseenCount > 0"
+                id="taskBubble"
                 class="bg-red-500 text-white rounded-full text-[0.65rem] w-4 h-4 flex items-center justify-center"
               >
                 {{ unseenCount }}
