@@ -6,38 +6,38 @@ import { useRouter } from 'vue-router';
 
 const gardens = ref([]);
 const userId = ref(null);
-const showAddGardenModal = ref(false); // Controls Add Garden Modal visibility
-const showUpdateGardenModal = ref(false); // Controls Update Garden Modal visibility
-const showConfirmationModal = ref(false); // Controls Confirmation Modal visibility
+const showAddGardenModal = ref(false); 
+const showUpdateGardenModal = ref(false); 
+const showConfirmationModal = ref(false); 
 
-  const newGarden = ref({ name: '', climateId: '', height: 10, width: 10 }); // Stores data for the new garden
-  const updatedGarden = ref({ _id: '', name: '', climateId: '', height: 0, width: 0 }); // Stores data for the updated garden
-  const MIN_SIDE_LENGTH = 1
-  const MAX_SIDE_LENGTH = 15
+const newGarden = ref({ name: '', climateId: '', height: 10, width: 10 }); // Stores data for the new garden
+const updatedGarden = ref({ _id: '', name: '', climateId: '', height: 0, width: 0 }); // Stores data for the updated garden
+const MIN_SIDE_LENGTH = 1
+const MAX_SIDE_LENGTH = 15
 
 const router = useRouter();
 
 function fetchGardensWithoutAnimation() {
-    userId.value = Meteor.userId();
-    Meteor.call('gardens.findAll', userId.value, (error, result) => {
-      if (!error) {
-        gardens.value = result;
-        const gardensList = gardens.value
-        gardensList.forEach((garden, index) => {
-          garden.visible = true;
-        });
-      } else {
-        console.error('Error fetching gardens:', error);
-      }
-    });
-  };
+  userId.value = Meteor.userId();
+  Meteor.call('gardens.findAll', userId.value, (error, result) => {
+    if (!error) {
+      gardens.value = result;
+      const gardensList = gardens.value;
+      gardensList.forEach((garden) => {
+        garden.visible = true;
+      });
+    } else {
+      console.error('Error fetching gardens:', error);
+    }
+  });
+};
 
 function fetchGardens() {
   userId.value = Meteor.userId();
   Meteor.call('gardens.findAll', userId.value, (error, result) => {
     if (!error) {
       gardens.value = result;
-      displayGardensWithDelay(); // Start displaying gardens with delay after fetching
+      displayGardensWithDelay(); 
     } else {
       console.error('Error fetching gardens:', error);
     }
@@ -59,46 +59,47 @@ function addGarden() {
 };
 
 function createGarden() {
-    const gardenToAdd = {
-      _id: Random.id(),
-      name: newGarden.value.name,
-      climateId: newGarden.value.climateId,
-      height: newGarden.value.height,
-      width: newGarden.value.width,
-      tasks: [],
-      plants: [],
-    };
-
-    Meteor.call('gardens.insert', userId.value, gardenToAdd, (error) => {
-      if (!error) {
-        fetchGardensWithoutAnimation(); // Refresh gardens list after addition
-        showAddGardenModal.value = false; // Hide Add Garden Modal
-        showConfirmationModal.value = true; // Show Confirmation Modal
-      } else {
-        console.error('Error adding garden:', error);
-      }
-    });
+  const gardenToAdd = {
+    _id: Random.id(),
+    name: newGarden.value.name,
+    climateId: newGarden.value.climateId,
+    height: newGarden.value.height,
+    width: newGarden.value.width,
+    tasks: [],
+    plants: [],
   };
 
-  function editGarden(garden) {
-    updatedGarden.value = { ...garden }; // Pre-fill modal with garden data
-    showUpdateGardenModal.value = true;
-  };
+  Meteor.call('gardens.insert', userId.value, gardenToAdd, (error) => {
+    if (!error) {
+      fetchGardensWithoutAnimation(); // Refresh gardens list after addition
+      showAddGardenModal.value = false; // Hide Add Garden Modal
+      showConfirmationModal.value = true; // Show Confirmation Modal
+    } else {
+      console.error('Error adding garden:', error);
+    }
+  });
+};
 
-  function updateGarden() {
-    Meteor.call('gardens.update', userId.value, updatedGarden.value._id, updatedGarden.value, (error) => {
-      if (!error) {
-        fetchGardensWithoutAnimation(); // Refresh gardens list after update
-        showUpdateGardenModal.value = false; // Hide Update Garden Modal
-      } else {
-        console.error('Error updating garden:', error);
-      }
-    });
-  };
+function editGarden(garden) {
+  updatedGarden.value = { ...garden }; 
+  showUpdateGardenModal.value = true;
+};
+
+function updateGarden() {
+  Meteor.call('gardens.update', userId.value, updatedGarden.value._id, updatedGarden.value, (error) => {
+    if (!error) {
+      fetchGardensWithoutAnimation(); 
+      showUpdateGardenModal.value = false; 
+    } else {
+      console.error('Error updating garden:', error);
+    }
+  });
+};
+
 function removeGarden(gardenId) {
   Meteor.call('gardens.remove', userId.value, gardenId, (error) => {
     if (!error) {
-      gardens.value = gardens.value.filter(garden => garden._id !== gardenId); // Remove garden from list
+      gardens.value = gardens.value.filter(garden => garden._id !== gardenId); 
     } else {
       console.error('Error removing garden:', error);
     }
@@ -150,111 +151,188 @@ function getClimates() {
       garden.width <= MAX_SIDE_LENGTH
   }
 
-// Function to simulate a delay when displaying gardens
 async function displayGardensWithDelay() {
   const gardensList = gardens.value;
   gardensList.forEach((garden, index) => {
     setTimeout(() => {
-      // Set the garden's visibility to true after the delay
       garden.visible = true;
-    }, index * 500); // Delay each garden's visibility by 500ms
+    }, index * 500); 
   });
 }
 </script>
 
-
 <template>
-  <div class="p-6">
-    <button @click="addGarden" class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600">Add Garden</button>
+  <div class="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <!-- Bouton pour ajouter un garden -->
+    <button 
+      @click="addGarden" 
+      class="bg-green-500 dark:bg-green-700 text-white px-4 py-2 rounded shadow hover:bg-green-600 dark:hover:bg-green-800"
+    >
+      Add Garden
+    </button>
 
+    <!-- Liste des gardens -->
     <ul class="mt-6 space-y-4">
-      <li v-for="garden in gardens" :key="garden._id" class="p-4 border rounded shadow flex justify-between items-center"
-          :class="{'fade-in': garden.visible, 'invisible': !garden.visible}">
+      <li 
+        v-for="garden in gardens" 
+        :key="garden._id" 
+        class="p-4 border rounded shadow flex justify-between items-center bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
+        :class="{'fade-in': garden.visible, 'invisible': !garden.visible}"
+      >
         <div>
-          <h3 class="text-lg font-bold">{{ garden.name }}</h3>
-          <p class="text-sm text-gray-600">Climate: {{ getClimateName(garden.climateId) }}</p>
-          <p class="text-sm text-gray-600">Tasks: {{ garden.tasks.length }}</p>
-          <p class="text-sm text-gray-600">Plants: {{ garden.plants.length }}</p>
+          <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">{{ garden.name }}</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Climate: {{ getClimateName(garden.climateId) }}</p>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Tasks: {{ garden.tasks.length }}</p>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Plants: {{ garden.plants.length }}</p>
         </div>
         <div class="flex space-x-2">
-          <button @click="editGarden(garden)" class="bg-blue-500 text-white px-3 py-1 rounded shadow hover:bg-blue-600">Edit</button>
-          <button @click="removeGarden(garden._id)" class="bg-red-500 text-white px-3 py-1 rounded shadow hover:bg-red-600">Remove</button>
-          <button @click="viewGarden(garden._id)" class="bg-gray-500 text-white px-3 py-1 rounded shadow hover:bg-gray-600">View</button>
+          <button 
+            @click="editGarden(garden)" 
+            class="bg-blue-500 dark:bg-blue-700 text-white px-3 py-1 rounded shadow hover:bg-blue-600 dark:hover:bg-blue-800"
+          >
+            Edit
+          </button>
+          <button 
+            @click="removeGarden(garden._id)" 
+            class="bg-red-500 dark:bg-red-700 text-white px-3 py-1 rounded shadow hover:bg-red-600 dark:hover:bg-red-800"
+          >
+            Remove
+          </button>
+          <button 
+            @click="viewGarden(garden._id)" 
+            class="bg-gray-500 dark:bg-gray-700 text-white px-3 py-1 rounded shadow hover:bg-gray-600 dark:hover:bg-gray-800"
+          >
+            View
+          </button>
         </div>
       </li>
     </ul>
 
-    <!-- Add Garden Modal -->
-    <div v-if="showAddGardenModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-white p-6 rounded shadow w-96">
-        <h2 class="text-xl font-bold mb-4">Create a New Garden</h2>
-        <label class="block mb-2">
+    <!-- Modal : Ajout d'un garden -->
+    <div 
+      v-if="showAddGardenModal" 
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+    >
+      <div class="bg-white dark:bg-gray-900 p-6 rounded shadow w-96">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Create a New Garden</h2>
+        <label class="block mb-2 text-gray-800 dark:text-gray-200">
           Name:
-          <input v-model="newGarden.name" type="text" class="w-full border rounded px-2 py-1" placeholder="Enter garden name" />
+          <input 
+            v-model="newGarden.name" 
+            type="text" 
+            class="w-full border rounded px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700"
+            placeholder="Enter garden name" 
+          />
         </label>
-        <label class="block mb-4">
+        <label class="block mb-4 text-gray-800 dark:text-gray-200">
           Climate ID:
-          <select v-model="newGarden.climateId" class="w-full border rounded px-2 py-1">
+          <select 
+            v-model="newGarden.climateId" 
+            class="w-full border rounded px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700"
+          >
             <option value="" disabled>Select a climate</option>
-            <option v-for="climate in climates" :key="climate._id" :value="climate._id">
+            <option 
+              v-for="climate in climates" 
+              :key="climate._id" 
+              :value="climate._id"
+            >
               {{ climate.name }}
             </option>
           </select>
         </label>
         <div class="flex justify-end space-x-2">
-          <button @click="createGarden" 
-                  :disabled="!newGarden.name.trim() || !newGarden.climateId" 
-                  :class="{'bg-gray-500': !newGarden.name.trim() || !newGarden.climateId, 'bg-green-500': newGarden.name.trim() && newGarden.climateId}" 
-                  class="text-white px-4 py-2 rounded hover:bg-green-600">
+          <button 
+            @click="createGarden" 
+            :disabled="!newGarden.name.trim() || !newGarden.climateId" 
+            :class="{
+              'bg-gray-500 dark:bg-gray-600': !newGarden.name.trim() || !newGarden.climateId,
+              'bg-green-500 dark:bg-green-700': newGarden.name.trim() && newGarden.climateId
+            }" 
+            class="text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-800"
+          >
             Create
           </button>
-          <button @click="showAddGardenModal = false" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+          <button 
+            @click="showAddGardenModal = false" 
+            class="bg-gray-500 dark:bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-600 dark:hover:bg-gray-700"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
 
-
-    <!-- Update Garden Modal -->
-    <div v-if="showUpdateGardenModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-white p-6 rounded shadow w-96">
-        <h2 class="text-xl font-bold mb-4">Update Garden</h2>
-        <label class="block mb-2">
+    <!-- Modal : Modification d'un garden -->
+    <div 
+      v-if="showUpdateGardenModal" 
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+    >
+      <div class="bg-white dark:bg-gray-900 p-6 rounded shadow w-96">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Update Garden</h2>
+        <label class="block mb-2 text-gray-800 dark:text-gray-200">
           Name:
-          <input v-model="updatedGarden.name" type="text" class="w-full border rounded px-2 py-1" placeholder="Enter garden name" />
+          <input 
+            v-model="updatedGarden.name" 
+            type="text" 
+            class="w-full border rounded px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700"
+            placeholder="Enter garden name" 
+          />
         </label>
-        <label class="block mb-4">
+        <label class="block mb-4 text-gray-800 dark:text-gray-200">
           Climate:
-          <select v-model="updatedGarden.climateId" class="w-full border rounded px-2 py-1">
+          <select 
+            v-model="updatedGarden.climateId" 
+            class="w-full border rounded px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700"
+          >
             <option value="" disabled>Select a climate</option>
-            <option v-for="climate in climates" :key="climate._id" :value="climate._id">
+            <option 
+              v-for="climate in climates" 
+              :key="climate._id" 
+              :value="climate._id"
+            >
               {{ climate.name }}
             </option>
           </select>
         </label>
         <div class="flex justify-end space-x-2">
-          <button @click="updateGarden" :disabled="!updatedGarden.name.trim() || !updatedGarden.climateId" 
-                  class="text-white px-4 py-2 rounded hover:bg-blue-600 bg-blue-500">
+          <button 
+            @click="updateGarden" 
+            :disabled="!updatedGarden.name.trim() || !updatedGarden.climateId" 
+            class="bg-blue-500 dark:bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600 dark:hover:bg-blue-800"
+          >
             Update
           </button>
-          <button @click="showUpdateGardenModal = false" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+          <button 
+            @click="showUpdateGardenModal = false" 
+            class="bg-gray-500 dark:bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-600 dark:hover:bg-gray-700"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div v-if="showConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-white p-6 rounded shadow w-96">
-        <h2 class="text-xl font-bold mb-4">Garden Created Successfully!</h2>
-        <p><strong>Name:</strong> {{ newGarden.name }}</p>
-        <p><strong>Climate:</strong> {{ getClimateName(newGarden.climateId) }}</p>
-        <button @click="showConfirmationModal = false" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">OK</button>
+    <!-- Modal : Confirmation de création d'un garden -->
+    <div 
+      v-if="showConfirmationModal" 
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+    >
+      <div class="bg-white dark:bg-gray-900 p-6 rounded shadow w-96">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Garden Created Successfully!</h2>
+        <p class="text-gray-800 dark:text-gray-200"><strong>Name:</strong> {{ newGarden.name }}</p>
+        <p class="text-gray-800 dark:text-gray-200"><strong>Climate:</strong> {{ getClimateName(newGarden.climateId) }}</p>
+        <button 
+          @click="showConfirmationModal = false" 
+          class="bg-green-500 dark:bg-green-700 text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-800 mt-4"
+        >
+          OK
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Animation fade-in */
 .fade-in {
   animation: fadeInAnimation 1s ease-out forwards;
 }
@@ -266,11 +344,11 @@ async function displayGardensWithDelay() {
 @keyframes fadeInAnimation {
   from {
     opacity: 0;
-    transform: translateY(20px); /* Légèrement décalé vers le bas */
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0); /* Position finale */
+    transform: translateY(0);
   }
 }
 </style>
