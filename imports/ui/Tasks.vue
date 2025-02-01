@@ -85,6 +85,20 @@ function createTask() {
   });
 }
 
+function toggleTaskCompletion(task) {
+  Meteor.call('tasks.update', 
+    userId.value, 
+    task.gardenId, 
+    task._id, 
+    { completed: !task.completed }, 
+    (error) => {
+      if (!error) {
+        fetchAllGardensAndTasks();
+      }
+    }
+  );
+}
+
 function editTask(task) {
   updatedTask.value = {
     ...task,
