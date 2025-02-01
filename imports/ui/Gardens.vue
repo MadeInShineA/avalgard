@@ -6,38 +6,38 @@ import { useRouter } from 'vue-router';
 
 const gardens = ref([]);
 const userId = ref(null);
-const showAddGardenModal = ref(false); // Controls Add Garden Modal visibility
-const showUpdateGardenModal = ref(false); // Controls Update Garden Modal visibility
-const showConfirmationModal = ref(false); // Controls Confirmation Modal visibility
+const showAddGardenModal = ref(false); 
+const showUpdateGardenModal = ref(false); 
+const showConfirmationModal = ref(false); 
 
 const newGarden = ref({ name: '', climateId: '', height: 10, width: 10 }); // Stores data for the new garden
 const updatedGarden = ref({ _id: '', name: '', climateId: '', height: 0, width: 0 }); // Stores data for the updated garden
-const MIN_SIDE_LENGTH = 1;
-const MAX_SIDE_LENGTH = 15;
+const MIN_SIDE_LENGTH = 1
+const MAX_SIDE_LENGTH = 15
 
 const router = useRouter();
 
 function fetchGardensWithoutAnimation() {
-    userId.value = Meteor.userId();
-    Meteor.call('gardens.findAll', userId.value, (error, result) => {
-      if (!error) {
-        gardens.value = result;
-        const gardensList = gardens.value
-        gardensList.forEach((garden, index) => {
-          garden.visible = true;
-        });
-      } else {
-        console.error('Error fetching gardens:', error);
-      }
-    });
-  };
+  userId.value = Meteor.userId();
+  Meteor.call('gardens.findAll', userId.value, (error, result) => {
+    if (!error) {
+      gardens.value = result;
+      const gardensList = gardens.value;
+      gardensList.forEach((garden) => {
+        garden.visible = true;
+      });
+    } else {
+      console.error('Error fetching gardens:', error);
+    }
+  });
+};
 
 function fetchGardens() {
   userId.value = Meteor.userId();
   Meteor.call('gardens.findAll', userId.value, (error, result) => {
     if (!error) {
       gardens.value = result;
-      displayGardensWithDelay(); // Start displaying gardens with delay after fetching
+      displayGardensWithDelay(); 
     } else {
       console.error('Error fetching gardens:', error);
     }
@@ -78,12 +78,12 @@ function createGarden() {
       console.error('Error adding garden:', error);
     }
   });
-}
+};
 
 function editGarden(garden) {
-  updatedGarden.value = { ...garden };
+  updatedGarden.value = { ...garden }; 
   showUpdateGardenModal.value = true;
-}
+};
 
 function updateGarden() {
   Meteor.call('gardens.update', userId.value, updatedGarden.value._id, updatedGarden.value, (error) => {
@@ -140,6 +140,15 @@ function canSubmitForm(garden) {
     garden.height <= MAX_SIDE_LENGTH &&
     garden.width <= MAX_SIDE_LENGTH;
 }
+
+  function canSubmitForm(garden) {
+    return garden.name.trim() &&
+      garden.climateId &&
+      garden.height >= MIN_SIDE_LENGTH &&
+      garden.width >= MIN_SIDE_LENGTH &&
+      garden.height <= MAX_SIDE_LENGTH &&
+      garden.width <= MAX_SIDE_LENGTH
+  }
 
 async function displayGardensWithDelay() {
   const gardensList = gardens.value;
@@ -204,7 +213,11 @@ async function displayGardensWithDelay() {
           <select v-model="newGarden.climateId"
             class="w-full border rounded px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700">
             <option value="" disabled>Select a climate</option>
-            <option v-for="climate in climates" :key="climate._id" :value="climate._id">
+            <option 
+              v-for="climate in climates" 
+              :key="climate._id" 
+              :value="climate._id"
+            >
               {{ climate.name }}
             </option>
           </select>
@@ -266,7 +279,11 @@ async function displayGardensWithDelay() {
           <select v-model="updatedGarden.climateId"
             class="w-full border rounded px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700">
             <option value="" disabled>Select a climate</option>
-            <option v-for="climate in climates" :key="climate._id" :value="climate._id">
+            <option 
+              v-for="climate in climates" 
+              :key="climate._id" 
+              :value="climate._id"
+            >
               {{ climate.name }}
             </option>
           </select>
