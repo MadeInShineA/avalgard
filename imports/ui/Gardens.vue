@@ -6,9 +6,9 @@ import { useRouter } from 'vue-router';
 
 const gardens = ref([]);
 const userId = ref(null);
-const showAddGardenModal = ref(false); 
-const showUpdateGardenModal = ref(false); 
-const showConfirmationModal = ref(false); 
+const showAddGardenModal = ref(false);
+const showUpdateGardenModal = ref(false);
+const showConfirmationModal = ref(false);
 
 const newGarden = ref({ name: '', climateId: '', height: 10, width: 10 }); // Stores data for the new garden
 const updatedGarden = ref({ _id: '', name: '', climateId: '', height: 0, width: 0 }); // Stores data for the updated garden
@@ -37,7 +37,7 @@ function fetchGardens() {
   Meteor.call('gardens.findAll', userId.value, (error, result) => {
     if (!error) {
       gardens.value = result;
-      displayGardensWithDelay(); 
+      displayGardensWithDelay();
     } else {
       console.error('Error fetching gardens:', error);
     }
@@ -81,7 +81,7 @@ function createGarden() {
 };
 
 function editGarden(garden) {
-  updatedGarden.value = { ...garden }; 
+  updatedGarden.value = { ...garden };
   showUpdateGardenModal.value = true;
 };
 
@@ -115,7 +115,7 @@ const climates = ref([]);
 function getClimates() {
   Meteor.call('climates.findAll', (error, result) => {
     if (!error) {
-      climates.value = result;
+      climates.value = result
     } else {
       console.error('Error fetching climates:', error);
     }
@@ -123,13 +123,13 @@ function getClimates() {
 }
 
 function getClimateName(climateId) {
-  const climate = climates.value.find(c => c._id === climateId);
+  const climate = this.climates.find(c => c._id === climateId);
   return climate ? climate.name : 'Unknown';
 }
 
 function hideConfirmationModal() {
-  showConfirmationModal.value = false;
-  newGarden.value = { name: '', climateId: '', height: 10, width: 10 };
+  showConfirmationModal.value = false
+  newGarden.value = { name: '', climateId: '', height: 10, width: 10 }
 }
 
 function canSubmitForm(garden) {
@@ -138,17 +138,8 @@ function canSubmitForm(garden) {
     garden.height >= MIN_SIDE_LENGTH &&
     garden.width >= MIN_SIDE_LENGTH &&
     garden.height <= MAX_SIDE_LENGTH &&
-    garden.width <= MAX_SIDE_LENGTH;
+    garden.width <= MAX_SIDE_LENGTH
 }
-
-  function canSubmitForm(garden) {
-    return garden.name.trim() &&
-      garden.climateId &&
-      garden.height >= MIN_SIDE_LENGTH &&
-      garden.width >= MIN_SIDE_LENGTH &&
-      garden.height <= MAX_SIDE_LENGTH &&
-      garden.width <= MAX_SIDE_LENGTH
-  }
 
 async function displayGardensWithDelay() {
   const gardensList = gardens.value;
@@ -213,11 +204,7 @@ async function displayGardensWithDelay() {
           <select v-model="newGarden.climateId"
             class="w-full border rounded px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700">
             <option value="" disabled>Select a climate</option>
-            <option 
-              v-for="climate in climates" 
-              :key="climate._id" 
-              :value="climate._id"
-            >
+            <option v-for="climate in climates" :key="climate._id" :value="climate._id">
               {{ climate.name }}
             </option>
           </select>
@@ -250,7 +237,7 @@ async function displayGardensWithDelay() {
         </p>
 
         <div class="flex justify-end space-x-2">
-          <button @click="createGarden" :disabled="!canSubmitForm(newGarden)" :class="{
+          <button @click="createGarden" :disabled=!canSubmitForm(newGarden) :class="{
             'bg-gray-500 dark:bg-gray-600': !canSubmitForm(newGarden),
             'bg-green-500 dark:bg-green-700': canSubmitForm(newGarden)
           }" class="text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-800">
@@ -279,11 +266,7 @@ async function displayGardensWithDelay() {
           <select v-model="updatedGarden.climateId"
             class="w-full border rounded px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700">
             <option value="" disabled>Select a climate</option>
-            <option 
-              v-for="climate in climates" 
-              :key="climate._id" 
-              :value="climate._id"
-            >
+            <option v-for="climate in climates" :key="climate._id" :value="climate._id">
               {{ climate.name }}
             </option>
           </select>
@@ -360,6 +343,7 @@ async function displayGardensWithDelay() {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
