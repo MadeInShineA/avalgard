@@ -71,18 +71,22 @@ function addTask() {
 function createTask() {
   const taskToAdd = {
     _id: Random.id(),
-    ...newTask.value,
-    deadLine: new Date(newTask.value.deadLine)
+    name: newTask.value.name,
+    description: newTask.value.description,
+    deadLine: new Date(newTask.value.deadLine),
+    completed: newTask.value.completed
   };
 
-  Meteor.call('tasks.insert', userId.value, newTask.value.gardenId, taskToAdd, (error) => {
-    if (!error) {
+  Meteor.call('tasks.insert', 
+    userId.value, 
+    newTask.value.gardenId, // gardenId passé séparément
+    taskToAdd, 
+    (error) => {
       fetchAllGardensAndTasks();
       showAddTaskModal.value = false;
       showConfirmationModal.value = true;
-      resetNewTaskForm();
     }
-  });
+  );
 }
 
 function toggleTaskCompletion(task) {
@@ -97,6 +101,15 @@ function toggleTaskCompletion(task) {
       }
     }
   );
+}
+
+function resetNewTaskForm() {
+  newTask.value = {
+    name: '',
+    description: '',
+    deadLine: new Date(),
+    completed: false
+  };
 }
 
 function editTask(task) {
@@ -125,13 +138,6 @@ function removeTask(task) {
   });
 }
 
-function toggleTaskStatus(task) {
-  Meteor.call('tasks.update', userId.value, task.gardenId, task._id, 
-    { completed: !task.completed }, (error) => {
-      if (!error) fetchAllGardensAndTasks();
-    });
-}
-
 // Helpers
 function formatDate(date) {
   return new Date(date).toLocaleString('fr-CH', { 
@@ -142,6 +148,11 @@ function formatDate(date) {
 
 function canSubmitTask(task) {
   return task.name.trim() && task.deadLine && task.gardenId;
+}
+
+function hideConfirmationModal() {
+  showConfirmationModal.value = false;
+  resetNewTaskForm();
 }
 
 // Filtres

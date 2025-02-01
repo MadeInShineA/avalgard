@@ -72,7 +72,6 @@ function createTask() {
       fetchGardenAndTasks();
       showAddTaskModal.value = false;
       showConfirmationModal.value = true;
-      resetNewTaskForm();
     } else {
       console.error('Error adding task:', error);
     }
@@ -152,6 +151,7 @@ function canSubmitTask(task) {
 
 function hideConfirmationModal() {
   showConfirmationModal.value = false;
+  resetNewTaskForm();
 }
 
 // Computed properties pour les onglets
@@ -209,7 +209,7 @@ const completedTasks = computed(() => {
                 :class="task.completed ? 'text-green-500' : 'text-red-500'"
                 class="font-medium"
                 >
-                {{ task.completed ? '✅ Terminée' : '🕒 En attente' }}
+                {{ task.completed ? '✅ Completed' : '🕒 Pending' }}
                 </span>
             </div>
         </div>

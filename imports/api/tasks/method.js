@@ -11,7 +11,7 @@ Meteor.methods({
       name: String,
       description: String,
       deadLine: Date,
-      completed: Boolean,
+      completed: Boolean
     });
 
     const NonEmptyString = Match.Where((x) => {
