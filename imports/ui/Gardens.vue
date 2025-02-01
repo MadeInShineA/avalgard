@@ -5,6 +5,8 @@ import { Random } from 'meteor/random';
 import { useRoute, useRouter } from 'vue-router';
 import VueDraggableResizable from 'vue-draggable-resizable';
 import VueSlider from 'vue-3-slider-component';
+import RippleButton from './RippleButton.vue';
+
 
 const gardens = ref([]);
 const userId = ref(null);
@@ -379,10 +381,10 @@ function isPlantClimateCompatible(plant) {
           }" class="text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-800">
             Create
           </button>
-          <button @click="showAddGardenModal = false"
+          <RippleButton @click="showAddGardenModal = false"
             class="bg-gray-500 dark:bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-600 dark:hover:bg-gray-700">
             Cancel
-          </button>
+          </RippleButton>
         </div>
       </div>
     </div>
