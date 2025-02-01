@@ -21,7 +21,8 @@ Meteor.methods({
       minGrowthDuration = 0, 
       maxGrowthDuration = 400, 
       minWaterRequirement = 0, 
-      maxWaterRequirement = 5 
+      maxWaterRequirement = 5,
+      plantType = ''
     } = options;
 
     const query = {};
@@ -39,6 +40,11 @@ Meteor.methods({
       $gte: minWaterRequirement, 
       $lte: maxWaterRequirement 
     };
+
+    if (plantType) {
+      console.log(plantType)
+      query.type = plantType;
+    }
 
     const plants = await PlantsCollection.find(query).fetch();
     return plants;

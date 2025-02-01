@@ -26,15 +26,18 @@ const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible pla
 const incompatiblePlant = ref(null) //Store the incompatible plant
 
 const growthDurationRange = ref([0, 400]); //Filter
-const waterRequirementRange = ref([0, 5]); //Filter
+const waterRequirementRange = ref([0, 5]); //Filterà
+const selectedPlantType = ref(''); // Filter
 
 const gardenWidth = ref(0) // Match the garden's actual width
 const gardenHeight = ref(0) // Match the garden's actual height
+
 
 // Watch for changes in searchbar and sliders and trigger the search function
 watch(searchQuery, searchAndFilterPlants);
 watch(growthDurationRange, searchAndFilterPlants);
 watch(waterRequirementRange, searchAndFilterPlants);
+watch(selectedPlantType, searchAndFilterPlants);
 
 function fetchGarden() {
   console.log('Fetching garden...')
@@ -126,10 +129,11 @@ function searchAndFilterPlants() {
     minGrowthDuration: growthDurationRange.value[0],
     maxGrowthDuration: growthDurationRange.value[1],
     minWaterRequirement: waterRequirementRange.value[0],
-    maxWaterRequirement: waterRequirementRange.value[1]
+    maxWaterRequirement: waterRequirementRange.value[1],
+    plantType: selectedPlantType.value
   }, (error, result) => {
-    console.log(result)
-    plants.value = result || []; // Update the plants list with the filters results
+    console.log(result);
+    plants.value = result || []; // Mettre à jour la liste des plantes avec les résultats du filtre
   });
 }
 
@@ -488,6 +492,15 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       <h2 class="text-xl font-bold text-green-700 mb-4">Available Plants</h2>
       <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm"
         placeholder="Search plants..." />
+        <div class="mb-4 z-1">
+          <h2 class="text-xl font-bold mb-4">Filter by Plant Type</h2>
+          <select v-model="selectedPlantType" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm">
+            <option value="">All Types</option>
+            <option value="vegetable">Vegetable</option>
+            <option value="fruit">Fruit</option>
+            <option value="fungus">Fungus</option>
+          </select>
+        </div>
       <div class="mb-4 z-1">
         <h2 class="text-xl font-bold mb-4">Filter by growth duration</h2>
         <VueSlider v-model="growthDurationRange" :min="0" :max="400" :step="10" />

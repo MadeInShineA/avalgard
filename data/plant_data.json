@@ -1,432 +1,470 @@
 [
-    {
+  {
       "name": "radish",
+      "type": "vegetable",
       "growthDuration": 25,
       "harvestPeriod": 10,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 10,
-        "max": 25
+          "min": 10,
+          "max": 25
       },
       "sprite": "radis_nb.png"
-    },
-    {
+  },
+  {
       "name": "turnip",
+      "type": "vegetable",
       "growthDuration": 50,
       "harvestPeriod": 20,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 10,
-        "max": 24
+          "min": 10,
+          "max": 24
       },
       "sprite": "navet_nb.png"
-    },
-    {
+  },
+  {
       "name": "garlic",
+      "type": "vegetable",
       "growthDuration": 180,
       "harvestPeriod": 30,
       "waterRequirement": 1,
       "temperatureRange": {
-        "min": 10,
-        "max": 30
+          "min": 10,
+          "max": 30
       },
       "sprite": "ail_nb.png"
-    },
-    {
+  },
+  {
       "name": "mushroom",
+      "type": "fungus",
       "growthDuration": 20,
       "harvestPeriod": 10,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 15,
-        "max": 25
+          "min": 15,
+          "max": 25
       },
       "sprite": "champignon_nb.png"
-    },
-    {
+  },
+  {
       "name": "pumpkin",
+      "type": "vegetable",
       "growthDuration": 100,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 15,
-        "max": 30
+          "min": 15,
+          "max": 30
       },
       "sprite": "courge_nb.png"
-    },
-    {
+  },
+  {
       "name": "cucumber",
+      "type": "vegetable",
       "growthDuration": 60,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 18,
-        "max": 30
+          "min": 18,
+          "max": 30
       },
       "sprite": "concombre_nb.png"
-    },
-    {
+  },
+  {
       "name": "zucchini",
+      "type": "vegetable",
       "growthDuration": 50,
       "harvestPeriod": 20,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 18,
-        "max": 30
+          "min": 18,
+          "max": 30
       },
       "sprite": "courgette_nb.png"
-    },
-    {
+  },
+  {
       "name": "sweet potato",
+      "type": "vegetable",
       "growthDuration": 100,
       "harvestPeriod": 30,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 18,
-        "max": 30
+          "min": 18,
+          "max": 30
       },
       "sprite": "patate_douce_nb.png"
-    },
-    {
+  },
+  {
       "name": "green chili",
+      "type": "vegetable",
       "growthDuration": 80,
       "harvestPeriod": 20,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 18,
-        "max": 30
+          "min": 18,
+          "max": 30
       },
       "sprite": "piment_vert_nb.png"
-    },
-    {
+  },
+  {
       "name": "red chili",
+      "type": "vegetable",
       "growthDuration": 80,
       "harvestPeriod": 20,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 18,
-        "max": 30
+          "min": 18,
+          "max": 30
       },
       "sprite": "piment_nb.png"
-    },
-    {
+  },
+  {
       "name": "carrot",
+      "type": "vegetable",
       "growthDuration": 75,
       "harvestPeriod": 20,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 10,
-        "max": 25
+          "min": 10,
+          "max": 25
       },
       "sprite": "carotte_nb.png"
-    },
-    {
+  },
+  {
       "name": "onion",
+      "type": "vegetable",
       "growthDuration": 90,
       "harvestPeriod": 30,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 25
+          "min": 15,
+          "max": 25
       },
       "sprite": "oignon_nb.png"
-    },
-    {
+  },
+  {
       "name": "bell pepper",
+      "type": "vegetable",
       "growthDuration": 70,
       "harvestPeriod": 20,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 18,
-        "max": 30
+          "min": 18,
+          "max": 30
       },
       "sprite": "poivron_nb.png"
-    },
-    {
+  },
+  {
       "name": "cabbage",
+      "type": "vegetable",
       "growthDuration": 90,
       "harvestPeriod": 20,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 7,
-        "max": 24
+          "min": 7,
+          "max": 24
       },
       "sprite": "chou_nb.png"
-    },
-    {
+  },
+  {
       "name": "broccoli",
+      "type": "vegetable",
       "growthDuration": 60,
       "harvestPeriod": 15,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 15,
-        "max": 25
+          "min": 15,
+          "max": 25
       },
       "sprite": "brocoli_nb.png"
-    },
-    {
+  },
+  {
       "name": "corn",
+      "type": "vegetable",
       "growthDuration": 90,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 18,
-        "max": 32
+          "min": 18,
+          "max": 32
       },
       "sprite": "mais_nb.png"
-    },
-    {
+  },
+  {
       "name": "leek",
+      "type": "vegetable",
       "growthDuration": 120,
       "harvestPeriod": 30,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 25
+          "min": 15,
+          "max": 25
       },
       "sprite": "poireau_nb.png"
-    },
-    {
+  },
+  {
       "name": "eggplant",
+      "type": "vegetable",
       "growthDuration": 80,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 20,
-        "max": 30
+          "min": 20,
+          "max": 30
       },
       "sprite": "aubergine_nb.png"
-    },
-    {
+  },
+  {
       "name": "tomato",
+      "type": "vegetable",
       "growthDuration": 80,
       "harvestPeriod": 40,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 30
+          "min": 15,
+          "max": 30
       },
       "sprite": "tomate_nb.png"
-    },
-    {
+  },
+  {
       "name": "strawberry",
+      "type": "fruit",
       "growthDuration": 100,
       "harvestPeriod": 30,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 25
+          "min": 15,
+          "max": 25
       },
       "sprite": "fraise_nb.png"
-    },
-    {
+  },
+  {
       "name": "blueberry",
+      "type": "fruit",
       "growthDuration": 60,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 10,
-        "max": 25
+          "min": 10,
+          "max": 25
       },
       "sprite": "myrtille_nb.png"
-    },
-    {
+  },
+  {
       "name": "raspberry",
+      "type": "fruit",
       "growthDuration": 60,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 10,
-        "max": 25
+          "min": 10,
+          "max": 25
       },
       "sprite": "framboise.png"
-    },
-    {
+  },
+  {
       "name": "cherry",
+      "type": "fruit",
       "growthDuration": 80,
       "harvestPeriod": 20,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 18,
-        "max": 25
+          "min": 18,
+          "max": 25
       },
       "sprite": "cerise_nb.png"
-    },
-    {
+  },
+  {
       "name": "grapes",
+      "type": "fruit",
       "growthDuration": 150,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 15,
-        "max": 30
+          "min": 15,
+          "max": 30
       },
       "sprite": "raisin_nb.png"
-    },
-    {
+  },
+  {
       "name": "apple",
+      "type": "fruit",
       "growthDuration": 150,
       "harvestPeriod": 45,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 25
+          "min": 15,
+          "max": 25
       },
       "sprite": "pomme_nb.png"
-    },
-    {
+  },
+  {
       "name": "orange",
+      "type": "fruit",
       "growthDuration": 180,
       "harvestPeriod": 60,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 30
+          "min": 15,
+          "max": 30
       },
       "sprite": "orange_nb.png"
-    },
-    {
-      "name": "lemon",
-      "growthDuration": 180,
-      "harvestPeriod": 60,
-      "waterRequirement": 2,
-      "temperatureRange": {
+  },
+  {
+    "name": "lemon",
+    "type": "fruit",
+    "growthDuration": 180,
+    "harvestPeriod": 60,
+    "waterRequirement": 2,
+    "temperatureRange": {
         "min": 15,
         "max": 30
-      },
-      "sprite": "citron_nb.png"
     },
-    {
+    "sprite": "citron_nb.png"
+  },
+  {
       "name": "peach",
+      "type": "fruit",
       "growthDuration": 120,
       "harvestPeriod": 30,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 18,
-        "max": 30
+          "min": 18,
+          "max": 30
       },
       "sprite": "peche.png"
-    },
-    {
+  },
+  {
       "name": "pomegranate",
+      "type": "fruit",
       "growthDuration": 180,
       "harvestPeriod": 60,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 30
+          "min": 15,
+          "max": 30
       },
       "sprite": "grenade_nb.png"
-    },
-    {
+  },
+  {
       "name": "watermelon",
+      "type": "fruit",
       "growthDuration": 90,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 18,
-        "max": 35
+          "min": 18,
+          "max": 35
       },
       "sprite": "pasteque_nb.png"
-    },
-    {
+  },
+  {
       "name": "melon",
+      "type": "fruit",
       "growthDuration": 80,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 15,
-        "max": 30
+          "min": 15,
+          "max": 30
       },
       "sprite": "melon_nb.png"
-    },
-    {
+  },
+  {
       "name": "banana",
+      "type": "fruit",
       "growthDuration": 350,
       "harvestPeriod": 60,
       "waterRequirement": 4,
       "temperatureRange": {
-        "min": 20,
-        "max": 35
+          "min": 20,
+          "max": 35
       },
       "sprite": "banane_nb.png"
-    },
-    {
+  },
+  {
       "name": "potato",
+      "type": "vegetable",
       "growthDuration": 120,
       "harvestPeriod": 30,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 10,
-        "max": 25
+          "min": 10,
+          "max": 25
       },
       "sprite": "patate_nb.png"
-    },
-    {
+  },
+  {
       "name": "lime",
+      "type": "fruit",
       "growthDuration": 180,
       "harvestPeriod": 60,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 30
+          "min": 15,
+          "max": 30
       },
       "sprite": "lime_nb.png"
-    },
-    {
+  },
+  {
       "name": "pear",
+      "type": "fruit",
       "growthDuration": 150,
       "harvestPeriod": 45,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 15,
-        "max": 25
+          "min": 15,
+          "max": 25
       },
       "sprite": "poire_nb.png"
-    },
-    {
+  },
+  {
       "name": "cranberry",
+      "type": "fruit",
       "growthDuration": 60,
       "harvestPeriod": 30,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 10,
-        "max": 25
+          "min": 10,
+          "max": 25
       },
       "sprite": "cranberry_nb.png"
-    },
-    {
+  },
+  {
       "name": "cauliflower",
+      "type": "vegetable",
       "growthDuration": 90,
       "harvestPeriod": 20,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 7,
-        "max": 24
+          "min": 7,
+          "max": 24
       },
       "sprite": "chou-fleur_nb.png"
-    },
-    {
+  },
+  {
       "name": "pineapple",
+      "type": "fruit",
       "growthDuration": 180,
       "harvestPeriod": 60,
       "waterRequirement": 3,
       "temperatureRange": {
-        "min": 20,
-        "max": 35
+          "min": 20,
+          "max": 35
       },
       "sprite": "ananas_nb.png"
-    },
-    {
-      "name": "abricot",
+  },
+  {
+      "name": "apricot",
+      "type": "fruit",
       "growthDuration": 120,
       "harvestPeriod": 30,
       "waterRequirement": 2,
       "temperatureRange": {
-        "min": 18,
-        "max": 30
+          "min": 18,
+          "max": 30
       },
       "sprite": "abricot_nb.png"
-    }
-  ]
-  
+  }
+]
