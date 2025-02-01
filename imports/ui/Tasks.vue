@@ -226,7 +226,7 @@ const completedTasks = computed(() => {
             </div>
           <div class="flex space-x-2">
             <button @click="toggleTaskCompletion(task)" 
-                    class="bg-yellow-500 text-white px-3 py-1 rounded shadow hover:bg-yellow-600">
+                    class="bg-green-500 text-white px-3 py-1 rounded shadow hover:bg-yellow-600">
               {{ task.completed ? 'Mark Pending' : 'Mark Completed' }}
             </button>
             <button @click="editTask(task)" class="bg-blue-500 text-white px-3 py-1 rounded shadow hover:bg-blue-600">

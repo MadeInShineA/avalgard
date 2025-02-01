@@ -35,9 +35,19 @@
               class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
               Gardens
             </router-link>
-            <router-link :to="{ name: 'tasks' }"
-              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
-              Tasks
+            <router-link 
+              to="/tasks" 
+              class="menu-item flex items-center justify-between"
+            >
+              <span class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
+                Tasks
+              </span>
+              <span 
+                v-if="unseenCount > 0"
+                class="bg-red-500 text-white rounded-full text-[0.65rem] w-4 h-4 flex items-center justify-center"
+              >
+                {{ unseenCount }}
+              </span>
             </router-link>
             <router-link :to="{ name: 'account' }"
               class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
@@ -61,7 +71,24 @@
 import { autorun } from 'vue-meteor-tracker';
 import { Meteor } from 'meteor/meteor';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { Tracker } from 'meteor/tracker';
+
+const unseenCount = ref(0);
+
+function fetchUnseenCount() {
+  Meteor.call('tasks.countUnseen', Meteor.userId(), (error, count) => {
+    if (!error) unseenCount.value = count;
+  });
+}
+
+onMounted(() => {
+  Tracker.autorun(() => {
+    if (Meteor.userId()) {
+      fetchUnseenCount();
+    }
+  });
+});
 
 // Initialiser le routeur
 const router = useRouter();
