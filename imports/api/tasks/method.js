@@ -170,8 +170,6 @@ Meteor.methods({
         null
       );
 
-      console.log(lastWateringTask)
-
       let lastHarvestTask = harvestTasks.reduce((latest, task) => 
         !latest || new Date(task.createDate) > new Date(latest.createDate) ? task : latest, 
         null
