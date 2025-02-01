@@ -272,8 +272,6 @@ function openModificationModal(plant) {
 }
 
 function saveChanges() {
-  console.log(selectedPlant.value)
-  console.log(garden.value.plants)
   if (!selectedPlant.value || !garden.value.plants) return
   isGardenFull.value = false
 
@@ -282,6 +280,15 @@ function saveChanges() {
   )
 
   if (plantIndex !== -1) {
+    if (selectedPlant.value.lastHarvestDate > getCurrentDate()){
+      selectedPlant.value.lastHarvestDate = getCurrentDate()
+    }
+    if (selectedPlant.value.lastWateringDate > getCurrentDate()){
+      selectedPlant.value.lastWateringDate = getCurrentDate()
+    }
+    if (selectedPlant.value.lastCutDate > getCurrentDate()){
+      selectedPlant.value.lastCutDate = getCurrentDate()
+    }
     garden.value.plants[plantIndex].lastHarvestDate = selectedPlant.value.lastHarvestDate
     garden.value.plants[plantIndex].lastWateringDate = selectedPlant.value.lastWateringDate
     garden.value.plants[plantIndex].lastCutDate = selectedPlant.value.lastCutDate
