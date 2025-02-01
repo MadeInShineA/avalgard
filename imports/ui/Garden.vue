@@ -193,7 +193,7 @@ const addPlantToGarden = (plant, compatible) => {
   const day = dateObj.getUTCDate().toString().padStart(2, '0');
   const year = dateObj.getUTCFullYear();
 
-  const date = year + "-" + month + "-" + day
+  const date = getCurrentDate()
 
   if (x >= 0 && y >= 0) {
     let plantToPlace = {
@@ -213,6 +213,15 @@ const addPlantToGarden = (plant, compatible) => {
     garden.value.plants.push(plantToPlace)
   }
   showConfirmPlantModal.value = false
+}
+
+const getCurrentDate = () => {
+  const dateObj = new Date();
+  const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = dateObj.getUTCDate().toString().padStart(2, '0');
+  const year = dateObj.getUTCFullYear();
+
+  return year + "-" + month + "-" + day
 }
 
 const onDrag = (x, y, plant) => {
@@ -578,13 +587,13 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
 
       <div class="mb-4">
         <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last harvest date</label>
-        <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate"
+        <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate" :max="getCurrentDate()"
           class="p-2 border border-gray-300 rounded-lg w-full" />
       </div>
 
       <div class="mb-4">
-        <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last watering date</label>
-        <input v-model="selectedPlant.lastWateringDate" type="date" id="lastHarvestedDate"
+        <label for="lastWatering" class="block text-sm font-medium text-gray-700">Last watering date</label>
+        <input v-model="selectedPlant.lastWateringDate" type="date" id="lastWateringDate" :max="getCurrentDate()"
           class="p-2 border border-gray-300 rounded-lg w-full" />
       </div>
 
