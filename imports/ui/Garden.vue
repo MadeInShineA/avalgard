@@ -57,6 +57,7 @@ function fetchGarden() {
       }
     } else {
       console.error('Error fetching garden:', error)
+      router.push('/')
     }
   })
 }

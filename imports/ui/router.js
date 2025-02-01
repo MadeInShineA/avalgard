@@ -56,5 +56,9 @@ export const router = createRouter({
       component: Garden,
       beforeEnter: requireAuth, 
     },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/',
+    }
   ],
 });
