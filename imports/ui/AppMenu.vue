@@ -78,7 +78,12 @@ const unseenCount = ref(0);
 
 function fetchUnseenCount() {
   Meteor.call('tasks.countUnseen', Meteor.userId(), (error, count) => {
-    if (!error) unseenCount.value = count;
+    if (!error) {
+      unseenCount.value = count;
+    }
+    else {
+      console.log(error)
+    }
   });
 }
 

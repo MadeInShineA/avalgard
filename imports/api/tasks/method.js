@@ -96,7 +96,31 @@ Meteor.methods({
 
     return garden.tasks;
   },
+  'tasks.countUnseen': async function(userId) {
+    check(userId, String);
+    
+    const user = await Meteor.users.findOneAsync(userId, {
+      fields: {
+        'profile.gardens.tasks.seen': 1
+      }
+    });
 
+    if (!user || !user.profile?.gardens) return 0;
+
+    let unseenCount = 0;
+    
+    user.profile.gardens.forEach(garden => {
+      if (garden.tasks) {
+        garden.tasks.forEach(task => {
+          if (task.seen === false) {
+            unseenCount++;
+          }
+        });
+      }
+    });
+
+    return unseenCount;
+  },
   'tasks.createAutomaticallyForGarden': async function(userId, gardenId) {
     check(userId, String);
     check(gardenId, String);
