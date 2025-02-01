@@ -231,7 +231,8 @@ Meteor.methods({
             type: "watering",
             createDate: today,
             seen: false,
-            plantId: plant._id
+            plantId: plant._id,
+            isAutomatic: true
           }
 
           newTasks.push(newTask)
@@ -255,7 +256,8 @@ Meteor.methods({
             type: "harvest",
             createDate: today,
             seen: false,
-            plantId: plant._id
+            plantId: plant._id,
+            isAutomatic: true
           }
 
           newTasks.push(newTask)
@@ -279,7 +281,8 @@ Meteor.methods({
             type: "cut",
             createDate: today,
             seen: false,
-            plantId: plant._id
+            plantId: plant._id,
+            isAutomatic: true
           }
 
           newTasks.push(newTask)
