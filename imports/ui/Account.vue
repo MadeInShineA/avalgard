@@ -1,15 +1,14 @@
 <template>
   <div class="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">Gestion du compte</h2>
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Account management</h2>
 
-    <!-- Modification du nom d'utilisateur -->
     <div class="mb-8">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">Changer de nom d'utilisateur</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700">Change user name</h3>
       <form @submit.prevent="updateUsername">
         <input
           v-model="newUsername"
           type="text"
-          placeholder="Nouveau nom d'utilisateur"
+          placeholder="New user name"
           class="w-full p-2 mb-3 border rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
           required
         />
@@ -17,7 +16,7 @@
           type="submit"
           class="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition-colors"
         >
-          Mettre à jour
+          Update
         </button>
       </form>
       <p v-if="usernameMessage" class="mt-2 text-sm" :class="usernameError ? 'text-red-500' : 'text-green-500'">
@@ -25,78 +24,68 @@
       </p>
     </div>
 
-    <!-- Changer de mot de passe -->
-    <div class="mb-8 bg-white p-8 rounded shadow-md w-full max-w-md">
-      <h2 class="text-2xl font-bold mb-6 text-gray-800">Changer de mot de passe</h2>
-      <form @submit.prevent="handleChangePassword">
-        <!-- Ancien mot de passe -->
-        <div class="mb-4">
-          <label for="oldPassword" class="block text-gray-700">
-            Ancien mot de passe
-          </label>
-          <input
-            id="oldPassword"
-            type="password"
-            v-model="oldPassword"
-            placeholder="Ancien mot de passe"
-            class="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
+    <h3 class="text-lg font-semibold mb-4 text-gray-700">Change password</h3>
+    <form @submit.prevent="handleChangePassword" class="mb-8">
+      <div class="mb-4">
+        <label for="oldPassword" class="block text-gray-700">
+          Old password
+        </label>
+        <input
+          id="oldPassword"
+          type="password"
+          v-model="oldPassword"
+          placeholder="Old password"
+          class="w-full px-3 py-2 border rounded"
+          required
+        />
+      </div>
 
-        <!-- Nouveau mot de passe -->
-        <div class="mb-4">
-          <label for="newPassword" class="block text-gray-700">
-            Nouveau mot de passe
-          </label>
-          <input
-            id="newPassword"
-            type="password"
-            v-model="newPassword"
-            placeholder="Nouveau mot de passe"
-            class="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
+      <div class="mb-4">
+        <label for="newPassword" class="block text-gray-700">
+          New password
+        </label>
+        <input
+          id="newPassword"
+          type="password"
+          v-model="newPassword"
+          placeholder="New password"
+          class="w-full px-3 py-2 border rounded"
+          required
+        />
+      </div>
 
-        <!-- Confirmation du nouveau mot de passe -->
-        <div class="mb-4">
-          <label for="confirmPassword" class="block text-gray-700">
-            Confirmer le nouveau mot de passe
-          </label>
-          <input
-            id="confirmPassword"
-            type="password"
-            v-model="confirmPassword"
-            placeholder="Confirmer le nouveau mot de passe"
-            class="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
+      <div class="mb-4">
+        <label for="confirmPassword" class="block text-gray-700">
+          Confirm new password
+        </label>
+        <input
+          id="confirmPassword"
+          type="password"
+          v-model="confirmPassword"
+          placeholder="Confirm new password"
+          class="w-full px-3 py-2 border rounded"
+          required
+        />
+      </div>
 
-        <!-- Message d'erreur -->
-        <div v-if="errorMessage" class="mb-4 text-red-500">
-          {{ errorMessage }}
-        </div>
+      <div v-if="errorMessage" class="mb-4 text-red-500">
+        {{ errorMessage }}
+      </div>
 
-        <!-- Message de succès -->
-        <div v-if="successMessage" class="mb-4 text-green-500">
-          {{ successMessage }}
-        </div>
+      <div v-if="successMessage" class="mb-4 text-green-500">
+        {{ successMessage }}
+      </div>
 
-        <!-- Bouton de soumission -->
-        <button
-          type="submit"
-          class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded transition-colors duration-200"
-        >
-          Changer le mot de passe
-        </button>
-      </form>
-    </div>
+      <button
+        type="submit"
+        class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded transition-colors duration-200"
+      >
+        Change password
+      </button>
+    </form>
 
-    <!-- Suppression du compte -->
-    <div class="mb-8">
-      <h3 class="text-lg font-semibold mb-4 text-red-700">Supprimer le compte</h3>
+    <div class="mb-4">
+      <h3 class="text-lg font-semibold mb-4 text-red-700">Delete account</h3>
       <form @submit.prevent="handleDeleteAccount">
         <!--
         <input
@@ -110,7 +99,7 @@
           type="submit"
           class="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors"
         >
-          Supprimer mon compte
+          Delete my account
         </button>
       </form>
       <p v-if="deleteMessage" class="mt-2 text-sm" :class="deleteError ? 'text-red-500' : 'text-green-500'">
@@ -128,19 +117,16 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-// États pour le changement de nom d'utilisateur
 const newUsername = ref('');
 const usernameMessage = ref('');
 const usernameError = ref(false);
 
-// États pour le changement de mot de passe
 const oldPassword = ref('');
 const newPassword = ref('');
 const confirmPassword = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
 
-// États pour la suppression du compte
 const deletePassword = ref('');
 const deleteMessage = ref('');
 const deleteError = ref(false);
@@ -148,11 +134,11 @@ const deleteError = ref(false);
 const updateUsername = async () => {
   try {
     await Meteor.callAsync('updateUsername', newUsername.value);
-    usernameMessage.value = "Nom d'utilisateur mis à jour avec succès !";
+    usernameMessage.value = "User name successfully updated!";
     usernameError.value = false;
     newUsername.value = '';
   } catch (error) {
-    usernameMessage.value = error.reason || "Erreur lors de la mise à jour";
+    usernameMessage.value = error.reason || "Update error";
     usernameError.value = true;
   }
 };
@@ -164,16 +150,16 @@ function handleChangePassword() {
 
   // Vérifier que le nouveau mot de passe correspond à sa confirmation
   if (newPassword.value !== confirmPassword.value) {
-    errorMessage.value = "Le nouveau mot de passe et sa confirmation ne correspondent pas.";
+    errorMessage.value = "The new password and its confirmation do not match.";
     return;
   }
 
   // Utiliser l'API de Meteor pour changer le mot de passe
   Accounts.changePassword(oldPassword.value, newPassword.value, (error) => {
     if (error) {
-      errorMessage.value = error.reason || "Erreur lors du changement de mot de passe.";
+      errorMessage.value = error.reason || "Error changing password.";
     } else {
-      successMessage.value = "Mot de passe changé avec succès.";
+      successMessage.value = "Password changed successfully.";
       // Réinitialiser les champs
       oldPassword.value = '';
       newPassword.value = '';
@@ -188,19 +174,19 @@ const handleDeleteAccount = async () => {
   deleteError.value = false;
 
   // Confirmation de la suppression
-  if (!confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) {
+  if (!confirm("Are you sure you want to delete your account? This action is irreversible.")) {
     return;
   }
 
   try {
     await Meteor.callAsync('deleteUserAccount', deletePassword.value);
-    deleteMessage.value = "Compte supprimé avec succès.";
+    deleteMessage.value = "Account successfully deleted.";
     // Déconnexion de l'utilisateur et redirection (ici vers la page d'accueil)
     Meteor.logout(() => {
       router.push('/');
     });
   } catch (error) {
-    deleteMessage.value = error.reason || "Erreur lors de la suppression du compte.";
+    deleteMessage.value = error.reason || "Account deletion error.";
     deleteError.value = true;
   }
 };
