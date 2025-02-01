@@ -161,9 +161,23 @@ Meteor.methods({
 
     for(const plant of plants) {
       const dbPlant = await Meteor.call("plants.findById", plant.plantId)
-      const lastWateringTask = oldTasks.filter((task) => {task.plantId == plant._id && task.type == "watering"})
-      const lastHarvestTask = oldTasks.filter((task) => {task.plantId == plant._id && task.type == "harvest"})
-      const lastCutTask = oldTasks.filter((task) => {task.plantId == plant._id && task.type == "cut"})
+      const wateringTasks = oldTasks.filter((task) => task.plantId == plant._id && task.type == "watering")
+      const harvestTasks = oldTasks.filter(task => task.plantId == plant._id && task.type == "harvest");
+      const cutTasks = oldTasks.filter((task) => task.plantId == plant._id && task.type == "cut")
+
+      const lastWateringTask = wateringTasks.reduce((latest, task) => 
+        !latest || new Date(task.createDate) > new Date(latest.createDate) ? task : latest, 
+        null
+      );
+
+      const lastHarvestTask = harvestTasks.reduce((latest, task) => 
+        !latest || new Date(task.createDate) > new Date(latest.createDate) ? task : latest, 
+        null
+      );
+      const lastCutTask = cutTasks.reduce((latest, task) => 
+        !latest || new Date(task.createDate) > new Date(latest.createDate) ? task : latest, 
+        null
+      );
 
       let lastWateringTaskCreateDate = lastWateringTask ? lastWateringTask.createDate : null
       let lastHarvestTaskCreateDate = lastHarvestTask ? lastHarvestTask.createDate : null
