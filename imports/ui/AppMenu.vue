@@ -45,11 +45,13 @@
             >
               Gardens
             </router-link>
-            <span 
-              class="text-green-700 hover:cursor-pointer hover:underline px-3 py-2 rounded-md text-sm font-medium"
+            <router-link 
+            :to="{ name: 'account' }" 
+            class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
             >
-              {{ user.username }}
-            </span>
+            {{ user.username }}
+            </router-link>
+            
             <span 
               class="text-green-700 hover:cursor-pointer hover:underline px-3 py-2 rounded-md text-sm font-medium"
               @click="handleLogout"
