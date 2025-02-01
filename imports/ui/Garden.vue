@@ -206,6 +206,7 @@ const addPlantToGarden = (plant, compatible) => {
       h: ONE_METER_IN_PIXELS,
       lastHarvestDate: date,
       lastWateringDate: date,
+      lastCutDate: date,
       sprite: plant.sprite,
       isVisible: true
     }
@@ -283,6 +284,7 @@ function saveChanges() {
   if (plantIndex !== -1) {
     garden.value.plants[plantIndex].lastHarvestDate = selectedPlant.value.lastHarvestDate
     garden.value.plants[plantIndex].lastWateringDate = selectedPlant.value.lastWateringDate
+    garden.value.plants[plantIndex].lastCutDate = selectedPlant.value.lastCutDate
   }
 
   showModificationModal.value = false
@@ -594,6 +596,12 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       <div class="mb-4">
         <label for="lastWatering" class="block text-sm font-medium text-gray-700">Last watering date</label>
         <input v-model="selectedPlant.lastWateringDate" type="date" id="lastWateringDate" :max="getCurrentDate()"
+          class="p-2 border border-gray-300 rounded-lg w-full" />
+      </div>
+
+      <div class="mb-4">
+        <label for="lastCutDate" class="block text-sm font-medium text-gray-700">Last cut date</label>
+        <input v-model="selectedPlant.lastCutDate" type="date" id="lastCutDate" :max="getCurrentDate()"
           class="p-2 border border-gray-300 rounded-lg w-full" />
       </div>
 
