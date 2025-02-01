@@ -60,3 +60,30 @@ Meteor.startup(async () => {
     });
   }
 });
+Meteor.methods({
+  async deleteUserAccount(password) {
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized", "Vous devez être connecté pour supprimer votre compte.");
+    }
+    
+    const user = await Meteor.users.findOneAsync(this.userId);
+    if (!user || !user.services || !user.services.password || !user.services.password.bcrypt) {
+      throw new Meteor.Error("user-invalid", "Impossible de vérifier le mot de passe de l'utilisateur.");
+    }
+    // Todo: Vérifier le mot de passe
+
+
+    /*const isValid = await bcrypt.compare(password, user.services.password.bcrypt);
+    if (!isValid) {
+      throw new Meteor.Error("incorrect-password", "Mot de passe incorrect.");
+    }*/
+    
+    if (Meteor.users.removeAsync) {
+      await Meteor.users.removeAsync(this.userId);
+    } else {
+      await Meteor.users.rawCollection().deleteOne({ _id: this.userId });
+    }
+    
+    return true;
+  }
+});
