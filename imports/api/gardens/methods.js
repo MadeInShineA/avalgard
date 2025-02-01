@@ -3,12 +3,14 @@ import { check, Match } from 'meteor/check';
 import { Accounts } from 'meteor/accounts-base';
 
 Meteor.methods({
-  'gardens.insert': async function(userId, garden) {
+  'gardens.insert': async function (userId, garden) {
     check(userId, String);
     check(garden, {
       _id: String,
       name: String,
       climateId: String,
+      height: Number,
+      width: Number,
       tasks: Array,
       plants: Array,
     });
@@ -23,18 +25,20 @@ Meteor.methods({
 
     return await Accounts.users.updateAsync(userId, { $push: { 'profile.gardens': garden } });
   },
-  'gardens.remove': async function(userId, gardenId) {
+  'gardens.remove': async function (userId, gardenId) {
     check(userId, String);
     check(gardenId, String);
 
     return await Accounts.users.updateAsync(userId, { $pull: { 'profile.gardens': { _id: gardenId } } });
   },
-  'gardens.update': async function(userId, gardenId, garden) {
+  'gardens.update': async function (userId, gardenId, garden) {
     check(userId, String);
     check(gardenId, String);
     check(garden, Match.ObjectIncluding({
       name: String,
       climateId: String,
+      height: Number,
+      width: Number,
       tasks: Array,
       plants: Array,
     }));
@@ -47,7 +51,7 @@ Meteor.methods({
       { $set: { 'profile.gardens.$': garden } }
     );
   },
-  'gardens.find': async function(userId, gardenId) {
+  'gardens.find': async function (userId, gardenId) {
     check(userId, String);
     check(gardenId, String);
 
@@ -63,7 +67,7 @@ Meteor.methods({
 
     return garden;
   },
-  'gardens.findAll': async function(userId) {
+  'gardens.findAll': async function (userId) {
     const user = await Accounts.users.findOneAsync(userId);
     if (!user) {
       throw new Meteor.Error('not-found', 'User not found');

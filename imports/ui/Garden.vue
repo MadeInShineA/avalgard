@@ -1,50 +1,618 @@
-<template>
-    <div class="Garden">
-        <h1>Garden</h1>
-        <p>Garden</p>
-        <div
-            :style="{
-            position: 'relative',
-            backgroundColor: '#808080',
-            background: 'linear-gradient(-90deg, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px)',
-            backgroundSize: '20px 20px, 20px 20px',
-            backgroundPosition: '10px 10px',
-            height: '400px',
-            width: '400px',
-            border: '1px solid blue',
-            boxSizing: 'content-box',
-            }">
-            <vue-draggable-resizable
-            :parent="true"
-            :grid="[20, 20]"
-            :x="10"
-            :y="10"
-            :h="100"
-            :w="100"
-        >
-            <p>I am the first plant of the garden lol</p>
-        </vue-draggable-resizable>
-        </div>
+<script setup>
+import { ref, onMounted, watch, nextTick } from 'vue';
+import { Meteor } from 'meteor/meteor';
+import { Random } from "meteor/random";
+import { useRoute, useRouter } from 'vue-router';
+import VueDraggableResizable from 'vue-draggable-resizable';
+import VueSlider from 'vue-3-slider-component';
+
+const garden = ref(null)
+const climate = ref()
+const userId = ref(null)
+const gardenId = ref(null)
+const plants = ref([])
+const route = useRoute()
+const router = useRouter()
+const isGardenFull = ref(false) // Check if garden is full
+
+const searchQuery = ref('') // Search query for the plant search bar
+const ONE_METER_IN_PIXELS = 100
+const CELL_SIZE = ONE_METER_IN_PIXELS / 5
+const BORDER_SIZE = 3
+const MIN_SIDE_LENGTH = 1
+const MAX_SIDE_LENGTH = 15
+
+const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible plant
+const incompatiblePlant = ref(null) //Store the incompatible plant
+
+const growthDurationRange = ref([0, 400]); //Filter
+const waterRequirementRange = ref([0, 5]); //Filterà
+const selectedPlantType = ref(''); // Filter
+
+const gardenWidth = ref(0) // Match the garden's actual width
+const gardenHeight = ref(0) // Match the garden's actual height
+
+
+// Watch for changes in searchbar and sliders and trigger the search function
+watch(searchQuery, searchAndFilterPlants);
+watch(growthDurationRange, searchAndFilterPlants);
+watch(waterRequirementRange, searchAndFilterPlants);
+watch(selectedPlantType, searchAndFilterPlants);
+
+function fetchGarden() {
+  console.log('Fetching garden...')
+  Meteor.call('gardens.find', userId.value, gardenId.value, (error, result) => {
+    if (!error && result) {
+      garden.value = result
+      gardenHeight.value = result.height
+      gardenWidth.value = result.width
+      initializeGardenGrid()
+
+      // Fetch the climate only if `climateId` exists
+      if (result.climateId) {
+        fetchClimate(result.climateId)
+      } else {
+        console.warn('No climate ID in garden data')
+        climate.value = { name: 'Not specified' } // Fallback
+      }
+    } else {
+      console.error('Error fetching garden:', error)
+      router.push('/')
+    }
+  })
+}
+
+function initializeGardenGrid() {
+  let plantsToPlace = garden.value.plants
+
+  plantsToPlace.forEach((plantToPlace) => {
+    Meteor.call('plants.findById', plantToPlace.plantId, (error, dbPlant) => {
+      if (error) {
+        console.error(`Error fetching plant by ID: ${plantToPlace.plantId}`, error)
+        return
+      }
+
+      if(plantToPlace.x < garden.value.width * ONE_METER_IN_PIXELS && plantToPlace.y < garden.value.height * ONE_METER_IN_PIXELS){
+        plantToPlace.isVisible = true
+      }else{
+        plantToPlace.isVisible = false
+      }
+      plantToPlace._id = Random.id()
+      plantToPlace.name = dbPlant.name
+      plantToPlace.sprite = dbPlant.sprite
+
+    })
+  })
+}
+
+function fetchClimate(climateId) {
+  if (!climateId) {
+    console.error('Invalid climate ID:', climateId)
+    return
+  }
+
+  console.log('Fetching climate...')
+  Meteor.call('climates.findById', climateId, (error, result) => {
+    if (!error && result) {
+      console.log('Climate found:', result.name)
+      climate.value = result // Store the climate data
+    } else {
+      console.error('Error fetching climate:', error)
+      climate.value = { name: 'Unknown' } // Default value in case of an error
+    }
+  })
+}
+
+function fetchPlants() {
+  console.log('Fetching plants...')
+  Meteor.call('plants.findAll', (error, result) => {
+    if (!error) {
+      console.log('Plants found:', result)
+      plants.value = result
+    } else {
+      console.error('Error fetching plants:', error)
+    }
+  })
+}
+
+function searchAndFilterPlants() {
+  Meteor.call('plants.searchAndFilter', {
+    searchQuery: searchQuery.value,
+    minGrowthDuration: growthDurationRange.value[0],
+    maxGrowthDuration: growthDurationRange.value[1],
+    minWaterRequirement: waterRequirementRange.value[0],
+    maxWaterRequirement: waterRequirementRange.value[1],
+    plantType: selectedPlantType.value
+  }, (error, result) => {
+    console.log(result);
+    plants.value = result || []; // Mettre à jour la liste des plantes avec les résultats du filtre
+  });
+}
+
+const addPlantToGarden = (plant, compatible) => {
+  if (!compatible) {
+    incompatiblePlant.value = plant
+    showConfirmPlantModal.value = true
+    return
+  }
+
+  //TODO IMPORTANT CHANGER ATTENTION ERREUR 404
+  
+  const cellSize = CELL_SIZE // The grid cell size for positioning
+  const plantWidth = ONE_METER_IN_PIXELS // Default width of a plant
+  const plantHeight = ONE_METER_IN_PIXELS // Default height of a plant
+  const gardenWidthInPixel = gardenWidth.value * ONE_METER_IN_PIXELS
+  const gardenHeightInPixel = gardenHeight.value * ONE_METER_IN_PIXELS
+
+  const occupiedPositions = garden.value.plants.map((p) => ({
+    x: Math.floor(p.x / cellSize),
+    y: Math.floor(p.y / cellSize),
+  }))
+
+  const findFirstAvailablePosition = () => {
+    const cols = Math.floor(gardenWidthInPixel / cellSize)  // Calculer le nombre de colonnes basé sur la taille de la grille
+    const rows = Math.floor(gardenHeightInPixel / cellSize) // Calculer le nombre de rangées basé sur la taille de la grille
+
+    // Parcours de chaque cellule dans la grille
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        // Calculer la position (x, y) de la plante dans la grille
+        const x = col * cellSize
+        const y = row * cellSize
+
+        // Vérifier si la plante s'adapte dans la grille
+        const fitsInBounds = x + plantWidth <= gardenWidthInPixel && y + plantHeight <= gardenHeightInPixel
+
+        // Vérifier si la position est déjà occupée par une autre plante
+        const isOccupied = garden.value.plants.some((otherPlant) => {
+          // Comparer les positions et les tailles des autres plantes
+          return (
+            x < otherPlant.x + otherPlant.w &&
+            x + plantWidth > otherPlant.x &&
+            y < otherPlant.y + otherPlant.h &&
+            y + plantHeight > otherPlant.y
+          )
+        })
+
+        // Si la position est valide et non occupée, retourner la position
+        if (fitsInBounds && !isOccupied) {
+          return { x, y }
+        }
+      }
+    }
+
+    isGardenFull.value = true
+    console.warn('No free position found!')
+    return { x: -1, y: -1 } // Retourner une position par défaut si aucune position libre n'est trouvée
+  }
+
+  const { x, y } = findFirstAvailablePosition()
+
+  const dateObj = new Date();
+  const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = dateObj.getUTCDate().toString().padStart(2, '0');
+  const year = dateObj.getUTCFullYear();
+
+  const date = year + "-" + month + "-" + day
+
+  if (x >= 0 && y >= 0) {
+    let plantToPlace = {
+      _id: Random.id(),
+      plantId: plant._id,
+      name: plant.name,
+      x,
+      y,
+      w: ONE_METER_IN_PIXELS,
+      h: ONE_METER_IN_PIXELS,
+      lastHarvestDate: date,
+      lastWateringDate: date,
+      sprite: plant.sprite,
+      isVisible: true
+    }
+    // Add the plant to the garden with the new x and y coordinates
+    garden.value.plants.push(plantToPlace)
+  }
+  showConfirmPlantModal.value = false
+}
+
+const onDrag = (x, y, plant) => {
+  if (!plant) return
+
+  isGardenFull.value = false
+  const isOverlapping = garden.value.plants.some((otherPlant) => {
+    if (otherPlant._id === plant._id) return false // Ignore la plante elle-même
+    return (
+      x < otherPlant.x + otherPlant.w &&
+      x + plant.w > otherPlant.x &&
+      y < otherPlant.y + otherPlant.h &&
+      y + plant.h > otherPlant.y
+    )
+  })
+
+  if (!isOverlapping) {
+    // Mettre à jour la position de la plante si pas de chevauchement
+    plant.x = x
+    plant.y = y
+    return true // Permet le déplacement
+  }
+
+  return false // Si chevauchement, empêche le déplacement
+}
+
+const showSavingConfirmationModal = ref(false)
+const showModificationModal = ref(false)
+const selectedPlant = ref(null)
+
+function saveGarden() {
+  const plantsToSave = garden.value.plants.filter(plant => plant.isVisible)
+  let gardenToSave = garden.value
+  gardenToSave.plants = plantsToSave
+  Meteor.call('gardens.update', userId.value, garden.value._id, gardenToSave, (error) => {
+    if (!error) {
+      showSavingConfirmationModal.value = true // Show Confirmation Modal
+    } else {
+      console.error('Error saving garden:', error)
+    }
+  })
+}
+
+function openModificationModal(plant) {
+  selectedPlant.value = { ...plant }
+  showModificationModal.value = true
+}
+
+function saveChanges() {
+  console.log(selectedPlant.value)
+  console.log(garden.value.plants)
+  if (!selectedPlant.value || !garden.value.plants) return
+  isGardenFull.value = false
+
+  const plantIndex = garden.value.plants.findIndex(
+    plant => plant._id === selectedPlant.value._id
+  )
+
+  if (plantIndex !== -1) {
+    garden.value.plants[plantIndex].lastHarvestDate = selectedPlant.value.lastHarvestDate
+    garden.value.plants[plantIndex].lastWateringDate = selectedPlant.value.lastWateringDate
+  }
+
+  showModificationModal.value = false
+}
+
+function deletePlant() {
+  if (!selectedPlant.value || !garden.value.plants) return
+  isGardenFull.value = false
+
+  garden.value.plants = garden.value.plants.filter(plant => plant._id !== selectedPlant.value._id)
+  showModificationModal.value = false
+}
+
+function handlePlantResize(x, y, w, h, plant) {
+  isGardenFull.value = false
+  const isOverlapping = garden.value.plants.some((otherPlant) => {
+    if (otherPlant._id === plant._id) return false // Ignore la plante elle-même
+    return (
+      x < otherPlant.x + otherPlant.w &&
+      x + w > otherPlant.x &&
+      y < otherPlant.y + otherPlant.h &&
+      y + h > otherPlant.y
+    )
+  })
+
+  const min_length_size = CELL_SIZE * 4
+  const isSizeOk = w >= min_length_size && h >= min_length_size
+
+  if (!isOverlapping && isSizeOk) {
+    // Mettre à jour la position de la plante si pas de chevauchement
+    plant.w = w
+    plant.h = h
+    plant.x = x
+    plant.y = y
+    return true // Permet le déplacement
+  }
+  return false
+}
+
+onMounted(() => {
+  console.log('onMounted: Garden')
+  gardenId.value = route.params.id_garden
+  console.log('gardenId:', gardenId.value)
+  userId.value = Meteor.userId()
+
+  if (gardenId.value) {
+    if (userId.value) {
+      fetchGarden()
+      fetchPlants()
+    } else {
+      console.error('User not logged in')
+      router.push('/') // Redirect if the user is not logged in
+    }
+  } else {
+    console.error('No garden ID found in route.')
+    router.push('/') // Redirect if no garden ID is found
+  }
+})
+
+function getCurrentSeason() {
+  const spring = new Date('2024-03-15').getMonth();
+  const summer = new Date('2024-06-15').getMonth();
+  const automn = new Date('2024-09-15').getMonth();
+  const winter = new Date('2024-12-15').getMonth();
+  const today = new Date().getMonth();
+
+  const month = today;
+  if (month >= 2 && month <= 4) {
+    return 'spring';
+  } else if (month >= 5 && month <= 7) {
+    return 'summer';
+  } else if (month >= 8 && month <= 10) {
+    return 'autumn';
+  } else {
+    return 'winter';
+  }
+}
+
+function getSeasonalTemperatureRange() {
+  if (!climate.value || climate.value.name === 'Unknown') {
+    return null;
+  }
+
+  const season = getCurrentSeason();
+  return climate.value.seasonalTemperatureRange[season];
+}
+
+function isPlantClimateCompatible(plant) {
+  const seasonalRange = getSeasonalTemperatureRange();
+  if (!seasonalRange) {
+    return false;
+  }
+
+  const plantTempMin = plant.temperatureRange.min;
+  const plantTempMax = plant.temperatureRange.max;
+  const climateTempMin = seasonalRange.min;
+  const climateTempMax = seasonalRange.max;
+
+  if (plantTempMin > climateTempMax || plantTempMax < climateTempMin) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]) => {
+  if (garden.value) {
+    garden.value.height = newHeight;
+    garden.value.width = newWidth;
+    isGardenFull.value = false
+    
+
+    garden.value.plants.forEach((plant) => {
+      console.log(plant.x + plant.w)
+      console.log(newWidth * ONE_METER_IN_PIXELS)
+      console.log(newHeight * ONE_METER_IN_PIXELS)
+
+      if(plant.x < newWidth * ONE_METER_IN_PIXELS && plant.y < newHeight * ONE_METER_IN_PIXELS){
+        plant.isVisible = true
+      }else{
+        plant.isVisible = false
+      }
+    })
+
+    // Déclencher l'événement resize après mise à jour
+    nextTick(() => {
+      window.dispatchEvent(new Event('resize'));
+    });
+  }
+})
+
+// TODO Fix the plant's available positions (can't go up but more down)
+</script>
+<template class="mt-6 space-y-6">
+  <!-- Garden Details -->
+  <template v-if="garden && garden.plants">
+    <div class="p-6 rounded-xl shadow-lg border border-gray-200">
+      <h1 class="text-3xl font-bold text-green-700 mb-4">{{ garden.name }}</h1>
+      <p class="text-black-800"><strong>Climate:</strong> {{ climate?.name || 'Loading...' }}</p>
+      <p class="text-black-800"><strong>Tasks:</strong> {{ garden.tasks.length }}</p>
+      <p class="text-black-800"><strong>Width:</strong> {{ garden.width }} m</p>
+      <p class="text-black-800"><strong>Height:</strong> {{ garden.height }} m</p>
+      <p class="text-black-800"><strong>Plants:</strong> {{ garden.plants.filter(plant => plant.isVisible).length }}</p>
     </div>
+
+    <div
+      class="bg-white shadow-lg rounded-xl p-6 mt-6 border border-gray-200 flex justify-center items-center flex-col">
+      <!-- Draggable Garden Area -->
+      <div class="flex flex-col items-center space-y-4 w-full">
+        <!-- Sliders pour la taille du jardin -->
+        <div class="z-1 flex items-center w-full space-x-4">
+          <label class="font-bold w-20 text-right">Width:</label>
+          <VueSlider v-model="gardenWidth" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
+          <span class="font-medium w-12">{{ gardenWidth }}m</span>
+        </div>
+
+        <div class="z-1 flex items-center w-full space-x-4">
+          <label class="font-bold w-20 text-right">Height:</label>
+          <VueSlider v-model="gardenHeight" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
+          <span class="font-medium w-12">{{ gardenHeight }}m</span>
+        </div>
+      </div>
+
+      <div :style="{
+        background: `
+          radial-gradient(circle at 10% 20%, #8bc34a 0%, #7cb342 20%, transparent 30%),
+          radial-gradient(circle at 30% 40%, #7cb342 0%, #8bc34a 15%, transparent 25%),
+          radial-gradient(circle at 50% 60%, #8bc34a 0%, #7cb342 20%, transparent 35%),
+          radial-gradient(circle at 70% 30%, #7cb342 0%, #8bc34a 15%, transparent 25%),
+          radial-gradient(circle at 90% 50%, #8bc34a 0%, #7cb342 20%, transparent 30%),
+          radial-gradient(circle at 20% 80%, #7cb342 0%, #8bc34a 15%, transparent 35%),
+          radial-gradient(circle at 80% 90%, #8bc34a 0%, #7cb342 20%, transparent 25%)`,
+        backgroundColor: '#7cb342',
+        backgroundSize: '100% 100%',
+        height: garden.height * ONE_METER_IN_PIXELS + 2 * BORDER_SIZE + 'px',
+        width: garden.width * ONE_METER_IN_PIXELS + 2 * BORDER_SIZE + 'px',
+        border: BORDER_SIZE + 'px solid green',
+      }" class="relative rounded-xl overflow-hidden">
+      
+        <vue-draggable-resizable v-for="(plant, index) in garden.plants" :key="plant._id" :x="plant.x" :y="plant.y"
+          :w="plant.w" :h="plant.h" :parent="true" :grid="[CELL_SIZE, CELL_SIZE]"
+          :draggable="plant.isVisible"
+          :resizable="plant.isVisible"
+          :on-drag="(x, y) => onDrag(x, y, plant)"
+          :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x, y, w, h, plant)"
+          :style="{ background: 'none', border: 'none' }"
+          >
+          <div v-if="plant.isVisible" 
+            :style="{position: 'absolute', inset: 0, backgroundColor: 'transparent', border: '3px solid black', 
+            color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }"
+            >
+          <img :src="'/plants_sprites/' + plant.sprite">
+          <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
+          <button @click="openModificationModal(plant)"
+            class="absolute top-0 right-0 text-white rounded-full w-6 h-6 flex justify-center items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" class="size-6">
+              <path
+                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+              <path
+                d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+            </svg>
+          </button>
+        </div>
+        </vue-draggable-resizable>
+      </div>
+
+      <p v-if="isGardenFull" class="text-red-500 mt-4 text-center font-bold">
+        The garden is full! Remove a plant to add a new one.
+      </p>
+
+      <!-- Save Garden Button -->
+      <div class="mt-4 flex justify-center w-full space-x-4">
+        <button @click="saveGarden()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+          Save
+        </button>
+        <button @click="garden.plants = []"
+          class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700">
+          Clear
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Plants Search -->
+    <div class="mt-8 p-6 border-gray-200 rounded-xl shadow-md border">
+      <h2 class="text-xl font-bold text-green-700 mb-4">Available Plants</h2>
+      <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm"
+        placeholder="Search plants..." />
+        <div class="mb-4 z-1">
+          <h2 class="text-xl font-bold mb-4">Filter by Plant Type</h2>
+          <select v-model="selectedPlantType" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm">
+            <option value="">All Types</option>
+            <option value="vegetable">Vegetable</option>
+            <option value="fruit">Fruit</option>
+            <option value="fungus">Fungus</option>
+          </select>
+        </div>
+      <div class="mb-4 z-1">
+        <h2 class="text-xl font-bold mb-4">Filter by growth duration</h2>
+        <VueSlider v-model="growthDurationRange" :min="0" :max="400" :step="10" />
+        <p class="text-sm text-gray-600">
+          {{ growthDurationRange[0] }} - {{ growthDurationRange[1] }} days
+        </p>
+      </div>
+
+      <div class="mb-4 z-1">
+        <h2 class="text-xl font-bold mb-4">Filter by water requirement</h2>
+        <VueSlider v-model="waterRequirementRange" :min="0" :max="5" :step="1" />
+        <p class="text-sm text-gray-600">
+          {{ waterRequirementRange[0] }} - {{ waterRequirementRange[1] }}
+        </p>
+      </div>
+      <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <li v-for="plant in plants" :key="plant._id" @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
+          :class="['p-4 shadow-md rounded-lg cursor-pointer text-center',
+            isPlantClimateCompatible(plant) ? 'bg-green-100 hover:bg-green-200' : 'bg-red-100 hover:bg-red-200']">
+          <p class="font-bold text-green-900">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
+        </li>
+      </ul>
+    </div>
+  </template>
+
+  <!-- Loader -->
+  <div v-else class="text-center py-10">
+    <p class="text-gray-500">Loading garden details...</p>
+  </div>
+  <!-- Confirm incompatible plant modal -->
+  <div v-if="showConfirmPlantModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded shadow w-150">
+      <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
+      <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season.
+        You can still add it to your garden, but it may not grow well.</p>
+      <div class="flex justify-center space-x-2">
+        <button @click="addPlantToGarden(incompatiblePlant, true)"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          Add
+        </button>
+        <button @click="showConfirmPlantModal = false"
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saving confirmation message -->
+  <div v-if="showSavingConfirmationModal"
+    class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded shadow w-96 flex flex-col justify-center items-center">
+      <h2 class="text-xl font-bold mb-4 text-center">Garden Saved Successfully!</h2>
+      <button @click="showSavingConfirmationModal = !showSavingConfirmationModal"
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">
+        OK
+      </button>
+    </div>
+  </div>
+
+  <!-- Plant modification -->
+  <div v-if="showModificationModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow w-96">
+      <h2 class="text-xl font-bold mb-4">Plant details</h2>
+
+      <div class="mb-4">
+        <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last harvest date</label>
+        <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate"
+          class="p-2 border border-gray-300 rounded-lg w-full" />
+      </div>
+
+      <div class="mb-4">
+        <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last watering date</label>
+        <input v-model="selectedPlant.lastWateringDate" type="date" id="lastHarvestedDate"
+          class="p-2 border border-gray-300 rounded-lg w-full" />
+      </div>
+
+      <div class="flex justify-between">
+        <button @click="saveChanges()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          Save
+        </button>
+        <button @click="deletePlant()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+          Delete
+        </button>
+        <button @click="showModificationModal = false"
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script setup>
-import VueDraggableResizable from 'vue-draggable-resizable'
-</script>
 
-<style scoped>
-.test-page {
-    text-align: center;
-    margin-top: 50px;
+<style>
+@import "vue-draggable-resizable/style.css";
+
+.vdr {
+  position: absolute
 }
 
-.test-page h1 {
-    font-size: 2em;
-    color: #333;
-}
-
-.test-page p {
-    font-size: 1.2em;
-    color: #666;
+.vdr:hover {
+  cursor: pointer
 }
 </style>

@@ -5,7 +5,12 @@
         <!-- Logo -->
         <div class="flex">
           <div class="flex-shrink-0 flex items-center">
-            <h1 class="text-2xl font-bold text-green-600">Avalgard</h1>
+            <router-link 
+              :to="{ name: 'home' }" 
+              class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
+            >
+              <h1 class="text-2xl font-bold text-green-600">Avalgard</h1>
+            </router-link>
           </div>
         </div>
         <!-- Liens de navigation -->
@@ -16,18 +21,6 @@
             class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
           >
             Home
-          </router-link>
-          <router-link 
-            :to="{ name: 'about' }" 
-            class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
-          >
-            About
-          </router-link>
-          <router-link 
-            :to="{ name: 'Garden' }" 
-            class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium"
-          >
-            Garden
           </router-link>
           
           <!-- Liens dynamiques en fonction de l'état de l'utilisateur -->

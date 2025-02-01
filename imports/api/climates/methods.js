@@ -15,7 +15,6 @@ Meteor.methods({
   },
   'climates.findById': async function(climateId) {
     check(climateId, String);
-
     const climate = await ClimatesCollection.findOneAsync({ _id: climateId });
     if (!climate) {
       throw new Meteor.Error('not-found', 'Climate not found');
