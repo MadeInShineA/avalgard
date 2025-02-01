@@ -24,6 +24,13 @@ Meteor.startup(async () => {
     const firstClimate = allClimates[0]
 
     const tomato = await Meteor.callAsync('plants.findByName', 'tomato');
+
+    const dateObj = new Date();
+    const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0');
+    const day = dateObj.getUTCDate().toString().padStart(2, '0');
+    const year = dateObj.getUTCFullYear();
+  
+    const date = year + "-" + month + "-" + day
     await Accounts.createUserAsync({
       username: 'pmudry',
       password: 'isc',
@@ -45,15 +52,7 @@ Meteor.startup(async () => {
               }
             ],
             plants: [
-              {
-                _id: Random.id(),
-                plantId: tomato._id,
-                position: { x: 60, y: 60 },
-                width: 10,
-                height: 10,
-                lastHarvestDate: new Date(),
-                lastWateringDate: new Date(),
-              }
+             
             ]
           }
         ]

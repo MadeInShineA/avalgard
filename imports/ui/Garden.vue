@@ -71,25 +71,16 @@ function initializeGardenGrid() {
         console.error(`Error fetching plant by ID: ${plantToPlace.plantId}`, error)
         return
       }
-      plantToPlace.id = Random.id()
+
+      if(plantToPlace.x < garden.value.width * ONE_METER_IN_PIXELS && plantToPlace.y < garden.value.height * ONE_METER_IN_PIXELS){
+        plantToPlace.isVisible = true
+      }else{
+        plantToPlace.isVisible = false
+      }
+      plantToPlace._id = Random.id()
       plantToPlace.name = dbPlant.name
       plantToPlace.sprite = dbPlant.sprite
-      plantToPlace.isVisible = true
 
-      /*
-      garden.value.plants.push({
-        id: Random.id(),
-        plantId: plantToPlace.plantId,
-        name: dbPlant.name,
-        x: plantToPlace.position.x,
-        y: plantToPlace.position.y,
-        w: plantToPlace.width,
-        h: plantToPlace.height,
-        lastHarvestDate: plantToPlace.lastHarvestDate,
-        lastWateringDate: plantToPlace.lastWateringDate,
-        sprite: dbPlant.sprite
-      })
-      */
     })
   })
 }
@@ -206,7 +197,7 @@ const addPlantToGarden = (plant, compatible) => {
 
   if (x >= 0 && y >= 0) {
     let plantToPlace = {
-      id: Random.id(),
+      _id: Random.id(),
       plantId: plant._id,
       name: plant.name,
       x,
@@ -229,7 +220,7 @@ const onDrag = (x, y, plant) => {
 
   isGardenFull.value = false
   const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant.id === plant.id) return false // Ignore la plante elle-même
+    if (otherPlant._id === plant._id) return false // Ignore la plante elle-même
     return (
       x < otherPlant.x + otherPlant.w &&
       x + plant.w > otherPlant.x &&
@@ -253,8 +244,10 @@ const showModificationModal = ref(false)
 const selectedPlant = ref(null)
 
 function saveGarden() {
-  isGardenFull.value = false
-  Meteor.call('gardens.update', userId.value, garden.value._id, garden.value, (error) => {
+  const plantsToSave = garden.value.plants.filter(plant => plant.isVisible)
+  let gardenToSave = garden.value
+  gardenToSave.plants = plantsToSave
+  Meteor.call('gardens.update', userId.value, garden.value._id, gardenToSave, (error) => {
     if (!error) {
       showSavingConfirmationModal.value = true // Show Confirmation Modal
     } else {
@@ -269,11 +262,13 @@ function openModificationModal(plant) {
 }
 
 function saveChanges() {
+  console.log(selectedPlant.value)
+  console.log(garden.value.plants)
   if (!selectedPlant.value || !garden.value.plants) return
   isGardenFull.value = false
 
   const plantIndex = garden.value.plants.findIndex(
-    plant => plant.id === selectedPlant.value.id
+    plant => plant._id === selectedPlant.value._id
   )
 
   if (plantIndex !== -1) {
@@ -288,14 +283,14 @@ function deletePlant() {
   if (!selectedPlant.value || !garden.value.plants) return
   isGardenFull.value = false
 
-  garden.value.plants = garden.value.plants.filter(plant => plant.id !== selectedPlant.value.id)
+  garden.value.plants = garden.value.plants.filter(plant => plant._id !== selectedPlant.value._id)
   showModificationModal.value = false
 }
 
 function handlePlantResize(x, y, w, h, plant) {
   isGardenFull.value = false
   const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant.id === plant.id) return false // Ignore la plante elle-même
+    if (otherPlant._id === plant._id) return false // Ignore la plante elle-même
     return (
       x < otherPlant.x + otherPlant.w &&
       x + w > otherPlant.x &&
@@ -389,8 +384,18 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
     garden.value.height = newHeight;
     garden.value.width = newWidth;
     isGardenFull.value = false
+    
+
     garden.value.plants.forEach((plant) => {
-      plant.isVisible = false
+      console.log(plant.x + plant.w)
+      console.log(newWidth * ONE_METER_IN_PIXELS)
+      console.log(newHeight * ONE_METER_IN_PIXELS)
+
+      if(plant.x < newWidth * ONE_METER_IN_PIXELS && plant.y < newHeight * ONE_METER_IN_PIXELS){
+        plant.isVisible = true
+      }else{
+        plant.isVisible = false
+      }
     })
 
     // Déclencher l'événement resize après mise à jour
@@ -402,21 +407,16 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
 
 // TODO Fix the plant's available positions (can't go up but more down)
 </script>
-
 <template class="mt-6 space-y-6">
-{{gardenHeight}}
-{{gardenWidth}}
-
-{{garden}}
   <!-- Garden Details -->
   <template v-if="garden && garden.plants">
     <div class="p-6 rounded-xl shadow-lg border border-gray-200">
       <h1 class="text-3xl font-bold text-green-700 mb-4">{{ garden.name }}</h1>
       <p class="text-black-800"><strong>Climate:</strong> {{ climate?.name || 'Loading...' }}</p>
       <p class="text-black-800"><strong>Tasks:</strong> {{ garden.tasks.length }}</p>
-      <p class="text-black-800"><strong>Height:</strong> {{ garden.height }} m</p>
       <p class="text-black-800"><strong>Width:</strong> {{ garden.width }} m</p>
-      <p class="text-black-800"><strong>Plants:</strong> {{ garden.plants.length }}</p>
+      <p class="text-black-800"><strong>Height:</strong> {{ garden.height }} m</p>
+      <p class="text-black-800"><strong>Plants:</strong> {{ garden.plants.filter(plant => plant.isVisible).length }}</p>
     </div>
 
     <div
@@ -455,6 +455,8 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       
         <vue-draggable-resizable v-for="(plant, index) in garden.plants" :key="plant._id" :x="plant.x" :y="plant.y"
           :w="plant.w" :h="plant.h" :parent="true" :grid="[CELL_SIZE, CELL_SIZE]"
+          :draggable="plant.isVisible"
+          :resizable="plant.isVisible"
           :on-drag="(x, y) => onDrag(x, y, plant)"
           :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x, y, w, h, plant)"
           :style="{ background: 'none', border: 'none' }"
