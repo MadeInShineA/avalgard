@@ -215,7 +215,8 @@ const addPlantToGarden = (plant, compatible) => {
       h: ONE_METER_IN_PIXELS,
       lastHarvestDate: date,
       lastWateringDate: date,
-      sprite: plant.sprite
+      sprite: plant.sprite,
+      isVisible: true
     }
     // Add the plant to the garden with the new x and y coordinates
     garden.value.plants.push(plantToPlace)
@@ -456,7 +457,12 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
           :w="plant.w" :h="plant.h" :parent="true" :grid="[CELL_SIZE, CELL_SIZE]"
           :on-drag="(x, y) => onDrag(x, y, plant)"
           :on-resize="(dragHandle, x, y, w, h) => handlePlantResize(x, y, w, h, plant)"
-          :style="{ backgroundColor: 'transparent', border: BORDER_SIZE + 'px solid black', color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
+          :style="{ background: 'none', border: 'none' }"
+          >
+          <div v-if="plant.isVisible" 
+            :style="{position: 'absolute', inset: 0, backgroundColor: 'transparent', border: '3px solid black', 
+            color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }"
+            >
           <img :src="'/plants_sprites/' + plant.sprite">
           <p v-if="plant.w > 5 * CELL_SIZE">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
           <button @click="openModificationModal(plant)"
@@ -468,6 +474,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
                 d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
             </svg>
           </button>
+        </div>
         </vue-draggable-resizable>
       </div>
 
