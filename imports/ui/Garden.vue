@@ -193,7 +193,7 @@ const addPlantToGarden = (plant, compatible) => {
   const day = dateObj.getUTCDate().toString().padStart(2, '0');
   const year = dateObj.getUTCFullYear();
 
-  const date = year + "-" + month + "-" + day
+  const date = getCurrentDate()
 
   if (x >= 0 && y >= 0) {
     let plantToPlace = {
@@ -206,6 +206,7 @@ const addPlantToGarden = (plant, compatible) => {
       h: ONE_METER_IN_PIXELS,
       lastHarvestDate: date,
       lastWateringDate: date,
+      lastCutDate: date,
       sprite: plant.sprite,
       isVisible: true
     }
@@ -213,6 +214,15 @@ const addPlantToGarden = (plant, compatible) => {
     garden.value.plants.push(plantToPlace)
   }
   showConfirmPlantModal.value = false
+}
+
+const getCurrentDate = () => {
+  const dateObj = new Date();
+  const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = dateObj.getUTCDate().toString().padStart(2, '0');
+  const year = dateObj.getUTCFullYear();
+
+  return year + "-" + month + "-" + day
 }
 
 const onDrag = (x, y, plant) => {
@@ -262,8 +272,6 @@ function openModificationModal(plant) {
 }
 
 function saveChanges() {
-  console.log(selectedPlant.value)
-  console.log(garden.value.plants)
   if (!selectedPlant.value || !garden.value.plants) return
   isGardenFull.value = false
 
@@ -272,8 +280,18 @@ function saveChanges() {
   )
 
   if (plantIndex !== -1) {
+    if (selectedPlant.value.lastHarvestDate > getCurrentDate()){
+      selectedPlant.value.lastHarvestDate = getCurrentDate()
+    }
+    if (selectedPlant.value.lastWateringDate > getCurrentDate()){
+      selectedPlant.value.lastWateringDate = getCurrentDate()
+    }
+    if (selectedPlant.value.lastCutDate > getCurrentDate()){
+      selectedPlant.value.lastCutDate = getCurrentDate()
+    }
     garden.value.plants[plantIndex].lastHarvestDate = selectedPlant.value.lastHarvestDate
     garden.value.plants[plantIndex].lastWateringDate = selectedPlant.value.lastWateringDate
+    garden.value.plants[plantIndex].lastCutDate = selectedPlant.value.lastCutDate
   }
 
   showModificationModal.value = false
@@ -578,13 +596,19 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
 
       <div class="mb-4">
         <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last harvest date</label>
-        <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate"
+        <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate" :max="getCurrentDate()"
           class="p-2 border border-gray-300 rounded-lg w-full" />
       </div>
 
       <div class="mb-4">
-        <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last watering date</label>
-        <input v-model="selectedPlant.lastWateringDate" type="date" id="lastHarvestedDate"
+        <label for="lastWatering" class="block text-sm font-medium text-gray-700">Last watering date</label>
+        <input v-model="selectedPlant.lastWateringDate" type="date" id="lastWateringDate" :max="getCurrentDate()"
+          class="p-2 border border-gray-300 rounded-lg w-full" />
+      </div>
+
+      <div class="mb-4">
+        <label for="lastCutDate" class="block text-sm font-medium text-gray-700">Last cut date</label>
+        <input v-model="selectedPlant.lastCutDate" type="date" id="lastCutDate" :max="getCurrentDate()"
           class="p-2 border border-gray-300 rounded-lg w-full" />
       </div>
 
