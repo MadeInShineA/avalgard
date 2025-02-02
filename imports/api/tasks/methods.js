@@ -263,7 +263,7 @@ Meteor.methods({
       }
 
       if(lastCutTaskCreateDate){
-        const diffTime = Math.abs(today - new Date(lastWateringTaskCreateDate));
+        const diffTime = Math.abs(today - new Date(lastCutTaskCreateDate));
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         if (diffDays < 1){
           tryToSendCutNotification = false
