@@ -96,6 +96,62 @@ Meteor.methods({
 
     return garden.tasks;
   },
+  'tasks.complete': async function(userId, gardenId, taskId, completed) {
+    check(userId, String);
+    check(gardenId, String);
+    check(taskId, String);
+    check(completed, Boolean);
+
+    const user = await Meteor.users.findOneAsync(userId, {
+      fields: {
+        'profile.gardens': 1
+      }
+    });
+
+    // Validation de l'utilisateur et du jardin
+    if (!user?.profile?.gardens) throw new Meteor.Error('not-found', 'User not found');
+    const garden = user.profile.gardens.find(g => g._id === gardenId);
+    if (!garden) throw new Meteor.Error('not-found', 'Garden not found');
+
+    // Récupération de la tâche
+    const task = garden.tasks.find(t => t._id === taskId);
+    if (!task) throw new Meteor.Error('not-found', 'Task not found');
+
+    // Blocage des tâches automatiques complétées
+    if (task.isAutomatic && task.completed && !completed) {
+      throw new Meteor.Error('invalid-operation', 'Cannot uncomplete automatic tasks');
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+
+    // Mise à jour des dates des plantes si on complète
+    if (completed && task.type && task.plantId) {
+      const dateField = `last${task.type.charAt(0).toUpperCase() + task.type.slice(1)}Date`;
+      const plantIndex = garden.plants.findIndex(p => p._id === task.plantId);
+      
+      if (plantIndex === -1) throw new Meteor.Error('invalid-plant', 'Plant not found');
+      
+      const updateQuery = {
+        $set: {
+          [`profile.gardens.$.tasks.$[task].completed`]: true,
+          [`profile.gardens.$.plants.${plantIndex}.${dateField}`]: today
+        }
+      };
+
+      return Meteor.users.updateAsync(
+        { _id: userId, 'profile.gardens._id': gardenId },
+        updateQuery,
+        { arrayFilters: [{ 'task._id': taskId }] }
+      );
+    }
+
+    // Mise à jour normale pour les autres cas
+    return Meteor.users.updateAsync(
+      { _id: userId, 'profile.gardens._id': gardenId },
+      { $set: { 'profile.gardens.$.tasks.$[task].completed': completed } },
+      { arrayFilters: [{ 'task._id': taskId }] }
+    );
+  },
   'tasks.countUnseen': async function(userId) {
     check(userId, String);
     

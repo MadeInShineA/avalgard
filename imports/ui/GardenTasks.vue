@@ -112,17 +112,22 @@ function removeTask(taskId) {
   });
 }
 
-function toggleTaskCompletion(taskId) {
-  const task = tasks.value.find(t => t._id === taskId);
-  if (task) {
-    Meteor.call('tasks.update', userId.value, gardenId.value, taskId, { completed: !task.completed }, (error) => {
+function toggleTaskCompletion(task) {
+  if (task.isAutomatic && task.completed) return;
+
+  Meteor.call('tasks.complete', 
+    userId.value, 
+    gardenId.value,
+    task._id,
+    !task.completed,
+    (error) => {
       if (!error) {
         fetchGardenAndTasks();
       } else {
-        console.error('Error toggling task completion:', error);
+        console.error('Error:', error.reason);
       }
-    });
-  }
+    }
+  );
 }
 
 function resetNewTaskForm() {
@@ -215,9 +220,17 @@ const completedTasks = computed(() => {
             </div>
         </div>
         <div class="flex space-x-2">
-          <button @click="toggleTaskCompletion(task._id)" 
-                  class="bg-green-500 text-white px-3 py-1 rounded shadow hover:bg-green-600">
-            {{ task.completed ? 'Mark as Pending' : 'Mark as Completed' }}
+          <button 
+              @click="toggleTaskCompletion(task)" 
+              :disabled="task.isAutomatic && task.completed"
+              :class="{
+                'bg-green-500 hover:bg-green-600': !task.completed,
+                'bg-gray-500 cursor-not-allowed': task.isAutomatic && task.completed,
+                'bg-yellow-500 hover:bg-yellow-600': task.completed && !task.isAutomatic
+              }" 
+              class="text-white px-3 py-1 rounded shadow"
+            >
+              {{ task.completed ? 'Mark Pending' : 'Mark Completed' }}
           </button>
           <button @click="editTask(task)" class="bg-blue-500 text-white px-3 py-1 rounded shadow hover:bg-blue-600">
             Edit
