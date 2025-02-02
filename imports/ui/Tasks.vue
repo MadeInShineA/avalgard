@@ -12,7 +12,7 @@ const userId = ref(null);
 const showAddTaskModal = ref(false);
 const showUpdateTaskModal = ref(false);
 const showConfirmationModal = ref(false);
-const activeTab = ref('todo'); // 'todo', 'urgent', 'completed'
+const activeTab = ref('urgent'); // 'todo', 'urgent', 'completed'
 
 const newTask = ref({
   name: '',
