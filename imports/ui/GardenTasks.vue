@@ -205,18 +205,18 @@ const completedTasks = computed(() => {
       <router-link :to="`/gardens/${gardenId}`" class="text-2xl font-bold">
         {{ garden?.name }} Tasks
       </router-link>
-      <button @click="addTask" class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600">
+      <button @click="addTask" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow ">
         Add Task
       </button>
     </div>
 
     <!-- Tabs -->
     <div class="flex space-x-4 mb-6 border-b border-gray-300 dark:border-gray-600">
-      <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2 text-gray-800 dark:text-gray-200">
-        Todo ({{ todoTasks.length }})
-      </button>
       <button @click="activeTab = 'urgent'" :class="{'border-b-2 border-red-500': activeTab === 'urgent'}" class="px-4 py-2 text-gray-800 dark:text-gray-200">
         Urgent ({{ urgentTasks.length }})
+      </button>
+      <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2 text-gray-800 dark:text-gray-200">
+        Todo ({{ todoTasks.length }})
       </button>
       <button @click="activeTab = 'completed'" :class="{'border-b-2 border-green-500': activeTab === 'completed'}" class="px-4 py-2 text-gray-800 dark:text-gray-200">
         Completed ({{ completedTasks.length }})

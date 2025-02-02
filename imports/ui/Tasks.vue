@@ -227,18 +227,18 @@ const completedTasks = computed(() => {
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-200">All Tasks</h1>
-      <button @click="addTask" class="bg-green-500 dark:bg-green-700 text-white px-4 py-2 rounded shadow hover:bg-green-600 dark:hover:bg-green-800">
+      <button @click="addTask" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow">
         Add Task
       </button>
     </div>
   
     <!-- Tabs -->
     <div class="flex space-x-4 mb-6 border-b border-gray-300 dark:border-gray-600">
-      <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2 text-gray-800 dark:text-gray-200">
-        Todo ({{ todoTasks.length }})
-      </button>
       <button @click="activeTab = 'urgent'" :class="{'border-b-2 border-red-500': activeTab === 'urgent'}" class="px-4 py-2 text-gray-800 dark:text-gray-200">
         Urgent ({{ urgentTasks.length }})
+      </button>
+      <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2 text-gray-800 dark:text-gray-200">
+        Todo ({{ todoTasks.length }})
       </button>
       <button @click="activeTab = 'completed'" :class="{'border-b-2 border-green-500': activeTab === 'completed'}" class="px-4 py-2 text-gray-800 dark:text-gray-200">
         Completed ({{ completedTasks.length }})
@@ -279,7 +279,7 @@ const completedTasks = computed(() => {
                 'bg-green-500 hover:bg-green-600': !task.completed,
                 'bg-gray-500 cursor-not-allowed': task.isAutomatic && task.completed,
                 'bg-green-600 hover:bg-green-600': task.completed && !task.isAutomatic
-              }" 
+              }"  
               class=" text-white px-3 py-1 rounded shadow "
             >
               {{ task.completed ? 'Mark Pending' : 'Mark Completed' }}
