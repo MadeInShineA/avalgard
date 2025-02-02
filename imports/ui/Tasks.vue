@@ -101,14 +101,18 @@ function createTask() {
 }
 
 function toggleTaskCompletion(task) {
-  Meteor.call('tasks.update', 
+  if (task.isAutomatic && task.completed) return;
+  
+  Meteor.call('tasks.complete', 
     userId.value, 
-    task.gardenId, 
-    task._id, 
-    { completed: !task.completed }, 
+    task.gardenId,
+    task._id,
+    !task.completed,
     (error) => {
       if (!error) {
         fetchAllGardensAndTasks();
+      } else {
+        console.error('Error:', error.reason);
       }
     }
   );
@@ -238,8 +242,16 @@ const completedTasks = computed(() => {
                 </div>
             </div>
           <div class="flex space-x-2">
-            <button @click="toggleTaskCompletion(task)" 
-                    class="bg-green-500 text-white px-3 py-1 rounded shadow hover:bg-green-600">
+            <button 
+              @click="toggleTaskCompletion(task)" 
+              :disabled="task.isAutomatic && task.completed"
+              :class="{
+                'bg-green-500 hover:bg-green-600': !task.completed,
+                'bg-gray-500 cursor-not-allowed': task.isAutomatic && task.completed,
+                'bg-yellow-500 hover:bg-yellow-600': task.completed && !task.isAutomatic
+              }" 
+              class="text-white px-3 py-1 rounded shadow"
+            >
               {{ task.completed ? 'Mark Pending' : 'Mark Completed' }}
             </button>
             <button @click="editTask(task)" class="bg-blue-500 text-white px-3 py-1 rounded shadow hover:bg-blue-600">
