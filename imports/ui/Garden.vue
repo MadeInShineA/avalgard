@@ -595,7 +595,7 @@ function viewTasks() {
   </div>
 
   <!-- Plant modification modal -->
-  <div v-if="showModificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+  <div v-if="showModificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white dark:bg-gray-800 p-6 rounded shadow w-96">
       <h2 class="text-xl font-bold mb-4 dark:text-gray-100">Plant details</h2>
 
