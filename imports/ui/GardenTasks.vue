@@ -61,9 +61,7 @@ function fetchGardenAndTaskswithoutAnimation() {
 async function displayTasksWithDelay() {
   const tasksList = tasks.value;
   tasksList.forEach((tasks, index) => {
-    setTimeout(() => {
-      tasks.visible = true;
-    }, index * 500);
+    tasks.visible = true;
   });
 }
 
@@ -202,7 +200,7 @@ const completedTasks = computed(() => {
 <template>
   <div class="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center mb-6 dark:text-gray-200">
       <router-link :to="`/gardens/${gardenId}`" class="text-2xl font-bold">
         {{ garden?.name }} Tasks
       </router-link>
@@ -248,8 +246,14 @@ const completedTasks = computed(() => {
             </div>
         </div>
         <div class="flex space-x-2">
-          <button @click="toggleTaskCompletion(task._id)" 
-                  class="bg-green-500 dark:bg-green-700 text-white px-3 py-1 rounded shadow hover:bg-green-600 dark:hover:bg-green-800">
+          <button @click="toggleTaskCompletion(task)" 
+          :disabled="task.isAutomatic && task.completed"
+              :class="{
+                'bg-green-500 hover:bg-green-600': !task.completed,
+                'bg-gray-500 cursor-not-allowed': task.isAutomatic && task.completed,
+                'bg-green-600 hover:bg-green-600': task.completed && !task.isAutomatic
+              }" 
+              class=" text-white px-3 py-1 rounded shadow ">
             {{ task.completed ? 'Mark as Pending' : 'Mark as Completed' }}
           </button>
           <button @click="editTask(task)" class="bg-blue-500 dark:bg-blue-700 text-white px-3 py-1 rounded shadow hover:bg-blue-600 dark:hover:bg-blue-800">
