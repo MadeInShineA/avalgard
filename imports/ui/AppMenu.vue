@@ -44,7 +44,7 @@
             <router-link 
               to="/tasks" 
               class="menu-item flex items-center justify-between">
-              <span class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
+              <span class="text-green-700 dark:text-green-200 hover:underline px-3 py-2 rounded-md text-sm font-medium">
                 Tasks
               </span>
               <span 

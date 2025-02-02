@@ -600,21 +600,21 @@ function viewTasks() {
       <h2 class="text-xl font-bold mb-4 dark:text-gray-100">Plant details</h2>
 
       <div class="mb-4">
-        <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last harvest date</label>
+        <label for="lastHarvested" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last harvest date</label>
         <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate" :max="getCurrentDate()"
-          class="p-2 border border-gray-300 rounded-lg w-full" />
+          class="p-2 border border-gray-300 rounded-lg w-full dark:border-gray-600" />
       </div>
 
       <div class="mb-4">
-        <label for="lastWatering" class="block text-sm font-medium text-gray-700">Last watering date</label>
+        <label for="lastWatering" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last watering date</label>
         <input v-model="selectedPlant.lastWateringDate" type="date" id="lastWateringDate" :max="getCurrentDate()"
-          class="p-2 border border-gray-300 rounded-lg w-full" />
+          class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200" />
       </div>
 
       <div class="mb-4">
         <label for="lastCutDate" class="block text-sm font-medium text-gray-700">Last cut date</label>
         <input v-model="selectedPlant.lastCutDate" type="date" id="lastCutDate" :max="getCurrentDate()"
-          class="p-2 border border-gray-300 rounded-lg w-full" />
+          class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200" />
       </div>
 
       <div class="flex justify-between">
