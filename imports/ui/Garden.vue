@@ -76,7 +76,6 @@ function initializeGardenGrid() {
       }else{
         plantToPlace.isVisible = false
       }
-      plantToPlace._id = Random.id()
       plantToPlace.name = dbPlant.name
       plantToPlace.sprite = dbPlant.sprite
 
