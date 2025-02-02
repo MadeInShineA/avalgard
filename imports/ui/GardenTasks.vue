@@ -14,11 +14,7 @@ const router = useRouter();
 const showAddTaskModal = ref(false);
 const showUpdateTaskModal = ref(false);
 const showConfirmationModal = ref(false);
-<<<<<<< HEAD
-const activeTab = ref('todo'); // Active tab: todo, urgent, completed
-=======
 const activeTab = ref('urgent'); // Onglet actif : 'todo', 'urgent', 'completed'
->>>>>>> a806690 (Added a button to come back to garden)
 
 const newTask = ref({
   name: '',
