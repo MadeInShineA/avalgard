@@ -58,9 +58,7 @@ async function fetchAllGardensAndTasks() {
 async function displayTasksWithDelay() {
   const tasksList = allTasks.value;
   tasksList.forEach((tasks, index) => {
-    setTimeout(() => {
       tasks.visible = true;
-    }, index * 500);
   });
 }
 
@@ -280,9 +278,9 @@ const completedTasks = computed(() => {
               :class="{
                 'bg-green-500 hover:bg-green-600': !task.completed,
                 'bg-gray-500 cursor-not-allowed': task.isAutomatic && task.completed,
-                'bg-yellow-500 hover:bg-yellow-600': task.completed && !task.isAutomatic
+                'bg-green-600 hover:bg-green-600': task.completed && !task.isAutomatic
               }" 
-              class="bg-green-500 dark:bg-green-700 text-white px-3 py-1 rounded shadow hover:bg-green-600 dark:hover:bg-green-800"
+              class=" text-white px-3 py-1 rounded shadow "
             >
               {{ task.completed ? 'Mark Pending' : 'Mark Completed' }}
             </button>
