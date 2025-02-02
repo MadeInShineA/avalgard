@@ -44,7 +44,20 @@ function fetchGardenAndTasks() {
     }
   });
 }
-
+function fetchGardenAndTaskswithoutAnimation() {
+  Meteor.call('gardens.find', userId.value, gardenId.value, (error, result) => {
+    if (!error && result) {
+      garden.value = result;
+      tasks.value = result.tasks || [];
+      tasks.value.forEach((tasks, index) => {
+        tasks.visible = true;
+      });
+    } else {
+      console.error('Error fetching garden:', error);
+      router.push('/');
+    }
+  });
+}
 async function displayTasksWithDelay() {
   const tasksList = tasks.value;
   tasksList.forEach((tasks, index) => {
@@ -53,6 +66,7 @@ async function displayTasksWithDelay() {
     }, index * 500);
   });
 }
+
 
 onMounted(() => {
   gardenId.value = route.params.id_garden;
@@ -104,7 +118,7 @@ function updateTask() {
 
   Meteor.call('tasks.update', userId.value, gardenId.value, taskToUpdate._id, taskToUpdate, (error) => {
     if (!error) {
-      fetchGardenAndTasks();
+      fetchGardenAndTaskswithoutAnimation();
       showUpdateTaskModal.value = false;
     } else {
       console.error('Error updating task:', error);
@@ -115,7 +129,7 @@ function updateTask() {
 function removeTask(taskId) {
   Meteor.call('tasks.remove', userId.value, gardenId.value, taskId, (error) => {
     if (!error) {
-      fetchGardenAndTasks();
+      fetchGardenAndTaskswithoutAnimation();
     } else {
       console.error('Error removing task:', error);
     }
@@ -132,7 +146,7 @@ function toggleTaskCompletion(task) {
     !task.completed,
     (error) => {
       if (!error) {
-        fetchGardenAndTasks();
+        fetchGardenAndTaskswithoutAnimation();
       } else {
         console.error('Error:', error.reason);
       }
