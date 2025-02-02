@@ -28,6 +28,8 @@ if (Meteor.isServer) {
         _id: Random.id(),
         name: 'My Garden',
         climateId: Random.id(),
+        height: 10,
+        width: 15,
         tasks: [],
         plants: []
       };
@@ -44,6 +46,8 @@ if (Meteor.isServer) {
         _id: Random.id(),
         name: 'Garden to remove',
         climateId: Random.id(),
+        height: 5,
+        width: 5,
         tasks: [],
         plants: []
       };
@@ -60,6 +64,8 @@ if (Meteor.isServer) {
         _id: Random.id(),
         name: 'Old Name',
         climateId: Random.id(),
+        height: 10,
+        width: 10,
         tasks: [],
         plants: []
       };
@@ -69,6 +75,8 @@ if (Meteor.isServer) {
       const updatedGarden = {
         name: 'Updated Name',
         climateId: garden.climateId,
+        height: 20,
+        width: 25,
         tasks: ['Watering'],
         plants: ['Tomato']
       };
@@ -88,6 +96,8 @@ if (Meteor.isServer) {
         _id: Random.id(),
         name: 'Specific Garden',
         climateId: Random.id(),
+        height: 8,
+        width: 8,
         tasks: [],
         plants: []
       };
@@ -96,6 +106,7 @@ if (Meteor.isServer) {
       const result = await Meteor.callAsync('gardens.find', userId, garden._id);
 
       assert.strictEqual(result.name, garden.name);
+      assert.strictEqual(result._id, garden._id);
     });
 
     it('gardens.findAll doit retourner tous les jardins d\'un utilisateur', async function () {
@@ -103,6 +114,8 @@ if (Meteor.isServer) {
         _id: Random.id(),
         name: 'Garden 1',
         climateId: Random.id(),
+        height: 6,
+        width: 6,
         tasks: [],
         plants: []
       });
@@ -111,6 +124,8 @@ if (Meteor.isServer) {
         _id: Random.id(),
         name: 'Garden 2',
         climateId: Random.id(),
+        height: 7,
+        width: 7,
         tasks: [],
         plants: []
       });
