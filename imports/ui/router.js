@@ -38,12 +38,6 @@ export const router = createRouter({
       beforeEnter: [createTasksAutomatically],
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About,
-      beforeEnter: [createTasksAutomatically],
-    },
-    {
       path: '/Garden',
       name: 'Garden',
       component: Garden,
