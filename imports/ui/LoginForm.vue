@@ -72,7 +72,7 @@ const handleSubmit = () => {
     <div class="w-full max-w-sm">
       <button
         type="submit"
-        class="w-full py-2 px-4 bg-teal-500 hover:bg-teal-600 text-white font-bold rounded focus:outline-none focus:ring focus:ring-teal-300 dark:focus:ring-teal-500"
+        class="w-full py-2 px-4 bg-green-500 dark:bg-green-700 hover:bg-green-600 dark:hover:bg-green-800 text-white font-bold rounded focus:outline-none focus:ring focus:ring-teal-300 dark:focus:ring-teal-500"
       >
         Log In
       </button>
