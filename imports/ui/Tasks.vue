@@ -12,7 +12,7 @@ const userId = ref(null);
 const showAddTaskModal = ref(false);
 const showUpdateTaskModal = ref(false);
 const showConfirmationModal = ref(false);
-const activeTab = ref('todo'); // 'todo', 'urgent', 'completed'
+const activeTab = ref('urgent'); // 'todo', 'urgent', 'completed'
 
 const newTask = ref({
   name: '',
@@ -101,14 +101,18 @@ function createTask() {
 }
 
 function toggleTaskCompletion(task) {
-  Meteor.call('tasks.update', 
+  if (task.isAutomatic && task.completed) return;
+  
+  Meteor.call('tasks.complete', 
     userId.value, 
-    task.gardenId, 
-    task._id, 
-    { completed: !task.completed }, 
+    task.gardenId,
+    task._id,
+    !task.completed,
     (error) => {
       if (!error) {
         fetchAllGardensAndTasks();
+      } else {
+        console.error('Error:', error.reason);
       }
     }
   );
@@ -197,11 +201,11 @@ const completedTasks = computed(() => {
   
       <!-- Tabs -->
       <div class="flex space-x-4 mb-6 border-b">
-        <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2">
-          Todo ({{ todoTasks.length }})
-        </button>
         <button @click="activeTab = 'urgent'" :class="{'border-b-2 border-red-500': activeTab === 'urgent'}" class="px-4 py-2">
           Urgent ({{ urgentTasks.length }})
+        </button>
+        <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2">
+          Todo ({{ todoTasks.length }})
         </button>
         <button @click="activeTab = 'completed'" :class="{'border-b-2 border-green-500': activeTab === 'completed'}" class="px-4 py-2">
           Completed ({{ completedTasks.length }})
@@ -238,8 +242,16 @@ const completedTasks = computed(() => {
                 </div>
             </div>
           <div class="flex space-x-2">
-            <button @click="toggleTaskCompletion(task)" 
-                    class="bg-green-500 text-white px-3 py-1 rounded shadow hover:bg-green-600">
+            <button 
+              @click="toggleTaskCompletion(task)" 
+              :disabled="task.isAutomatic && task.completed"
+              :class="{
+                'bg-green-500 hover:bg-green-600': !task.completed,
+                'bg-gray-500 cursor-not-allowed': task.isAutomatic && task.completed,
+                'bg-yellow-500 hover:bg-yellow-600': task.completed && !task.isAutomatic
+              }" 
+              class="text-white px-3 py-1 rounded shadow"
+            >
               {{ task.completed ? 'Mark Pending' : 'Mark Completed' }}
             </button>
             <button @click="editTask(task)" class="bg-blue-500 text-white px-3 py-1 rounded shadow hover:bg-blue-600">

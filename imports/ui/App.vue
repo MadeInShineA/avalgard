@@ -41,9 +41,6 @@ const handleScroll = () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   const userId = Meteor.userId();
-    if (userId) {
-      Meteor.call('users.createTasksAutomatically', userId)
-    }
 });
 
 onUnmounted(() => {

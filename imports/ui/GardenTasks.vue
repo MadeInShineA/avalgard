@@ -14,7 +14,7 @@ const router = useRouter();
 const showAddTaskModal = ref(false);
 const showUpdateTaskModal = ref(false);
 const showConfirmationModal = ref(false);
-const activeTab = ref('todo'); // Active tab: todo, urgent, completed
+const activeTab = ref('urgent'); // Onglet actif : 'todo', 'urgent', 'completed'
 
 const newTask = ref({
   name: '',
@@ -112,17 +112,22 @@ function removeTask(taskId) {
   });
 }
 
-function toggleTaskCompletion(taskId) {
-  const task = tasks.value.find(t => t._id === taskId);
-  if (task) {
-    Meteor.call('tasks.update', userId.value, gardenId.value, taskId, { completed: !task.completed }, (error) => {
+function toggleTaskCompletion(task) {
+  if (task.isAutomatic && task.completed) return;
+
+  Meteor.call('tasks.complete', 
+    userId.value, 
+    gardenId.value,
+    task._id,
+    !task.completed,
+    (error) => {
       if (!error) {
         fetchGardenAndTasks();
       } else {
-        console.error('Error toggling task completion:', error);
+        console.error('Error:', error.reason);
       }
-    });
-  }
+    }
+  );
 }
 
 function resetNewTaskForm() {
@@ -173,7 +178,9 @@ const completedTasks = computed(() => {
 <template>
   <div class="p-6">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold">{{ garden?.name }} Tasks</h1>
+      <router-link :to="`/gardens/${gardenId}`" class="text-2xl font-bold">
+        {{ garden?.name }} Tasks
+      </router-link>
       <button @click="addTask" class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600">
         Add Task
       </button>
@@ -181,11 +188,11 @@ const completedTasks = computed(() => {
 
     <!-- Tabs -->
     <div class="flex space-x-4 mb-6 border-b">
-      <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2">
-        Todo ({{ todoTasks.length }})
-      </button>
       <button @click="activeTab = 'urgent'" :class="{'border-b-2 border-red-500': activeTab === 'urgent'}" class="px-4 py-2">
         Urgent ({{ urgentTasks.length }})
+      </button>
+      <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2">
+        Todo ({{ todoTasks.length }})
       </button>
       <button @click="activeTab = 'completed'" :class="{'border-b-2 border-green-500': activeTab === 'completed'}" class="px-4 py-2">
         Completed ({{ completedTasks.length }})
@@ -215,9 +222,17 @@ const completedTasks = computed(() => {
             </div>
         </div>
         <div class="flex space-x-2">
-          <button @click="toggleTaskCompletion(task._id)" 
-                  class="bg-green-500 text-white px-3 py-1 rounded shadow hover:bg-green-600">
-            {{ task.completed ? 'Mark as Pending' : 'Mark as Completed' }}
+          <button 
+              @click="toggleTaskCompletion(task)" 
+              :disabled="task.isAutomatic && task.completed"
+              :class="{
+                'bg-green-500 hover:bg-green-600': !task.completed,
+                'bg-gray-500 cursor-not-allowed': task.isAutomatic && task.completed,
+                'bg-yellow-500 hover:bg-yellow-600': task.completed && !task.isAutomatic
+              }" 
+              class="text-white px-3 py-1 rounded shadow"
+            >
+              {{ task.completed ? 'Mark Pending' : 'Mark Completed' }}
           </button>
           <button @click="editTask(task)" class="bg-blue-500 text-white px-3 py-1 rounded shadow hover:bg-blue-600">
             Edit
