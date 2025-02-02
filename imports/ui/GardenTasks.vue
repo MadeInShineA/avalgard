@@ -186,11 +186,11 @@ const completedTasks = computed(() => {
 
     <!-- Tabs -->
     <div class="flex space-x-4 mb-6 border-b">
-      <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2">
-        Todo ({{ todoTasks.length }})
-      </button>
       <button @click="activeTab = 'urgent'" :class="{'border-b-2 border-red-500': activeTab === 'urgent'}" class="px-4 py-2">
         Urgent ({{ urgentTasks.length }})
+      </button>
+      <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2">
+        Todo ({{ todoTasks.length }})
       </button>
       <button @click="activeTab = 'completed'" :class="{'border-b-2 border-green-500': activeTab === 'completed'}" class="px-4 py-2">
         Completed ({{ completedTasks.length }})
