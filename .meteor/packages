@@ -18,7 +18,8 @@ shell-server@0.6.1                   # Server-side component of the `meteor shel
 hot-module-replacement@0.5.4         # Update client in development without reloading the page
 
 static-html@1.4.0                    # Define static page content in .html files
-jorgenvatle:vite-bundler
 
 
 accounts-password
+meteortesting:mocha
+jorgenvatle:vite-bundler

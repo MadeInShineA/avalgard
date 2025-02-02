@@ -8,7 +8,7 @@ import '../imports/api/climates/methods';
 import '../imports/api/gardens/methods';
 import '../imports/api/plants/methods';
 import '../imports/api/users/methods';
-import '../imports/api/tasks/method';
+import '../imports/api/tasks/methods';
 
 Meteor.startup(async () => {
   if (await PlantsCollection.find().countAsync() === 0) {
