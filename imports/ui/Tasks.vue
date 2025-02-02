@@ -64,6 +64,33 @@ async function displayTasksWithDelay() {
   });
 }
 
+function fetchGardenAndTaskswithoutAnimation() {
+  userId.value = Meteor.userId();
+  if (!userId.value) {
+    router.push('/');
+    return;
+  }
+
+  Meteor.call('gardens.findAll', userId.value, (error, result) => {
+    if (!error) {
+      gardens.value = result;
+      // Fusionne toutes les tâches avec les infos du jardin
+      allTasks.value = result.flatMap(garden => 
+        (garden.tasks || []).map(task => ({
+          ...task,
+          gardenId: garden._id,
+          gardenName: garden.name
+        }))
+      );
+      const tasksList = allTasks.value;
+      tasksList.forEach((tasks, index) => {
+        tasks.visible = true;
+      });
+    }
+  });
+  
+}
+
 onMounted(() => {
   fetchAllGardensAndTasks();
   Meteor.call('tasks.markAllAsSeen', (error, result) => {
@@ -120,7 +147,7 @@ function toggleTaskCompletion(task) {
     !task.completed,
     (error) => {
       if (!error) {
-        fetchAllGardensAndTasks();
+        fetchGardenAndTaskswithoutAnimation();
       } else {
         console.error('Error:', error.reason);
       }
@@ -153,14 +180,14 @@ function updateTask() {
   };
 
   Meteor.call('tasks.update', userId.value, updatedTask.value.gardenId, taskToUpdate._id, taskToUpdate, (error) => {
-    if (!error) fetchAllGardensAndTasks();
+    if (!error) fetchGardenAndTaskswithoutAnimation();
     showUpdateTaskModal.value = false;
   });
 }
 
 function removeTask(task) {
   Meteor.call('tasks.remove', userId.value, task.gardenId, task._id, (error) => {
-    if (!error) fetchAllGardensAndTasks();
+    if (!error) fetchGardenAndTaskswithoutAnimation();
   });
 }
 
