@@ -80,7 +80,7 @@
       </section>
     </main>
 
-    <!-- Call to Action (CTA) Section -->
+    <!-- Call to Action Section -->
     <section class="bg-green-600 py-12">
       <div class="max-w-7xl mx-auto px-4 text-center">
         <h3 class="text-white text-2xl sm:text-3xl font-bold mb-4">
@@ -99,11 +99,3 @@
     </section>
   </div>
 </template>
-
-<script setup>
-// No script needed for this static component
-</script>
-
-<style scoped>
-/* Add any page-specific styles here if necessary */
-</style>

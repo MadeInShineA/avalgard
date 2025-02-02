@@ -14,7 +14,7 @@ const router = useRouter();
 const showAddTaskModal = ref(false);
 const showUpdateTaskModal = ref(false);
 const showConfirmationModal = ref(false);
-const activeTab = ref('todo'); // Onglet actif : 'todo', 'urgent', 'completed'
+const activeTab = ref('todo'); // Active tab: todo, urgent, completed
 
 const newTask = ref({
   name: '',
@@ -31,7 +31,7 @@ const updatedTask = ref({
   completed: false
 });
 
-// Récupérer les tâches et le jardin
+// Get garden and tasks
 function fetchGardenAndTasks() {
   Meteor.call('gardens.find', userId.value, gardenId.value, (error, result) => {
     if (!error && result) {
@@ -55,7 +55,7 @@ onMounted(() => {
   }
 });
 
-// Fonctions pour les tâches
+// Function to add a new task
 function addTask() {
   showAddTaskModal.value = true;
 }
@@ -154,7 +154,7 @@ function hideConfirmationModal() {
   resetNewTaskForm();
 }
 
-// Computed properties pour les onglets
+// Computed properties for the tasks
 const todoTasks = computed(() => {
   const now = new Date();
   return tasks.value.filter(task => !task.completed && new Date(task.deadLine) > now);
@@ -179,7 +179,7 @@ const completedTasks = computed(() => {
       </button>
     </div>
 
-    <!-- Onglets -->
+    <!-- Tabs -->
     <div class="flex space-x-4 mb-6 border-b">
       <button @click="activeTab = 'todo'" :class="{'border-b-2 border-blue-500': activeTab === 'todo'}" class="px-4 py-2">
         Todo ({{ todoTasks.length }})
@@ -192,7 +192,7 @@ const completedTasks = computed(() => {
       </button>
     </div>
 
-    <!-- Liste des tâches selon l'onglet actif -->
+    <!-- Tasks list according to the active tab -->
     <ul class="space-y-4">
       <li v-for="task in activeTab === 'todo' ? todoTasks : activeTab === 'urgent' ? urgentTasks : completedTasks" 
           :key="task._id" class="p-4 border rounded shadow flex justify-between items-center">

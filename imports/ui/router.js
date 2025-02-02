@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { Meteor } from 'meteor/meteor';
 import Home from './Home.vue';
-import About from './About.vue';
 import LoginForm from './LoginForm.vue';
 import SignupForm from './SignupForm.vue';
 import Gardens from './Gardens.vue';
@@ -10,12 +9,12 @@ import Account from './Account.vue';
 import GardenTasks from './GardenTasks.vue';
 import Tasks from './Tasks.vue';
 
-// Fonction pour vérifier si l'utilisateur est connecté
+// Function to check if the user is connected
 function requireAuth(to, from, next) {
   if (Meteor.userId()) {
-    next(); // L'utilisateur est connecté, accès autorisé
+    next(); // User is connected, access to the route
   } else {
-    next({ name: 'login' }); // Redirige vers la page de connexion
+    next({ name: 'login' }); // Redirect to the login page
   }
 }
 
@@ -26,11 +25,6 @@ export const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About,
     },
     {
       path: '/Garden',
@@ -57,7 +51,7 @@ export const router = createRouter({
       path: '/gardens',
       name: 'gardens',
       component: Gardens,
-      beforeEnter: requireAuth, // Guard pour sécuriser la route
+      beforeEnter: requireAuth, // Guard to secure the route
     },
     {
       path: '/gardens/:id_garden',
@@ -69,7 +63,7 @@ export const router = createRouter({
       path: '/account',
       name: 'account',
       component: Account,
-      beforeEnter: requireAuth, // Guard pour sécuriser la route
+      beforeEnter: requireAuth, // Guard to secure the route
     },
     {
       path: '/gardens/:id_garden/tasks',
