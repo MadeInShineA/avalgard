@@ -278,7 +278,7 @@ const completedTasks = computed(() => {
               :class="{
                 'bg-green-500 hover:bg-green-600': !task.completed,
                 'bg-gray-500 cursor-not-allowed': task.isAutomatic && task.completed,
-                'bg-green-600 hover:bg-green-600': task.completed && !task.isAutomatic
+                'bg-green-500 hover:bg-green-600': task.completed && !task.isAutomatic
               }"  
               class=" text-white px-3 py-1 rounded shadow "
             >
