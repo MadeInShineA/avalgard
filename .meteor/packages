@@ -22,3 +22,4 @@ static-html@1.4.0                    # Define static page content in .html files
 
 accounts-password
 meteortesting:mocha
+jorgenvatle:vite-bundler
