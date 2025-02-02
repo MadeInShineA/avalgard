@@ -70,7 +70,7 @@
             </div>
             <!-- Bonus Feature: Weather Integration -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h4 class="text-xl font-semibold mb-2 text-green-600 dark:text-green-400">Bonus Feature: Weather Integration</h4>
+              <h4 class="text-xl font-semibold mb-2 text-green-600 dark:text-green-400">Coming Soon: Weather Integration</h4>
               <p class="text-gray-700 dark:text-gray-300">
                 Check real-time weather information and receive alerts in case of extreme conditions (frost, heavy rains, heatwaves).
               </p>
