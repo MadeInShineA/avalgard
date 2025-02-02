@@ -31,7 +31,7 @@ const updatedTask = ref({
   completed: false
 });
 
-// Récupère tous les jardins et leurs tâches
+// Get all gardens and tasks
 async function fetchAllGardensAndTasks() {
   userId.value = Meteor.userId();
   if (!userId.value) {
@@ -42,7 +42,7 @@ async function fetchAllGardensAndTasks() {
   Meteor.call('gardens.findAll', userId.value, (error, result) => {
     if (!error) {
       gardens.value = result;
-      // Fusionne toutes les tâches avec les infos du jardin
+      // Merge tasks from all gardens into a single array
       allTasks.value = result.flatMap(garden => 
         (garden.tasks || []).map(task => ({
           ...task,
@@ -69,12 +69,12 @@ onMounted(() => {
   }
 });
 
-// Navigation vers un jardin
+// Navigation to garden
 function navigateToGarden(gardenId) {
   router.push(`/gardens/${gardenId}`);
 }
 
-// Opérations CRUD
+// CRUD operations
 function addTask() {
   showAddTaskModal.value = true;
 }
@@ -90,7 +90,7 @@ function createTask() {
 
   Meteor.call('tasks.insert', 
     userId.value, 
-    newTask.value.gardenId, // gardenId passé séparément
+    newTask.value.gardenId, // gardenId to add task to
     taskToAdd, 
     (error) => {
       fetchAllGardensAndTasks();

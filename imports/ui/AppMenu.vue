@@ -2,7 +2,6 @@
   <nav class="bg-white shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
-        <!-- Logo -->
         <div class="flex">
           <div class="flex-shrink-0 flex items-center">
             <router-link :to="{ name: 'home' }"
@@ -11,15 +10,11 @@
             </router-link>
           </div>
         </div>
-        <!-- Liens de navigation -->
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
-          <!-- Liens statiques -->
           <router-link :to="{ name: 'home' }"
             class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
             Home
           </router-link>
-
-          <!-- Liens dynamiques en fonction de l'état de l'utilisateur -->
           <template v-if="!user">
             <router-link :to="{ name: 'login' }"
               class="text-green-700 hover:underline px-3 py-2 rounded-md text-sm font-medium">
@@ -61,8 +56,6 @@
             </span>
           </template>
         </div>
-        <!-- Menu mobile (optionnel) -->
-        <!-- Vous pouvez ajouter un menu mobile ici si nécessaire -->
       </div>
     </div>
   </nav>
@@ -96,25 +89,17 @@ onMounted(() => {
   });
 });
 
-// Initialiser le routeur
 const router = useRouter();
 
-// Créer une référence réactive pour l'utilisateur
 const user = ref(null);
 
-// Surveiller les changements de l'utilisateur
 autorun(() => {
   user.value = Meteor.user();
 });
 
-// Fonction de déconnexion
 function handleLogout() {
   Meteor.logout(() => {
-    router.push({ name: 'home' }); // Rediriger vers la page d'accueil après la déconnexion
+    router.push({ name: 'home' });
   });
 }
 </script>
-
-<style scoped>
-/* Ajoutez ici des styles spécifiques au composant si nécessaire */
-</style>

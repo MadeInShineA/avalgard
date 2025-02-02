@@ -119,7 +119,7 @@ function searchAndFilterPlants() {
     maxWaterRequirement: waterRequirementRange.value[1],
     plantType: selectedPlantType.value
   }, (error, result) => {
-    plants.value = result || []; // Mettre à jour la liste des plantes avec les résultats du filtre
+    plants.value = result || []; // Update the plants list with the filtered results
   });
 }
 
@@ -142,22 +142,22 @@ const addPlantToGarden = (plant, compatible) => {
   }))
 
   const findFirstAvailablePosition = () => {
-    const cols = Math.floor(gardenWidthInPixel / cellSize)  // Calculer le nombre de colonnes basé sur la taille de la grille
-    const rows = Math.floor(gardenHeightInPixel / cellSize) // Calculer le nombre de rangées basé sur la taille de la grille
+    const cols = Math.floor(gardenWidthInPixel / cellSize)  // Compute the number of columns based on the grid size
+    const rows = Math.floor(gardenHeightInPixel / cellSize) // Compute the number of rows based on the grid size
 
-    // Parcours de chaque cellule dans la grille
+    // Loop through each cell in the grid
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        // Calculer la position (x, y) de la plante dans la grille
+        // Compute the x and y position based on the cell size
         const x = col * cellSize
         const y = row * cellSize
 
-        // Vérifier si la plante s'adapte dans la grille
+        // Check if the position is within the garden bounds
         const fitsInBounds = x + plantWidth <= gardenWidthInPixel && y + plantHeight <= gardenHeightInPixel
 
-        // Vérifier si la position est déjà occupée par une autre plante
+        // Check if the position is already occupied by another plant
         const isOccupied = garden.value.plants.some((otherPlant) => {
-          // Comparer les positions et les tailles des autres plantes
+          // Compare the position of the current plant with the other plants
           return (
             x < otherPlant.x + otherPlant.w &&
             x + plantWidth > otherPlant.x &&
@@ -166,7 +166,7 @@ const addPlantToGarden = (plant, compatible) => {
           )
         })
 
-        // Si la position est valide et non occupée, retourner la position
+        // If the position is within bounds and not occupied, return the position
         if (fitsInBounds && !isOccupied) {
           return { x, y }
         }
@@ -175,7 +175,7 @@ const addPlantToGarden = (plant, compatible) => {
 
     isGardenFull.value = true
     console.warn('No free position found!')
-    return { x: -1, y: -1 } // Retourner une position par défaut si aucune position libre n'est trouvée
+    return { x: -1, y: -1 } // Return a default position if no free position is found
   }
 
   const { x, y } = findFirstAvailablePosition()
@@ -222,7 +222,7 @@ const onDrag = (x, y, plant) => {
 
   isGardenFull.value = false
   const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant._id === plant._id) return false // Ignore la plante elle-même
+    if (otherPlant._id === plant._id) return false // Ignor the plant itself
     return (
       x < otherPlant.x + otherPlant.w &&
       x + plant.w > otherPlant.x &&
@@ -232,13 +232,13 @@ const onDrag = (x, y, plant) => {
   })
 
   if (!isOverlapping) {
-    // Mettre à jour la position de la plante si pas de chevauchement
+    // Update the plant position if no overlap
     plant.x = x
     plant.y = y
-    return true // Permet le déplacement
+    return true // Allow the drag
   }
 
-  return false // Si chevauchement, empêche le déplacement
+  return false // If there is an overlap, prevent the drag
 }
 
 const showSavingConfirmationModal = ref(false)
@@ -300,7 +300,7 @@ function deletePlant() {
 function handlePlantResize(x, y, w, h, plant) {
   isGardenFull.value = false
   const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant._id === plant._id) return false // Ignore la plante elle-même
+    if (otherPlant._id === plant._id) return false // Ignore the plant itself
     return (
       x < otherPlant.x + otherPlant.w &&
       x + w > otherPlant.x &&
@@ -313,12 +313,12 @@ function handlePlantResize(x, y, w, h, plant) {
   const isSizeOk = w >= min_length_size && h >= min_length_size
 
   if (!isOverlapping && isSizeOk) {
-    // Mettre à jour la position de la plante si pas de chevauchement
+    // Update the plant position and size if no overlap
     plant.w = w
     plant.h = h
     plant.x = x
     plant.y = y
-    return true // Permet le déplacement
+    return true // Allow the resize
   }
   return false
 }
@@ -403,7 +403,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       }
     })
 
-    // Déclencher l'événement resize après mise à jour
+    // Trigger a resize event to update the garden grid
     nextTick(() => {
       window.dispatchEvent(new Event('resize'));
     });
@@ -435,7 +435,7 @@ function viewTasks() {
       class="bg-white shadow-lg rounded-xl p-6 mt-6 border border-gray-200 flex justify-center items-center flex-col">
       <!-- Draggable Garden Area -->
       <div class="flex flex-col items-center space-y-4 w-full">
-        <!-- Sliders pour la taille du jardin -->
+        <!-- Sliders for the garden width and height -->
         <div class="z-1 flex items-center w-full space-x-4">
           <label class="font-bold w-20 text-right">Width:</label>
           <VueSlider v-model="gardenWidth" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
