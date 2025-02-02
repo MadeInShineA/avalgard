@@ -101,9 +101,7 @@
 </template>
 
 <script setup>
-// No script needed for this static component
 </script>
 
 <style scoped>
-/* Add any page-specific styles here if necessary */
 </style>
