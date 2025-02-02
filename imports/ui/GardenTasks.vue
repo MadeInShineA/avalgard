@@ -136,6 +136,7 @@ function removeTask(taskId) {
 
 function toggleTaskCompletion(task) {
   if (task.isAutomatic && task.completed) return;
+  console.log('Toggling task completion:', task);
 
   Meteor.call('tasks.complete', 
     userId.value, 
@@ -198,7 +199,7 @@ const completedTasks = computed(() => {
 </script>
 
 <template>
-  <div class="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen dark:text-gray-200">
     <!-- Header -->
     <div class="flex justify-between items-center mb-6 dark:text-gray-200">
       <router-link :to="`/gardens/${gardenId}`" class="text-2xl font-bold">
