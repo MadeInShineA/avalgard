@@ -43,9 +43,6 @@ Meteor.methods({
       plants: Array,
     }));
 
-    // Ne pas permettre la modification de l'ID de l'utilisateur
-    // delete garden._id;
-
     return await Accounts.users.updateAsync(
       { _id: userId, 'profile.gardens._id': gardenId },
       { $set: { 'profile.gardens.$': garden } }

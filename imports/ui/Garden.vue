@@ -40,7 +40,6 @@ watch(waterRequirementRange, searchAndFilterPlants);
 watch(selectedPlantType, searchAndFilterPlants);
 
 function fetchGarden() {
-  console.log('Fetching garden...')
   Meteor.call('gardens.find', userId.value, gardenId.value, (error, result) => {
     if (!error && result) {
       garden.value = result
@@ -91,10 +90,8 @@ function fetchClimate(climateId) {
     return
   }
 
-  console.log('Fetching climate...')
   Meteor.call('climates.findById', climateId, (error, result) => {
     if (!error && result) {
-      console.log('Climate found:', result.name)
       climate.value = result // Store the climate data
     } else {
       console.error('Error fetching climate:', error)
@@ -104,10 +101,8 @@ function fetchClimate(climateId) {
 }
 
 function fetchPlants() {
-  console.log('Fetching plants...')
   Meteor.call('plants.findAll', (error, result) => {
     if (!error) {
-      console.log('Plants found:', result)
       plants.value = result
     } else {
       console.error('Error fetching plants:', error)
@@ -124,7 +119,6 @@ function searchAndFilterPlants() {
     maxWaterRequirement: waterRequirementRange.value[1],
     plantType: selectedPlantType.value
   }, (error, result) => {
-    console.log(result);
     plants.value = result || []; // Mettre à jour la liste des plantes avec les résultats du filtre
   });
 }
@@ -136,8 +130,6 @@ const addPlantToGarden = (plant, compatible) => {
     return
   }
 
-  //TODO IMPORTANT CHANGER ATTENTION ERREUR 404
-  
   const cellSize = CELL_SIZE // The grid cell size for positioning
   const plantWidth = ONE_METER_IN_PIXELS // Default width of a plant
   const plantHeight = ONE_METER_IN_PIXELS // Default height of a plant
@@ -332,9 +324,7 @@ function handlePlantResize(x, y, w, h, plant) {
 }
 
 onMounted(() => {
-  console.log('onMounted: Garden')
   gardenId.value = route.params.id_garden
-  console.log('gardenId:', gardenId.value)
   userId.value = Meteor.userId()
 
   if (gardenId.value) {
@@ -405,9 +395,6 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
     
 
     garden.value.plants.forEach((plant) => {
-      console.log(plant.x + plant.w)
-      console.log(newWidth * ONE_METER_IN_PIXELS)
-      console.log(newHeight * ONE_METER_IN_PIXELS)
 
       if(plant.x < newWidth * ONE_METER_IN_PIXELS && plant.y < newHeight * ONE_METER_IN_PIXELS){
         plant.isVisible = true
@@ -423,7 +410,10 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
   }
 })
 
-// TODO Fix the plant's available positions (can't go up but more down)
+function viewTasks() {
+  router.push('/gardens/' + gardenId.value + '/tasks')
+};
+
 </script>
 <template class="mt-6 space-y-6">
   <!-- Garden Details -->
@@ -435,6 +425,10 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       <p class="text-black-800"><strong>Width:</strong> {{ garden.width }} m</p>
       <p class="text-black-800"><strong>Height:</strong> {{ garden.height }} m</p>
       <p class="text-black-800"><strong>Plants:</strong> {{ garden.plants.filter(plant => plant.isVisible).length }}</p>
+      <button @click="viewTasks()"
+        class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out">
+        View tasks
+      </button>
     </div>
 
     <div
