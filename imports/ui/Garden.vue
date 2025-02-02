@@ -602,7 +602,7 @@ function viewTasks() {
       <div class="mb-4">
         <label for="lastHarvested" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last harvest date</label>
         <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate" :max="getCurrentDate()"
-          class="p-2 border border-gray-300 rounded-lg w-full dark:border-gray-600" />
+          class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200" />
       </div>
 
       <div class="mb-4">
@@ -612,7 +612,7 @@ function viewTasks() {
       </div>
 
       <div class="mb-4">
-        <label for="lastCutDate" class="block text-sm font-medium text-gray-700">Last cut date</label>
+        <label for="lastCutDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last cut date</label>
         <input v-model="selectedPlant.lastCutDate" type="date" id="lastCutDate" :max="getCurrentDate()"
           class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200" />
       </div>
