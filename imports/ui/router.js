@@ -18,6 +18,16 @@ function requireAuth(to, from, next) {
   }
 }
 
+function createTasksAutomatically(to, from, next) {
+  const userId = Meteor.userId()
+
+  if(userId){
+    Meteor.call('users.createTasksAutomatically', userId)
+  }
+
+  next()
+}
+
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -25,11 +35,19 @@ export const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
+      beforeEnter: [createTasksAutomatically],
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
+      beforeEnter: [createTasksAutomatically],
     },
     {
       path: '/Garden',
       name: 'Garden',
       component: Garden,
+      beforeEnter: [createTasksAutomatically],
     },
     {
       path: '/login',
@@ -45,31 +63,31 @@ export const router = createRouter({
       path: '/tasks',
       name: 'tasks',
       component: Tasks,
-      beforeEnter: requireAuth,
+      beforeEnter: [requireAuth],
     },
     {
       path: '/gardens',
       name: 'gardens',
       component: Gardens,
-      beforeEnter: requireAuth, // Guard to secure the route
+      beforeEnter: [requireAuth,createTasksAutomatically],
     },
     {
       path: '/gardens/:id_garden',
       name: 'garden',
       component: Garden,
-      beforeEnter: requireAuth, 
+      beforeEnter: [requireAuth,createTasksAutomatically],
     },
     {
       path: '/account',
       name: 'account',
       component: Account,
-      beforeEnter: requireAuth, // Guard to secure the route
+      beforeEnter: [requireAuth,createTasksAutomatically],
     },
     {
       path: '/gardens/:id_garden/tasks',
       name: 'gardenTasks',
       component: GardenTasks,
-      beforeEnter: requireAuth,
+      beforeEnter: [requireAuth, createTasksAutomatically],
     },
     {
       path: '/:pathMatch(.*)*',
