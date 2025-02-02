@@ -419,8 +419,6 @@ function viewTasks() {
 
 </script>
 
-// TODO Fix the plant's available positions (can't go up but more down)
-</script>
 <template class="mt-6 space-y-6">
   <!-- Garden Details -->
   <template v-if="garden && garden.plants">
