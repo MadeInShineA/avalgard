@@ -139,7 +139,7 @@ function createTask() {
 
 function toggleTaskCompletion(task) {
   if (task.isAutomatic && task.completed) return;
-  
+  console.log('Toggling task completion:', task);
   Meteor.call('tasks.complete', 
     userId.value, 
     task.gardenId,
