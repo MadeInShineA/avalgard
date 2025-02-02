@@ -2,6 +2,7 @@ import assert from 'assert'
 import './climates.test.js';
 import './gardens.test.js';
 import './users.test.js';
+import './tasks.test.js'
 
 describe('avalgard', function () {
   it('package.json has correct name', async function () {
