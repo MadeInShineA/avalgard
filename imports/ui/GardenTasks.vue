@@ -14,7 +14,11 @@ const router = useRouter();
 const showAddTaskModal = ref(false);
 const showUpdateTaskModal = ref(false);
 const showConfirmationModal = ref(false);
+<<<<<<< HEAD
 const activeTab = ref('todo'); // Active tab: todo, urgent, completed
+=======
+const activeTab = ref('urgent'); // Onglet actif : 'todo', 'urgent', 'completed'
+>>>>>>> a806690 (Added a button to come back to garden)
 
 const newTask = ref({
   name: '',
@@ -178,7 +182,9 @@ const completedTasks = computed(() => {
 <template>
   <div class="p-6">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold">{{ garden?.name }} Tasks</h1>
+      <router-link :to="`/gardens/${gardenId}`" class="text-2xl font-bold">
+        {{ garden?.name }} Tasks
+      </router-link>
       <button @click="addTask" class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600">
         Add Task
       </button>
