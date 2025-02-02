@@ -57,7 +57,7 @@ export const router = createRouter({
       path: '/tasks',
       name: 'tasks',
       component: Tasks,
-      beforeEnter: [requireAuth],
+      beforeEnter: [requireAuth,createTasksAutomatically],
     },
     {
       path: '/gardens',

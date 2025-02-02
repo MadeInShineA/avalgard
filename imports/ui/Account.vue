@@ -1,15 +1,16 @@
 <template>
-  <div class="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">Account management</h2>
+  <div class="max-w-md mx-auto mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Account management</h2>
 
+    <!-- Change user name -->
     <div class="mb-8">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">Change user name</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Change user name</h3>
       <form @submit.prevent="updateUsername">
         <input
           v-model="newUsername"
           type="text"
           placeholder="New user name"
-          class="w-full p-2 mb-3 border rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          class="w-full p-2 mb-3 border border-gray-400 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent"
           required
         />
         <button
@@ -24,10 +25,11 @@
       </p>
     </div>
 
-    <h3 class="text-lg font-semibold mb-4 text-gray-700">Change password</h3>
+    <!-- Change password -->
+    <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Change password</h3>
     <form @submit.prevent="handleChangePassword" class="mb-8">
       <div class="mb-4">
-        <label for="oldPassword" class="block text-gray-700">
+        <label for="oldPassword" class="block text-gray-700 dark:text-gray-300">
           Old password
         </label>
         <input
@@ -35,13 +37,13 @@
           type="password"
           v-model="oldPassword"
           placeholder="Old password"
-          class="w-full px-3 py-2 border rounded"
+          class="w-full px-3 py-2 border border-gray-400 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-600"
           required
         />
       </div>
 
       <div class="mb-4">
-        <label for="newPassword" class="block text-gray-700">
+        <label for="newPassword" class="block text-gray-700 dark:text-gray-300">
           New password
         </label>
         <input
@@ -49,13 +51,13 @@
           type="password"
           v-model="newPassword"
           placeholder="New password"
-          class="w-full px-3 py-2 border rounded"
+          class="w-full px-3 py-2 border border-gray-400 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-600"
           required
         />
       </div>
 
       <div class="mb-4">
-        <label for="confirmPassword" class="block text-gray-700">
+        <label for="confirmPassword" class="block text-gray-700 dark:text-gray-300">
           Confirm new password
         </label>
         <input
@@ -63,7 +65,7 @@
           type="password"
           v-model="confirmPassword"
           placeholder="Confirm new password"
-          class="w-full px-3 py-2 border rounded"
+          class="w-full px-3 py-2 border border-gray-400 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-600"
           required
         />
       </div>
@@ -84,17 +86,20 @@
       </button>
     </form>
 
+    <!-- Delete account -->
     <div class="mb-4">
-      <h3 class="text-lg font-semibold mb-4 text-red-700">Delete account</h3>
+      <h3 class="text-lg font-semibold mb-4 text-red-700 dark:text-red-400">Delete account</h3>
       <form @submit.prevent="handleDeleteAccount">
+        <!-- Optionnel : si vous souhaitez demander un mot de passe pour confirmer la suppression, décommentez l'input suivant -->
         <!--
         <input
           v-model="deletePassword"
           type="password"
-          placeholder="Votre mot de passe"
-          class="w-full p-2 mb-3 border rounded focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          placeholder="Your password"
+          class="w-full p-2 mb-3 border border-gray-400 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-red-500 focus:border-transparent"
           required
-        /> -->
+        />
+        -->
         <button
           type="submit"
           class="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors"
@@ -144,23 +149,23 @@ const updateUsername = async () => {
 };
 
 function handleChangePassword() {
-  // Réinitialiser les messages
+  // Reset messages
   errorMessage.value = '';
   successMessage.value = '';
 
-  // Vérifier que le nouveau mot de passe correspond à sa confirmation
+  // Check that the new password matches its confirmation
   if (newPassword.value !== confirmPassword.value) {
     errorMessage.value = "The new password and its confirmation do not match.";
     return;
   }
 
-  // Utiliser l'API de Meteor pour changer le mot de passe
+  // Use Meteor API to change the password
   Accounts.changePassword(oldPassword.value, newPassword.value, (error) => {
     if (error) {
       errorMessage.value = error.reason || "Error changing password.";
     } else {
       successMessage.value = "Password changed successfully.";
-      // Réinitialiser les champs
+      // Reset fields
       oldPassword.value = '';
       newPassword.value = '';
       confirmPassword.value = '';
@@ -169,11 +174,11 @@ function handleChangePassword() {
 }
 
 const handleDeleteAccount = async () => {
-  // Réinitialiser le message
+  // Reset messages
   deleteMessage.value = "";
   deleteError.value = false;
 
-  // Confirmation de la suppression
+  // Confirm deletion
   if (!confirm("Are you sure you want to delete your account? This action is irreversible.")) {
     return;
   }
@@ -181,7 +186,7 @@ const handleDeleteAccount = async () => {
   try {
     await Meteor.callAsync('deleteUserAccount', deletePassword.value);
     deleteMessage.value = "Account successfully deleted.";
-    // Déconnexion de l'utilisateur et redirection (ici vers la page d'accueil)
+    // Logout and redirect (here to home)
     Meteor.logout(() => {
       router.push('/');
     });
@@ -191,3 +196,7 @@ const handleDeleteAccount = async () => {
   }
 };
 </script>
+
+<style scoped>
+/* Vous pouvez ajouter ici d'autres styles complémentaires si nécessaire */
+</style>

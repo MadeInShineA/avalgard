@@ -5,6 +5,7 @@ import { Random } from "meteor/random";
 import { useRoute, useRouter } from 'vue-router';
 import VueDraggableResizable from 'vue-draggable-resizable';
 import VueSlider from 'vue-3-slider-component';
+import RippleButton from './RippleButton.vue';
 
 const garden = ref(null)
 const climate = ref()
@@ -13,24 +14,24 @@ const gardenId = ref(null)
 const plants = ref([])
 const route = useRoute()
 const router = useRouter()
-const isGardenFull = ref(false) // Check if garden is full
+const isGardenFull = ref(false) 
 
-const searchQuery = ref('') // Search query for the plant search bar
+const searchQuery = ref('') 
 const ONE_METER_IN_PIXELS = 100
 const CELL_SIZE = ONE_METER_IN_PIXELS / 5
 const BORDER_SIZE = 3
 const MIN_SIDE_LENGTH = 1
 const MAX_SIDE_LENGTH = 15
 
-const showConfirmPlantModal = ref(false) // Popup to confirm an incompatible plant
-const incompatiblePlant = ref(null) //Store the incompatible plant
+const showConfirmPlantModal = ref(false) 
+const incompatiblePlant = ref(null) 
 
-const growthDurationRange = ref([0, 400]); //Filter
-const waterRequirementRange = ref([0, 5]); //Filterà
-const selectedPlantType = ref(''); // Filter
+const growthDurationRange = ref([0, 400]); 
+const waterRequirementRange = ref([0, 5]); 
+const selectedPlantType = ref(''); 
 
-const gardenWidth = ref(0) // Match the garden's actual width
-const gardenHeight = ref(0) // Match the garden's actual height
+const gardenWidth = ref(0) 
+const gardenHeight = ref(0) 
 
 
 // Watch for changes in searchbar and sliders and trigger the search function
@@ -94,7 +95,7 @@ function fetchClimate(climateId) {
       climate.value = result // Store the climate data
     } else {
       console.error('Error fetching climate:', error)
-      climate.value = { name: 'Unknown' } // Default value in case of an error
+      climate.value = { name: 'Unknown' }
     }
   })
 }
@@ -129,9 +130,11 @@ const addPlantToGarden = (plant, compatible) => {
     return
   }
 
-  const cellSize = CELL_SIZE // The grid cell size for positioning
-  const plantWidth = ONE_METER_IN_PIXELS // Default width of a plant
-  const plantHeight = ONE_METER_IN_PIXELS // Default height of a plant
+  //TODO IMPORTANT CHANGER ATTENTION ERREUR 404
+  
+  const cellSize = CELL_SIZE 
+  const plantWidth = ONE_METER_IN_PIXELS 
+  const plantHeight = ONE_METER_IN_PIXELS 
   const gardenWidthInPixel = gardenWidth.value * ONE_METER_IN_PIXELS
   const gardenHeightInPixel = gardenHeight.value * ONE_METER_IN_PIXELS
 
@@ -141,22 +144,22 @@ const addPlantToGarden = (plant, compatible) => {
   }))
 
   const findFirstAvailablePosition = () => {
-    const cols = Math.floor(gardenWidthInPixel / cellSize)  // Compute the number of columns based on the grid size
-    const rows = Math.floor(gardenHeightInPixel / cellSize) // Compute the number of rows based on the grid size
+    const cols = Math.floor(gardenWidthInPixel / cellSize)  
+    const rows = Math.floor(gardenHeightInPixel / cellSize) 
 
-    // Loop through each cell in the grid
+    // Parcours de chaque cellule dans la grille
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        // Compute the x and y position based on the cell size
+        // Calculer la position (x, y) de la plante dans la grille
         const x = col * cellSize
         const y = row * cellSize
 
-        // Check if the position is within the garden bounds
+        // Vérifier si la plante s'adapte dans la grille
         const fitsInBounds = x + plantWidth <= gardenWidthInPixel && y + plantHeight <= gardenHeightInPixel
 
-        // Check if the position is already occupied by another plant
+        // Vérifier si la position est déjà occupée par une autre plante
         const isOccupied = garden.value.plants.some((otherPlant) => {
-          // Compare the position of the current plant with the other plants
+          // Comparer les positions et les tailles des autres plantes
           return (
             x < otherPlant.x + otherPlant.w &&
             x + plantWidth > otherPlant.x &&
@@ -165,7 +168,7 @@ const addPlantToGarden = (plant, compatible) => {
           )
         })
 
-        // If the position is within bounds and not occupied, return the position
+        // Si la position est valide et non occupée, retourner la position
         if (fitsInBounds && !isOccupied) {
           return { x, y }
         }
@@ -174,7 +177,7 @@ const addPlantToGarden = (plant, compatible) => {
 
     isGardenFull.value = true
     console.warn('No free position found!')
-    return { x: -1, y: -1 } // Return a default position if no free position is found
+    return { x: -1, y: -1 } // Retourner une position par défaut si aucune position libre n'est trouvée
   }
 
   const { x, y } = findFirstAvailablePosition()
@@ -221,7 +224,7 @@ const onDrag = (x, y, plant) => {
 
   isGardenFull.value = false
   const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant._id === plant._id) return false // Ignor the plant itself
+    if (otherPlant._id === plant._id) return false // Ignore la plante elle-même
     return (
       x < otherPlant.x + otherPlant.w &&
       x + plant.w > otherPlant.x &&
@@ -231,13 +234,13 @@ const onDrag = (x, y, plant) => {
   })
 
   if (!isOverlapping) {
-    // Update the plant position if no overlap
+    // Mettre à jour la position de la plante si pas de chevauchement
     plant.x = x
     plant.y = y
-    return true // Allow the drag
+    return true // Permet le déplacement
   }
 
-  return false // If there is an overlap, prevent the drag
+  return false // Si chevauchement, empêche le déplacement
 }
 
 const showSavingConfirmationModal = ref(false)
@@ -263,6 +266,8 @@ function openModificationModal(plant) {
 }
 
 function saveChanges() {
+  console.log(selectedPlant.value)
+  console.log(garden.value.plants)
   if (!selectedPlant.value || !garden.value.plants) return
   isGardenFull.value = false
 
@@ -299,7 +304,7 @@ function deletePlant() {
 function handlePlantResize(x, y, w, h, plant) {
   isGardenFull.value = false
   const isOverlapping = garden.value.plants.some((otherPlant) => {
-    if (otherPlant._id === plant._id) return false // Ignore the plant itself
+    if (otherPlant._id === plant._id) return false // Ignore la plante elle-même
     return (
       x < otherPlant.x + otherPlant.w &&
       x + w > otherPlant.x &&
@@ -312,12 +317,12 @@ function handlePlantResize(x, y, w, h, plant) {
   const isSizeOk = w >= min_length_size && h >= min_length_size
 
   if (!isOverlapping && isSizeOk) {
-    // Update the plant position and size if no overlap
+    // Mettre à jour la position de la plante si pas de chevauchement
     plant.w = w
     plant.h = h
     plant.x = x
     plant.y = y
-    return true // Allow the resize
+    return true // Permet le déplacement
   }
   return false
 }
@@ -394,7 +399,6 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
     
 
     garden.value.plants.forEach((plant) => {
-
       if(plant.x < newWidth * ONE_METER_IN_PIXELS && plant.y < newHeight * ONE_METER_IN_PIXELS){
         plant.isVisible = true
       }else{
@@ -402,7 +406,7 @@ watch([gardenWidth, gardenHeight], ([newWidth, newHeight], [oldWidth, oldHeight]
       }
     })
 
-    // Trigger a resize event to update the garden grid
+    // Déclencher l'événement resize après mise à jour
     nextTick(() => {
       window.dispatchEvent(new Event('resize'));
     });
@@ -414,37 +418,37 @@ function viewTasks() {
 };
 
 </script>
+
 <template class="mt-6 space-y-6">
   <!-- Garden Details -->
   <template v-if="garden && garden.plants">
-    <div class="p-6 rounded-xl shadow-lg border border-gray-200">
-      <h1 class="text-3xl font-bold text-green-700 mb-4">{{ garden.name }}</h1>
-      <p class="text-black-800"><strong>Climate:</strong> {{ climate?.name || 'Loading...' }}</p>
-      <p class="text-black-800"><strong>Tasks:</strong> {{ garden.tasks.length }}</p>
-      <p class="text-black-800"><strong>Width:</strong> {{ garden.width }} m</p>
-      <p class="text-black-800"><strong>Height:</strong> {{ garden.height }} m</p>
-      <p class="text-black-800"><strong>Plants:</strong> {{ garden.plants.filter(plant => plant.isVisible).length }}</p>
+    <div class="p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <h1 class="text-3xl font-bold text-green-700 dark:text-green-400 mb-4">{{ garden.name }}</h1>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Climate:</strong> {{ climate?.name || 'Loading...' }}</p>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Tasks:</strong> {{ garden.tasks.length }}</p>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Width:</strong> {{ garden.width }} m</p>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Height:</strong> {{ garden.height }} m</p>
+      <p class="text-gray-800 dark:text-gray-300"><strong>Plants:</strong> {{ garden.plants.filter(plant => plant.isVisible).length }}</p>
       <button @click="viewTasks()"
         class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out">
         View tasks
       </button>
     </div>
 
-    <div
-      class="bg-white shadow-lg rounded-xl p-6 mt-6 border border-gray-200 flex justify-center items-center flex-col">
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 mt-6 border border-gray-200 dark:border-gray-700 flex justify-center items-center flex-col">
       <!-- Draggable Garden Area -->
       <div class="flex flex-col items-center space-y-4 w-full">
-        <!-- Sliders for the garden width and height -->
+        <!-- Garden size sliders -->
         <div class="z-1 flex items-center w-full space-x-4">
-          <label class="font-bold w-20 text-right">Width:</label>
+          <label class="font-bold w-20 text-right text-gray-800 dark:text-gray-200">Width:</label>
           <VueSlider v-model="gardenWidth" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
-          <span class="font-medium w-12">{{ gardenWidth }}m</span>
+          <span class="font-medium w-12 text-gray-800 dark:text-gray-200">{{ gardenWidth }}m</span>
         </div>
 
         <div class="z-1 flex items-center w-full space-x-4">
-          <label class="font-bold w-20 text-right">Height:</label>
+          <label class="font-bold w-20 text-right text-gray-800 dark:text-gray-200">Height:</label>
           <VueSlider v-model="gardenHeight" :min="MIN_SIDE_LENGTH" :max="MAX_SIDE_LENGTH" :step="1" class="flex-1" />
-          <span class="font-medium w-12">{{ gardenHeight }}m</span>
+          <span class="font-medium w-12 text-gray-800 dark:text-gray-200">{{ gardenHeight }}m</span>
         </div>
       </div>
 
@@ -497,51 +501,56 @@ function viewTasks() {
 
       <!-- Save Garden Button -->
       <div class="mt-4 flex justify-center w-full space-x-4">
-        <button @click="saveGarden()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+        <button @click="saveGarden()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md">
           Save
         </button>
-        <button @click="garden.plants = []"
-          class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700">
+        <button @click="garden.plants = []" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-md">
           Clear
         </button>
       </div>
-
     </div>
 
     <!-- Plants Search -->
-    <div class="mt-8 p-6 border-gray-200 rounded-xl shadow-md border">
-      <h2 class="text-xl font-bold text-green-700 mb-4">Available Plants</h2>
-      <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm"
+    <div class="mt-8 p-6 border border-gray-200 dark:border-gray-600 rounded-xl shadow-md bg-white dark:bg-gray-800">
+      <h2 class="text-xl font-bold text-green-700 dark:text-green-400 mb-4">Available Plants</h2>
+      <input v-model="searchQuery" type="text" class="p-2 border border-gray-300 dark:border-gray-500 rounded-lg w-full mb-4 shadow-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
         placeholder="Search plants..." />
-        <div class="mb-4 z-1">
-          <h2 class="text-xl font-bold mb-4">Filter by Plant Type</h2>
-          <select v-model="selectedPlantType" class="p-2 border border-gray-300 rounded-lg w-full mb-4 shadow-sm">
-            <option value="">All Types</option>
-            <option value="vegetable">Vegetable</option>
-            <option value="fruit">Fruit</option>
-            <option value="fungus">Fungus</option>
-          </select>
-        </div>
       <div class="mb-4 z-1">
-        <h2 class="text-xl font-bold mb-4">Filter by growth duration</h2>
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Filter by Plant Type</h2>
+        <select v-model="selectedPlantType" class="p-2 border border-gray-300 dark:border-gray-500 rounded-lg w-full mb-4 shadow-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+          <option value="">All Types</option>
+          <option value="vegetable">Vegetable</option>
+          <option value="fruit">Fruit</option>
+          <option value="fungus">Fungus</option>
+        </select>
+      </div>
+      <div class="mb-4 z-1">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Filter by growth duration</h2>
         <VueSlider v-model="growthDurationRange" :min="0" :max="400" :step="10" />
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600 dark:text-gray-300">
           {{ growthDurationRange[0] }} - {{ growthDurationRange[1] }} days
         </p>
       </div>
 
       <div class="mb-4 z-1">
-        <h2 class="text-xl font-bold mb-4">Filter by water requirement</h2>
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Filter by water requirement</h2>
         <VueSlider v-model="waterRequirementRange" :min="0" :max="5" :step="1" />
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600 dark:text-gray-300">
           {{ waterRequirementRange[0] }} - {{ waterRequirementRange[1] }}
         </p>
       </div>
       <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <li v-for="plant in plants" :key="plant._id" @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
-          :class="['p-4 shadow-md rounded-lg cursor-pointer text-center',
-            isPlantClimateCompatible(plant) ? 'bg-green-100 hover:bg-green-200' : 'bg-red-100 hover:bg-red-200']">
-          <p class="font-bold text-green-900">{{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}</p>
+        <li v-for="plant in plants" :key="plant._id" class="w-full">
+          <RippleButton 
+            @click="addPlantToGarden(plant, isPlantClimateCompatible(plant))"
+            :class="[
+              'w-full font-bold shadow-md rounded-lg cursor-pointer text-center',
+              isPlantClimateCompatible(plant)
+                ? 'bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-900 dark:text-green-300'
+                : 'bg-red-100 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 text-red-900 dark:text-red-300'
+            ]">
+            {{ plant.name.charAt(0).toUpperCase() + plant.name.slice(1) }}
+          </RippleButton>
         </li>
       </ul>
     </div>
@@ -549,76 +558,80 @@ function viewTasks() {
 
   <!-- Loader -->
   <div v-else class="text-center py-10">
-    <p class="text-gray-500">Loading garden details...</p>
+    <p class="text-gray-500 dark:text-gray-400">Loading garden details...</p>
   </div>
+  
   <!-- Confirm incompatible plant modal -->
-  <div v-if="showConfirmPlantModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white p-6 rounded shadow w-150">
-      <h2 class="text-xl font-bold mb-4 flex justify-center">Are you sure to add this plant ?</h2>
-      <p class="text-gray-600 mb-4 flex justify-center">This plant is not compatible with your climate and your season.
-        You can still add it to your garden, but it may not grow well.</p>
+  <div v-if="showConfirmPlantModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow w-150">
+      <h2 class="text-xl font-bold mb-4 text-center dark:text-gray-100">Are you sure to add this plant?</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4 text-center">
+        This plant is not compatible with your climate and your season.
+        You can still add it to your garden, but it may not grow well.
+      </p>
       <div class="flex justify-center space-x-2">
         <button @click="addPlantToGarden(incompatiblePlant, true)"
-          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          class="bg-red-500 hover:bg-green-600 text-white px-4 py-2 rounded">
           Add
         </button>
         <button @click="showConfirmPlantModal = false"
-          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
           Cancel
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Saving confirmation message -->
+  <!-- Saving confirmation modal -->
   <div v-if="showSavingConfirmationModal"
-    class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white p-6 rounded shadow w-96 flex flex-col justify-center items-center">
-      <h2 class="text-xl font-bold mb-4 text-center">Garden Saved Successfully!</h2>
+    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow w-96 flex flex-col justify-center items-center">
+      <h2 class="text-xl font-bold mb-4 text-center dark:text-gray-100">Garden Saved Successfully!</h2>
       <button @click="showSavingConfirmationModal = !showSavingConfirmationModal"
-        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4">
         OK
       </button>
     </div>
   </div>
 
-  <!-- Plant modification -->
-  <div v-if="showModificationModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-6 rounded shadow w-96">
-      <h2 class="text-xl font-bold mb-4">Plant details</h2>
+  <!-- Plant modification modal -->
+  <div v-if="showModificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow w-96">
+      <h2 class="text-xl font-bold mb-4 dark:text-gray-100">Plant details</h2>
 
       <div class="mb-4">
-        <label for="lastHarvested" class="block text-sm font-medium text-gray-700">Last harvest date</label>
+        <label for="lastHarvested" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last harvest date</label>
         <input v-model="selectedPlant.lastHarvestDate" type="date" id="lastHarvestedDate" :max="getCurrentDate()"
-          class="p-2 border border-gray-300 rounded-lg w-full" />
+          class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200" />
       </div>
 
       <div class="mb-4">
-        <label for="lastWatering" class="block text-sm font-medium text-gray-700">Last watering date</label>
+        <label for="lastWatering" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last watering date</label>
         <input v-model="selectedPlant.lastWateringDate" type="date" id="lastWateringDate" :max="getCurrentDate()"
-          class="p-2 border border-gray-300 rounded-lg w-full" />
+          class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200" />
       </div>
 
       <div class="mb-4">
-        <label for="lastCutDate" class="block text-sm font-medium text-gray-700">Last cut date</label>
+        <label for="lastCutDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last cut date</label>
         <input v-model="selectedPlant.lastCutDate" type="date" id="lastCutDate" :max="getCurrentDate()"
-          class="p-2 border border-gray-300 rounded-lg w-full" />
+          class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200" />
       </div>
 
       <div class="flex justify-between">
-        <button @click="saveChanges()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <button @click="saveChanges()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
           Save
         </button>
-        <button @click="deletePlant()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        <button @click="deletePlant()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
           Delete
         </button>
         <button @click="showModificationModal = false"
-          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
           Cancel
         </button>
       </div>
     </div>
   </div>
+  
 </template>
 
 
@@ -631,5 +644,14 @@ function viewTasks() {
 
 .vdr:hover {
   cursor: pointer
+}
+.vue-slider-process {
+    position: absolute;
+    z-index: 0;
+}
+.vue-slider-dot {
+    position: absolute;
+    transition: all 0s;
+    z-index: 0;
 }
 </style>
