@@ -5,9 +5,10 @@ This is a simple example of how to use Vue3 with Meteor.
 ## How to use
 
 1. Clone this repo
-2. Run `meteor npm install`
-3. Run `meteor`
-4. Open `http://localhost:3000` in your browser
+2. Install meteor with `npx meteor`
+3. Run `meteor npm install`
+4. Run `meteor`
+5. Open `http://localhost:3000` in your browser
 
 ## Libraries used
 
